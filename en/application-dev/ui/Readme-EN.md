@@ -1,0 +1,133 @@
+# UI Development
+
+- [ArkUI Overview](arkui-overview.md)
+- UI Development (ArkTS-based Declarative Development Paradigm)
+  - [UI Development (ArkTS-based Declarative Development Paradigm) Overview](arkts-ui-development-overview.md)
+  - Layout Development
+    - [Layout Overview](arkts-layout-development-overview.md)
+    - Building a Layout
+      - [Linear Layout (Row/Column)](arkts-layout-development-linear.md)
+      - [Stack Layout (Stack)](arkts-layout-development-stack-layout.md)
+      - [Flex Layout (Flex)](arkts-layout-development-flex-layout.md)
+      - [Relative Layout (RelativeContainer)](arkts-layout-development-relative-layout.md)
+      - [Responsive Grid Layout (GridRow/GridCol)](arkts-layout-development-grid-layout.md)
+      - [Media Query (mediaquery)](arkts-layout-development-media-query.md)
+      - [Creating a List (List)](arkts-layout-development-create-list.md)
+      - [Creating a Grid (Grid/GridItem)](arkts-layout-development-create-grid.md)
+      - [Creating a Swiper (Swiper)](arkts-layout-development-create-looping.md)
+    - [Improving Layout Performance](arkts-layout-development-performance-boost.md)
+  - Adding a Component
+    - Adding a Common Component
+      - [Button](arkts-common-components-button.md)
+      - [Radio Button (Radio)](arkts-common-components-radio-button.md)
+      - [Toggle](arkts-common-components-switch.md)
+      - [Progress Indicator (Progress)](arkts-common-components-progress-indicator.md)
+      - [Text Display (Text/Span)](arkts-common-components-text-display.md)
+      - [Text Input (TextInput/TextArea)](arkts-common-components-text-input.md)
+      - [Custom Dialog Box (CustomDialog)](arkts-common-components-custom-dialog.md)
+      - [Video Playback (Video](arkts-common-components-video-player.md)
+      - [XComponent](arkts-common-components-xcomponent.md)
+    - Adding a Popup and Menu
+      - [Popup](arkts-popup-and-menu-components-popup.md)
+      - [Menu](arkts-popup-and-menu-components-menu.md)
+  - Setting Page Routing and Component Navigation
+    - [Page Routing (router)](arkts-routing.md)
+    - Component Navigation
+      - [Navigation](arkts-navigation-navigation.md)
+      - [Tabs](arkts-navigation-tabs.md)
+  - Using Graphics
+    - [Displaying Images (Image)](arkts-graphics-display.md)
+    - [Drawing Geometric Shapes (Shape)](arkts-geometric-shape-drawing.md)
+    - [Drawing Custom Graphics on the Canvas (Canvas)](arkts-drawing-customization-on-canvas.md)
+  - Using Animation
+    - [Animation Overview](arkts-animation-overview.md)
+    - Animation Within a Page
+      - [Layout Update Animation](arkts-layout-update-animation.md)
+      - [Transition Animation Within a Component](arkts-transition-animation-within-component.md)
+      - [Spring Curve Animation](arkts-spring-animation.md)
+    - Animation Between Pages
+      - [Zoom Animation](arkts-zoom-animation.md)
+      - [Page Transition Animation](arkts-page-transition-animation.md)
+  - Using Interaction Events
+    - [Interaction Event Overview](arkts-event-overview.md)
+    - Universal Events
+      - [Touchscreen Event](arkts-common-events-touch-screen-event.md)
+      - [Keyboard and Mouse Event](arkts-common-events-device-input-event.md)
+      - [Focus Event](arkts-common-events-focus-event.md)
+    - Gesture Events
+      - [Gesture Binding](arkts-gesture-events-binding.md)
+      - [Single Gesture](arkts-gesture-events-single-gesture.md)
+      - [Combined Gestures](arkts-gesture-events-combined-gestures.md)
+  - [Recommendations for Improving Performance](arkts-performance-improvement-recommendation.md)
+- UI Development (JavaScript-compatible Web-like Development Paradigm)
+  - [UI Development (JavaScript-compatible Web-like Development Paradigm) Overview](ui-js-overview.md)
+  - Framework Overview
+    - [File Organization](js-framework-file.md)
+        - ["js" Tag](js-framework-js-tag.md)
+        - [app.js](js-framework-js-file.md)
+        - Syntax
+            - [HML](js-framework-syntax-hml.md)
+            - [CSS](js-framework-syntax-css.md)
+            - [JavaScript](js-framework-syntax-js.md)
+        - [Lifecycle](js-framework-lifecycle.md)
+        - [Resource Limitations and Access](js-framework-resource-restriction.md)
+        - [Multi-Language Capability](js-framework-multiple-languages.md)
+    - Building the UI
+        - [Component Overview](ui-js-building-ui-component.md)
+        - Building the Layout
+            - [Layout Description](ui-js-building-ui-layout-intro.md)
+            - [Adding Title and Paragraph Text](ui-js-building-ui-layout-text.md)
+            - [Adding an Image](ui-js-building-ui-layout-image.md)
+            - [Adding a Comment](ui-js-building-ui-layout-comment.md)
+            - [Adding a Container](ui-js-building-ui-layout-external-container.md)
+        - [Adding Interactions](ui-js-building-ui-interactions.md)
+        - [Developing Animations](ui-js-building-ui-animation.md)
+        - [Defining Gesture Events](ui-js-building-ui-event.md)
+        - [Defining Page Routes](ui-js-building-ui-routes.md)
+    - Common Component Development Guidelines
+        - Container Component Development
+            - [List Development](ui-js-components-list.md)
+            - [Dialog Development](ui-js-components-dialog.md)
+            - [Form Development](ui-js-components-form.md)
+            - [Stepper Development](ui-js-components-stepper.md)
+            - [Tabs Development](ui-js-component-tabs.md)
+            - [Swiper Development](ui-js-components-swiper.md)
+        - Basic Component Development
+            - [Text Development](ui-js-components-text.md)
+            - [Input Development](ui-js-components-input.md)
+            - [Button Development](ui-js-components-button.md)
+            - [Picker Development](ui-js-components-picker.md)
+            - [Image Development](ui-js-components-images.md)
+            - [Image-animator Development](ui-js-components-image-animator.md)
+            - [Rating Development](ui-js-components-rating.md)
+            - [Slider Development](ui-js-components-slider.md)
+            - [Chart Development](ui-js-components-chart.md)
+            - [Switch Development](ui-js-components-switch.md)
+            - [Toolbar Development](ui-js-components-toolbar.md)
+            - [Menu Development](ui-js-components-menu.md)
+            - [Marquee Development](ui-js-components-marquee.md)
+            - [Qrcode Development](ui-js-components-qrcode.md)
+            - [Search Development](ui-js-components-search.md)
+        - Canvas Development
+            - [Canvas](ui-js-components-canvas.md)
+            - [CanvasRenderingContext2D](ui-js-components-canvasrenderingcontext2d.md)
+            - [Path2D](ui-js-components-path2d.md)
+            - [OffscreenCanvas](ui-js-components-offscreencanvas.md)
+        - [Grid Container Development](ui-js-components-grid.md)
+        - SVG Development
+            - [Basics](ui-js-components-svg-overview.md)
+            - [Graph Drawing](ui-js-components-svg-graphics.md)
+            - [Path Drawing](ui-js-components-svg-path.md)
+            - [Text Drawing](ui-js-components-svg-text.md)
+    - Animation Development Guidelines
+        - CSS Animation
+            - [Defining Attribute Style Animations](ui-js-animate-attribute-style.md)
+            - [Defining Animations with the transform Attribute](ui-js-animate-transform.md)
+            - [Defining Animations with the background-position Attribute](ui-js-animate-background-position-style.md)
+            - [Defining Animations for SVG Components](ui-js-animate-svg.md)
+        - JS Animation
+            - [Component Animation](ui-js-animate-component.md)
+            - Interpolator Animation
+                - [Animation Effect](ui-js-animate-dynamic-effects.md)
+                - [Animation Frame](ui-js-animate-frame.md)
+    - [Custom Components](ui-js-custom-components.md)

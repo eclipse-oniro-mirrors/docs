@@ -1,0 +1,1310 @@
+/*
+
+- Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+- Licensed under the Apache License, Version 2.0 (the "License");
+- you may not use this file except in compliance with the License.
+- You may obtain a copy of the License at
+*
+- http://www.apache.org/licenses/LICENSE-2.0
+*
+- Unless required by applicable law or agreed to in writing, software
+- distributed under the License is distributed on an "AS IS" BASIS,
+- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- See the License for the specific language governing permissions and
+- limitations under the License.
+*/
+
+zh-cn/device-dev/kernel/ @Austin23
+zh-cn/device-dev/website.md @Austin23
+zh-cn/device-dev/faqs/ @Austin23
+zh-cn/device-dev/porting/ @Austin23
+zh-cn/device-dev/security/ @Austin23
+zh-cn/device-dev/guide/ @duangavin123_admin
+zh-cn/device-dev/quick-start/ @li-yan339
+zh-cn/device-dev/driver/ @li-yan339
+zh-cn/device-dev/get-code/ @li-yan339
+zh-cn/device-dev/hpm-part/ @duangavin123_admin
+zh-cn/device-dev/reference/hdi-apis/ @li-yan339
+zh-cn/device-dev/quick-start/quickstart-standard-env-setup.md @li-yan339 @chenmudan
+zh-cn/device-dev/quick-start/quickstart-lite-env-setup.md @li-yan339 @chenmudan
+zh-cn/device-dev/porting/porting-thirdparty-overview.md @Austin23 @chenmudan
+zh-cn/device-dev/porting/porting-thirdparty-makefile.md @Austin23 @chenmudan
+zh-cn/device-dev/porting/porting-thirdparty-cmake.md @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-all.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-gn-coding-style-and-best-practice.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-gn-kconfig-visual-config-guide.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-product.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-zh-cn/device-dev/subsystems/subsystem.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-component.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-module.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-chip_solution.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-feature.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-syscap.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-reference.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-reference.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-reference.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-reference.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-gn-hap-compilation-guide.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-build-FAQ.md  @Austin23 @chenmudan
+zh-cn/device-dev/subsystems/subsys-remote-start.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-graphics-overview.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-graphics-container-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-graphics-layout-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-graphics-common-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-graphics-animation-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-multimedia-camera-overview.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-multimedia-camera-photo-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-multimedia-camera-record-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-multimedia-camera-preview-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-multimedia-video-overview.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-multimedia-video-play-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-multimedia-video-record-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-utils-overview.md @Austin23
+zh-cn/device-dev/subsystems/subsys-utils-guide.md @Austin23
+zh-cn/device-dev/subsystems/subsys-utils-faqs.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-guide.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-envbuild.md @Austin23 
+zh-cn/device-dev/subsystems/subsys-aiframework-tech-codemanage.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-tech-name.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-tech-interface.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-devguide-sdk.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-devguide-plugin.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-devguide-conf.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-demo-sdk.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-demo-plugin.md @Austin23
+zh-cn/device-dev/subsystems/subsys-aiframework-demo-conf.md @Austin23
+zh-cn/device-dev/subsystems/subsys-data-relational-database.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-data-relational-database-overview.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-data-relational-database-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-data-storage.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-data-storage-overview.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-data-storage-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-sensor-overview.md @Austin23
+zh-cn/device-dev/subsystems/subsys-sensor-guide.md @Austin23
+zh-cn/device-dev/subsystems/subsys-sensor-demo.md @Austin23
+zh-cn/device-dev/subsystems/subsys-usbservice-overview.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-usbservice-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-usbservice-demo.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-application-framework-overview.md @Austin23
+zh-cn/device-dev/subsystems/subsys-application-framework-envbuild.md @Austin23
+zh-cn/device-dev/subsystems/subsys-application-framework-guide.md @Austin23
+zh-cn/device-dev/subsystems/subsys-application-framework-demo.md @Austin23
+zh-cn/device-dev/subsystems/subsys-ota-guide.md @Austin23
+zh-cn/device-dev/subsystems/subsys-tel-overview.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-tel-guide.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-security-overview.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-security-sigverify.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-security-rightmanagement.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-security-communicationverify.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-security-devicesecuritylevel.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-security-huks-guide.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-appspawn.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-bootstrap.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-faqs.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-init-cfg.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-init-jobs.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-init-plugin.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-init-sandbox.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-init-service.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-init-sysparam.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-init.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-overview.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot-ref.md @Austin23
+zh-cn/device-dev/subsystems/subsys-boot.md @Austin23
+zh-cn/device-dev/subsystems/subsys-testguide-test.md @Austin23
+zh-cn/device-dev/subsystems/subsys-dfx-overview.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hilog-rich.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hilog-lite.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hitrace.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hicollie.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hisysevent-logging-config.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hisysevent-logging.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hisysevent-listening.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hisysevent-query.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hisysevent-tool.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hidumper.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-hichecker.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-dfx-faultlogger.md @duangavin123_admin
+zh-cn/device-dev/subsystems/subsys-toolchain-bytrace-guide.md @Austin23
+zh-cn/device-dev/subsystems/subsys-toolchain-hdc-guide.md @Austin23
+zh-cn/device-dev/subsystems/subsys-toolchain-hiperf.md @Austin23
+zh-cn/device-dev/subsystems/subsys-xts-guide.md @Austin23
+
+zh-cn/application-dev/ability/ @RayShih
+zh-cn/application-dev/IDL/ @RayShih
+zh-cn/application-dev/device-usage-statistics/ @RayShih
+zh-cn/application-dev/ui/ @HelloCrease
+zh-cn/application-dev/notification/ @RayShih
+zh-cn/application-dev/windowmanager/ @ge-yafang
+zh-cn/application-dev/webgl/ @ge-yafang
+zh-cn/application-dev/media/audio-overview.md @zengyawen
+zh-cn/application-dev/media/audio-playback.md @zengyawen
+zh-cn/application-dev/media/audio-recorder.md @zengyawen
+zh-cn/application-dev/media/audio-renderer.md @zengyawen
+zh-cn/application-dev/media/audio-stream-manager.md @zengyawen
+zh-cn/application-dev/media/audio-capturer.md @zengyawen
+zh-cn/application-dev/media/opensles-playback.md @zengyawen
+zh-cn/application-dev/media/opensles-capture.md @zengyawen
+zh-cn/application-dev/media/audio-interruptmode.md @zengyawen
+zh-cn/application-dev/media/audio-volume-manager.md @zengyawen
+zh-cn/application-dev/media/audio-routing-manager.md @zengyawen
+zh-cn/application-dev/media/video-playback.md @zengyawen
+zh-cn/application-dev/media/video-recorder.md @zengyawen
+zh-cn/application-dev/media/avsession-overview.md @zengyawen
+zh-cn/application-dev/media/avsession-guidelines.md @zengyawen
+zh-cn/application-dev/media/image.md @zengyawen
+zh-cn/application-dev/media/camera.md @zengyawen
+zh-cn/application-dev/media/remote-camera.md @zengyawen
+zh-cn/application-dev/security/accesstoken-overview.md @zengyawen
+zh-cn/application-dev/security/accesstoken-guidelines.md @zengyawen
+zh-cn/application-dev/security/permission-verify-guidelines.md @zengyawen
+zh-cn/application-dev/security/permission-list.md @zengyawen @zengyawen
+zh-cn/application-dev/security/userauth-overview.md @zengyawen
+zh-cn/application-dev/security/userauth-guidelines.md @zengyawen
+zh-cn/application-dev/security/huks-overview.md @zengyawen
+zh-cn/application-dev/security/huks-guidelines.md @zengyawen
+zh-cn/application-dev/security/cryptoFramework-overview.md @zengyawen
+zh-cn/application-dev/security/cryptoFramework-guidelines.md @zengyawen
+zh-cn/application-dev/security/hapsigntool-overview.md @zengyawen
+zh-cn/application-dev/security/hapsigntool-guidelines.md @zengyawen
+zh-cn/application-dev/security/app-provision-structure.md @zengyawen
+zh-cn/application-dev/connectivity/net-mgmt-overview.md @zengyawen
+zh-cn/application-dev/connectivity/http-request.md @zengyawen
+zh-cn/application-dev/connectivity/websocket-connection.md @zengyawen
+zh-cn/application-dev/connectivity/socket-connection.md @zengyawen
+zh-cn/application-dev/connectivity/ipc-rpc-overview.md @RayShih
+zh-cn/application-dev/connectivity/ipc-rpc-development-guideline.md @RayShih
+zh-cn/application-dev/connectivity/subscribe-remote-state.md @RayShih
+zh-cn/application-dev/telephony/ @zengyawen
+zh-cn/application-dev/dfx/hiappevent-overview.md @zengyawen
+zh-cn/application-dev/dfx/hiappevent-guidelines.md @zengyawen
+zh-cn/application-dev/dfx/hitracemeter-overview.md @zengyawen
+zh-cn/application-dev/dfx/hitracemeter-guidelines.md @zengyawen
+zh-cn/application-dev/dfx/hitracechain-overview.md @zengyawen
+zh-cn/application-dev/dfx/hitracechain-guidelines.md @zengyawen
+zh-cn/application-dev/dfx/errormanager-guidelines.md @RayShih
+zh-cn/application-dev/dfx/errormanager-guidelines.md @RayShih
+zh-cn/application-dev/key-features/multi-device-app-dev/ @lingminghw
+zh-cn/application-dev/database/ @ge-yafang
+zh-cn/application-dev/napi/native-window-guidelines.md @ge-yafang
+zh-cn/application-dev/napi/mindspore-lite-guidelines.md @ge-yafang 
+zh-cn/application-dev/napi/neural-network-runtime-guidelines.md @ge-yafang 
+zh-cn/device-dev/ @li-yan339 @zengyawen
+zh-cn/application-dev/quick-start/arkts-get-started.md @zhang_yixin13 @tomatodevboy @s10021109
+zh-cn/application-dev/quick-start/arkts-basic-syntax-overview.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-declarative-ui-description.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-create-custom-components.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-page-custom-components-lifecycle.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-builder.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-builderparam.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-style.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-extend.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-statestyles.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-state-management-overview.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-state.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-prop.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-link.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-provide-and-consume.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-observed-and-objectlink.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-application-state-management-overview.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-localstorage.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-appstorage.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-persiststorage.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-environment.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-other-state-mgmt-functions-overview.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-watch.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-two-way-sync.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-rendering-control-overview.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-rendering-control-ifelse.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-rendering-control-foreach.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/quick-start/arkts-rendering-control-lazyforeach.md @zhang_yixin13 @zhangshuang-xiaohuihui @s10021109 @seaside_wu
+zh-cn/application-dev/ability/ @huipeizi @littlejerry1 @gwang2008 @ccllee @chengxingzhen
+zh-cn/application-dev/IDL/ @RayShih @littlejerry1 @gwang2008 @ccllee @chengxingzhen
+zh-cn/application-dev/device-usage-statistics/ @chenmingJay @ningningW @tangtiantian2021 @nan-xiansen @iceice1001
+zh-cn/application-dev/windowmanager/ @ge-yafang @zhangqiang183  @zhouyaoying @zxg-gitee @nobuggers
+zh-cn/application-dev/webgl/ @ge-yafang @zhangqiang183  @wind_zj @zxg-gitee
+zh-cn/application-dev/task-management/background-task-overview.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/task-management/transient-task.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/task-management/continuous-task.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/task-management/work-scheduler.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/task-management/agent-powered-reminder.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/task-management/efficiency-resource-request.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/connectivity/net-mgmt-overview.md @zhang_yixin13 @zhang-hai-feng @jyh926 @gaoxi785
+zh-cn/application-dev/connectivity/http-request.md @zhang_yixin13 @zhang-hai-feng @jyh926 @gaoxi785
+zh-cn/application-dev/connectivity/websocket-connection.md @zhang_yixin13 @zhang-hai-feng @jyh926 @gaoxi785
+zh-cn/application-dev/connectivity/socket-connection.md @zhang_yixin13 @zhang-hai-feng @jyh926 @gaoxi785
+zh-cn/application-dev/connectivity/ipc-rpc-overview.md @RayShih @xuepianpian @zhaopeng_gitee @vagrant_world
+zh-cn/application-dev/connectivity/ipc-rpc-development-guideline.md @RayShih @xuepianpian @zhaopeng_gitee @vagrant_world
+zh-cn/application-dev/connectivity/subscribe-remote-state.md @RayShih @xuepianpian @zhaopeng_gitee @vagrant_world
+zh-cn/application-dev/telephony/ @zhang_yixin13 @zhang-hai-feng @jyh926 @gaoxi785
+zh-cn/application-dev/key-features/multi-device-app-dev/ @lingminghw @crazyracing0726
+zh-cn/application-dev/napi/native-window-guidelines.md @ge-yafang @zhangqiang183  @zhouyaoying @zxg-gitee @nobuggers
+zh-cn/application-dev/napi/mindspore-lite-guidelines.md @ge-yafang @principal87 @jianghui58
+zh-cn/application-dev/napi/mindspore-lite-offline-model-guidelines.md @ge-yafang @principal87 @jianghui58
+zh-cn/application-dev/reference/apis/js-apis-mindSporeLite.md  @ge-yafang @principal87 @jianghui58
+zh-cn/application-dev/ai/mindspore-lite-js-guidelines.md @ge-yafang @principal87 @jianghui58
+zh-cn/application-dev/napi/neural-network-runtime-guidelines.md @ge-yafang @principal87 @win10wei
+zh-cn/application-dev/napi/rawfile_guidelines.md @ningningW
+zh-cn/application-dev/background-agent-scheduled-reminder/ @RayShih
+zh-cn/application-dev/background-task-management/ @ningningW
+zh-cn/application-dev/work-scheduler/ @ningningW
+zh-cn/application-dev/internationalization/ @ningningW
+zh-cn/application-dev/device/usb-overview.md @warehouse12
+zh-cn/application-dev/device/usb-guidelines.md @warehouse12
+zh-cn/application-dev/device/device-location-overview.md @RayShih
+zh-cn/application-dev/device/device-location-info.md @RayShih
+zh-cn/application-dev/device/device-location-geocoding.md @RayShih
+zh-cn/application-dev/device/sensor-overview.md @ningningW
+zh-cn/application-dev/device/sensor-guidelines.md @ningningW
+zh-cn/application-dev/device/vibrator-overview.md @ningningW
+zh-cn/application-dev/device/vibrator-guidelines.md @ningningW
+zh-cn/application-dev/device/sample-server-overview.md @ningningW
+zh-cn/application-dev/device/sample-server-guidelines.md @ningningW
+zh-cn/application-dev/reference/arkui-js/ @HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ @HelloCrease
+zh-cn/application-dev/reference/native-lib @zengyawen
+zh-cn/application-dev/quick-start/start-overview.md @ge-yafang
+zh-cn/application-dev/quick-start/start-with-ets-stage.md @ge-yafang
+zh-cn/application-dev/quick-start/start-with-ets-fa.md @ge-yafang
+zh-cn/application-dev/quick-start/start-with-js-fa.md @ge-yafang  
+zh-cn/application-dev/quick-start/resource-categories-and-access.md @RayShih
+zh-cn/application-dev/quick-start/arkts-get-started.md @HelloCrease
+zh-cn/application-dev/quick-start/arkts-basic-ui-description.md @HelloCrease
+zh-cn/application-dev/quick-start/arkts-state-mgmt-concepts.md @HelloCrease
+zh-cn/application-dev/quick-start/arkts-state-mgmt-page-level.md @HelloCrease
+zh-cn/application-dev/quick-start/arkts-state-mgmt-application-level.md @HelloCrease
+zh-cn/application-dev/quick-start/arkts-dynamic-ui-elememt-building.md @HelloCrease
+zh-cn/application-dev/quick-start/arkts-rendering-control.md @HelloCrease
+zh-cn/application-dev/quick-start/arkts-restrictions-and-extensions.md @HelloCrease
+zh-cn/application-dev/napi/napi-guidelines.md @RayShih
+zh-cn/application-dev/napi/drawing-guidelines.md @zengyawen
+zh-cn/application-dev/napi/rawfile-guidelines.md @ningningW
+zh-cn/application-dev/reference/js-service-widget-ui/ @HelloCrease
+zh-cn/application-dev/faqs/ @zengyawen
+zh-cn/application-dev/file-management/ @zengyawen
+zh-cn/application-dev/application-test/ @ningningW
+zh-cn/application-dev/device-usage-statistics/ @RayShih
+zh-cn/application-dev/reference/apis/js-apis-accessibility-extension-context.md @RayShih @warehouse12 
+zh-cn/application-dev/reference/apis/js-apis-animator.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-appAccount.md @zengyawen
+zh-cn/application-dev/application-models/windowextensionability.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-appmanager.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-arraylist.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-audio.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-backgroundTaskManager.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-battery-info.md @zengyawen @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-bluetooth.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-brightness.md @zengyawen @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-buffer.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-bytrace.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-call.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-camera.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-cardEmulation.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-commonEvent.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-configuration.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-configurationconstant.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-connectedTag.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-contact.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-Context.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-convertxml.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-ability.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-dataShare.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-dataSharePredicates.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-DataShareResultSet.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-distributedobject.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-preferences.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-rdb.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-resultset.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-storage.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-data-ValuesBucket.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-dataAbilityHelper.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-DataUriUtils.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-deque.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-device-info.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-device-manager.md @RayShih @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-deviceUsageStatistics.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-display.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-distributed-account.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-distributed-data.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-distributedMissionManager.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-document.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-effectKit.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-emitter.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-EnterpriseAdminExtensionAbility.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-environment.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-errorManager.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-eventhub.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-extension-context.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-extensionrunninginfo.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-faultLogger.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-featureAbility.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-fileio.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-formbindingdata.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-formerror.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-formextension.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-formextensioncontext.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-formhost.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-formInfo.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-formprovider.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-geolocation.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-hashmap.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-hashset.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-hiappevent.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-hichecker.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-hidebug.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-hilog.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-hisysevent.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-hitracechain.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-hitracemeter.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-http.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-huks.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-i18n.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-image.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-inputconsumer.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-inputdevice.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-inputevent.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-inputeventclient.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-inputmethod-extension-ability.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-inputmethod-extension-context.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-inputmethod.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-inputmethodengine.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-inputmonitor.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-intl.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-keycode.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-keyevent.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-lightweightmap.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-lightweightset.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-linkedlist.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-list.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-logs.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-media.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-medialibrary.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-mediaquery.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-missionManager.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-mouseevent.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-net-connection.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-nfcController.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-nfcTag.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-notification.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-observer.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-osAccount.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-particleAbility.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-pasteboard.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-permissionrequestresult.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-plainarray.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-pointer.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-power.md @zengyawen @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-privacyManager.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-process.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-processrunninginfo.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-processrunninginformation.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-prompt.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-queue.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-radio.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-reminderAgent.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-request.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-resource-manager.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-router.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-rpc.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-runninglock.md @zengyawen @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-screen-lock.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-screen.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-screenshot.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-securityLabel.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-sensor.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-service-extension-ability.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-service-extension-context.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-settings.md @hu-zhiqiong
+zh-cn/application-dev/reference/apis/js-apis-sim.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-sms.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-socket.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-stack.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-statfs.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-storage-statistics.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-app.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-system-battery.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-bluetooth.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-system-brightness.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-cipher.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-configuration.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-system-device.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-fetch.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-file.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-location.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-system-mediaquery.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-system-network.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-notification.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-system-package.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-system-parameter.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-prompt.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-system-request.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-router.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-system-sensor.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-system-storage.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-system-time.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-system-timer.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-system-vibrate.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-telephony-data.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-testRunner.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-thermal.md @zengyawen @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-timer.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-touchevent.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-treemap.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-treeset.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-uitest.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-update.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-uri.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-url.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-usb.md @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-useriam-userauth.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-util.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-vector.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-vibrator.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-volumemanager.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-wallpaper.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-wantAgent.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-webgl.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-webgl2.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-webSocket.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-wifi.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-wifiext.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-window.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-windowAnimationManager.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-worker.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-taskpool.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-workScheduler.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-WorkSchedulerExtensionAbility.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-xml.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-zlib.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-webview.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-ability-ability.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-ability-abilityResult.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-ability-Want.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-accessibility-config.md @RayShih @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-accessibility-GesturePath.md @RayShih @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-accessibility-GesturePoint.md @RayShih @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-accessibility.md @RayShih @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-app-ability-appRecovery.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-appControl.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-avsession.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-batteryStatistics.md @zengyawen @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-colorSpaceManager.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-commonEventManager.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-configPolicy.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-cooperate.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-cryptoFramework.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-curve.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-defaultAppManager.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-distributedBundle.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-distributedKVStore.md @ge-yafang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-adminManager.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-enterprise-dateTimeManager.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-fileAccess.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-fileExtensionInfo.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-freeInstall.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-geoLocationManager.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-hiviewdfx-hiappevent.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-inputmethod-subtype.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-installer.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-launcherBundleManager.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-matrix4.md @HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-net-ethernet.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-net-sharing.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-nfctech.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-promptAction.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-reminderAgentManager.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-resourceschedule-backgroundTaskManager.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-resourceschedule-deviceUsageStatistics.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-resourceschedule-workScheduler.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-stationary.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-system-capability.md @ningningW
+zh-cn/application-dev/reference/apis/js-apis-system-parameterV9.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-tagSession.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-usb-deprecated.md @warehouse12
+zh-cn/application-dev/reference/apis/js-apis-userFileManager.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-useriam-faceauth.md @zengyawen
+
+zh-cn/application-dev/reference/errorcodes/errorcode-access-token.md @zengyawen
+zh-cn/application-dev/quick-start/resource-categories-and-access.md @Buda-Liu @ningningW @mengjingzhimo @yangqing3
+zh-cn/application-dev/napi/napi-guidelines.md @RayShih @niulihua @tomatodevboy
+zh-cn/application-dev/napi/drawing-guidelines.md @ge-yafang @zhangqiang183  @wind_zj @zxg-gitee
+zh-cn/application-dev/napi/rawfile-guidelines.md @ningningW @Buda-Liu @budda-wang @yangqing3
+zh-cn/application-dev/reference/js-service-widget-ui/ @HelloCrease
+zh-cn/application-dev/application-test/ @ningningW
+zh-cn/application-dev/device-usage-statistics/ @chenmingJay @ningningW @tangtiantian2021 @nan-xiansen @iceice1001
+zh-cn/application-dev/web/ @bigpumpkin @HelloCrease @litao33 @zhang-xinyue15
+zh-cn/application-dev/key-features/multi-device-app-dev/ @HelloCrease @uhamc
+zh-cn/application-dev/reference/apis/js-apis-accessibility-extension-context.md @mupceet @RayShih @mupceet @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-animator.md @HelloCrease @niulihua @tomatodevboy
+
+
+zh-cn/application-dev/reference/apis/js-apis-appmanager.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-arraylist.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-backgroundTaskManager.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/reference/apis/js-apis-battery-info.md  @warehouse12  @alien0208
+zh-cn/application-dev/reference/apis/js-apis-bluetooth.md @cheng_guohong @zhang_yixin13 @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-brightness.md  @warehouse12  @alien0208
+zh-cn/application-dev/reference/apis/js-apis-buffer.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-call.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-cardEmulation.md @cheng_guohong @zhang_yixin13 @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-configuration.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-configurationconstant.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-connectedTag.md @cheng_guohong @zhang_yixin13 @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-contact.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-Context.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-convertxml.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-data-ability.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-dataShare.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-dataSharePredicates.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-DataShareResultSet.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-distributedobject.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-preferences.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-rdb.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-unifiedDataChannel.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-uniformTypeDescriptor.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-cloudData.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-relationalStore.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/napi/native-relational-store-guidelines.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-resultset.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-storage.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-data-ValuesBucket.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-dataAbilityHelper.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-DataUriUtils.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-deque.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-device-info.md @mupceet @zhang_yixin13 @handyohos @nan-xiansen
+zh-cn/application-dev/reference/apis/js-apis-device-manager.md @intermilano @RayShih @william-ligang @liuhonggang123
+zh-cn/application-dev/reference/apis/js-apis-deviceUsageStatistics.md @shuaytao @RayShih @wangzhen107 @inter515
+zh-cn/application-dev/reference/apis/js-apis-display.md @zhangqiang183  @ge-yafang @zhouyaoying @zxg-gitee @nobuggers
+zh-cn/application-dev/reference/apis/js-apis-distributed-data.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-distributedMissionManager.md @chenmingJay @ningningW @nan-xiansen @iceice1001
+zh-cn/application-dev/reference/apis/js-apis-effectKit.md @zhangqiang183  @ge-yafang @liuchao92 @zxg-gitee
+zh-cn/application-dev/reference/apis/js-apis-emitter.md @jayleehw @huipeizi @li-weifeng2 @currydavids
+zh-cn/application-dev/reference/apis/js-apis-EnterpriseAdminExtensionAbility.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-errorManager.md @littlejerry1 @RayShih @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-eventhub.md @jayleehw @huipeizi @li-weifeng2 @currydavids
+zh-cn/application-dev/reference/apis/js-apis-extension-context.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-extensionrunninginfo.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-featureAbility.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-formbindingdata.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-formerror.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-formextension.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-formextensioncontext.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-formhost.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-formInfo.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-formprovider.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-geolocation.md @cheng_guohong @RayShih @cheng_guohong @xiangkejin123
+zh-cn/application-dev/reference/apis/js-apis-hashmap.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-hashset.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-http.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-i18n.md @Buda-Liu @ningningW @mengjingzhimo @yangqing3
+zh-cn/application-dev/reference/apis/js-apis-inputconsumer.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-inputdevice.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-inputevent.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-inputeventclient.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-multimodalinput-gestureevent.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-inputmethod-extension-ability.md @illybyy @murphy1984 @feng-aiwen  @hu-zhiqiong @SuperShrimp @murphy1984
+zh-cn/application-dev/reference/apis/js-apis-inputmethod-extension-context.md @illybyy @murphy1984 @feng-aiwen  @hu-zhiqiong @SuperShrimp @murphy1984
+zh-cn/application-dev/reference/apis/js-apis-inputmethod.md @feng-aiwen @illybyy @murphy1984 @hu-zhiqiong @SuperShrimp @murphy1984
+zh-cn/application-dev/reference/apis/js-apis-inputmethodengine.md @illybyy @murphy1984 @feng-aiwen @hu-zhiqiong @SuperShrimp @murphy1984
+zh-cn/application-dev/reference/apis/js-apis-inputmonitor.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-intentioncode.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-intl.md @Buda-Liu @ningningW @mengjingzhimo @yangqing3
+zh-cn/application-dev/reference/apis/js-apis-keycode.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-keyevent.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-lightweightmap.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-lightweightset.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-linkedlist.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-list.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-logs.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-mediaquery.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-missionManager.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-mouseevent.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-net-connection.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-nfcController.md @cheng_guohong @zhang_yixin13 @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-nfcTag.md @cheng_guohong @zhang_yixin13 @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-observer.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-particleAbility.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-pasteboard.md @han-zhengshi @HelloCrease @logic42
+zh-cn/application-dev/reference/apis/js-apis-permissionrequestresult.md @littlejerry1 @RayShih @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-plainarray.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-pointer.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-power.md  @warehouse12  @alien0208
+zh-cn/application-dev/reference/apis/js-apis-process.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-processrunninginfo.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-processrunninginformation.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-prompt.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-queue.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-radio.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-reminderAgent.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/reference/apis/js-apis-request.md @hu-zhiqiong @hanruofei @murphy1984  
+zh-cn/application-dev/reference/apis/js-apis-resource-manager.md @Buda-Liu @ningningW @mengjingzhimo @yangqing3
+zh-cn/application-dev/reference/apis/js-apis-router.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-rpc.md @xuepianpian @zhang_yixin13 @zhaopeng_gitee @vagrant_world
+zh-cn/application-dev/reference/apis/js-apis-runninglock.md  @warehouse12  @alien0208
+zh-cn/application-dev/reference/apis/js-apis-screen.md @zhangqiang183  @ge-yafang @zhouyaoying @zxg-gitee @nobuggers
+zh-cn/application-dev/reference/apis/js-apis-screenshot.md @zhangqiang183  @ge-yafang @zhouyaoying @zxg-gitee @nobuggers
+zh-cn/application-dev/reference/apis/js-apis-sensor.md @hellohyh001 @hu-zhiqiong @butterls @star-wind-snow-and-rain
+zh-cn/application-dev/reference/apis/js-apis-service-extension-ability.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-service-extension-context.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-settings.md @xue-seu @hu-zhiqiong
+zh-cn/application-dev/reference/apis/js-apis-sim.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-sms.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-socket.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-stack.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-system-app.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-system-battery.md  @warehouse12  @alien0208
+zh-cn/application-dev/reference/apis/js-apis-system-bluetooth.md @cheng_guohong @RayShih @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-system-brightness.md  @warehouse12  @alien0208
+zh-cn/application-dev/reference/apis/js-apis-system-configuration.md @Buda-Liu @ningningW @budda-wang @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-system-date-time.md @hu-zhiqiong @illybyy @murphy1984 @feng-aiwen @illybyy @murphy1984
+zh-cn/application-dev/reference/apis/js-apis-system-device.md @mupceet @zhang_yixin13 @handyohos @nan-xiansen
+zh-cn/application-dev/reference/apis/js-apis-system-fetch.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-system-location.md @cheng_guohong @RayShih @cheng_guohong @xiangkejin123
+zh-cn/application-dev/reference/apis/js-apis-system-mediaquery.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-system-network.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-system-notification.md @jayleehw @RayShih @li-weifeng2 @currydavids
+zh-cn/application-dev/reference/apis/js-apis-system-package.md @shuaytao @RayShih @wangzhen107 @inter515 
+zh-cn/application-dev/reference/apis/js-apis-system-parameter.md @mupceet @zhang_yixin13 @handyohos @nan-xiansen
+zh-cn/application-dev/reference/apis/js-apis-system-prompt.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-system-request.md @hu-zhiqiong @hanruofei @murphy1984
+zh-cn/application-dev/reference/apis/js-apis-system-router.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-system-sensor.md @hellohyh001 @hu-zhiqiong @butterls @star-wind-snow-and-rain
+zh-cn/application-dev/reference/apis/js-apis-system-storage.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-system-time.md @hu-zhiqiong @illybyy @murphy1984 @feng-aiwen @illybyy @murphy1984
+zh-cn/application-dev/reference/apis/js-apis-system-timer.md @hu-zhiqiong @illybyy @murphy1984 @feng-aiwen @illybyy @murphy1984
+zh-cn/application-dev/reference/apis/js-apis-system-vibrate.md @hellohyh001 @ningningW @hu-zhiqiong @butterls @star-wind-snow-and-rain
+zh-cn/application-dev/reference/apis/js-apis-telephony-data.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-testRunner.md @inter515 @littlejerry1 @RayShih @inter515 @jiyong
+zh-cn/application-dev/reference/apis/js-apis-thermal.md  @warehouse12  @alien0208
+zh-cn/application-dev/reference/apis/js-apis-timer.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-touchevent.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-shortKey.md @yuanxinying @ningningW @houchengyu
+zh-cn/application-dev/reference/apis/js-apis-devicestatus-cooperate.md @mayunteng_1 @liuhaonan2 @hu-zhiqiong @cococoler @alien0208
+zh-cn/application-dev/reference/apis/js-apis-deviceStatus-dragInteraction.md @mayunteng_1 @liuhaonan2 @hu-zhiqiong @cococoler @alien0208
+zh-cn/application-dev/reference/apis/js-apis-treemap.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-treeset.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-uitest.md @inter515 @ningningW @inter515 @jiyong
+zh-cn/application-dev/reference/apis/js-apis-update.md @hughes802 @hu-zhiqiong @zhangzhengxue @mamba-ting
+zh-cn/application-dev/reference/apis/js-apis-uri.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-url.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-usbManager.md @warehouse12 @Kevin-Lau @liuhonggang123
+zh-cn/application-dev/reference/apis/js-apis-usb.md @warehouse12 @Kevin-Lau @liuhonggang123
+zh-cn/application-dev/reference/apis/js-apis-usb-deprecated.md @warehouse12 @Kevin-Lau @liuhonggang123
+zh-cn/application-dev/reference/apis/js-apis-util.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-vector.md @gongjunsong @ge-yafang @flyingwolf @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-vibrator.md @hellohyh001 @hu-zhiqiong @butterls @star-wind-snow-and-rain
+zh-cn/application-dev/reference/apis/js-apis-wallpaper.md @hu-zhiqiong @illybyy @murphy1984 @feng-aiwen @wangzhangjun 
+zh-cn/application-dev/reference/apis/js-apis-WallpaperExtensionAbility.md @hu-zhiqiong @illybyy @murphy1984 @feng-aiwen @wangzhangjun
+zh-cn/application-dev/reference/apis/js-apis-screen-lock.md @hu-zhiqiong @feng-aiwen @illybyy @murphy1984 @wangzhangjun 
+zh-cn/application-dev/reference/apis/js-apis-webgl.md @zhangqiang183  @ge-yafang @wind_zj @zxg-gitee
+zh-cn/application-dev/reference/apis/js-apis-webgl2.md @zhangqiang183  @ge-yafang @wind_zj @zxg-gitee
+zh-cn/application-dev/reference/apis/js-apis-webSocket.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-wifi.md @cheng_guohong @zhang_yixin13 @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-wifiext.md @cheng_guohong @zhang_yixin13 @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-window.md @zhangqiang183  @ge-yafang @zhouyaoying @zxg-gitee @nobuggers
+zh-cn/application-dev/reference/apis/js-apis-windowAnimationManager.md @zhangqiang183  @ge-yafang @liuchao92 @zxg-gitee
+zh-cn/application-dev/reference/apis/js-apis-worker.md @gongjunsong @ge-yafang @flyingwolf @weng-changcheng @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-taskpool.md @gongjunsong @ge-yafang @flyingwolf @weng-changcheng @blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-workScheduler.md @chenmingJay @ningningW @nan-xiansen @iceice1001
+
+zh-cn/application-dev/reference/apis/js-apis-WorkSchedulerExtensionAbility.md @chenmingJay @ningningW @very0228  @iceice1001
+zh-cn/application-dev/reference/apis/js-apis-xml.md @gongjunsong @ge-yafang @flyingwolf@blackstone-oh
+zh-cn/application-dev/reference/apis/js-apis-zlib.md @shuaytao @RayShih @wangzhen107 @inter515
+zh-cn/application-dev/reference/apis/js-apis-webview.md @bigpumpkin @HelloCrease @litao33 @zhang-xinyue15
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-web.md @bigpumpkin @HelloCrease @litao33 @zhang-xinyue15
+zh-cn/application-dev/reference/apis/js-apis-accessibility-config.md @mupceet @RayShih @mupceet @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-accessibility-GesturePath.md @mupceet @RayShih @mupceet @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-accessibility-GesturePoint.md @mupceet @RayShih @mupceet @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-accessibility.md @mupceet @RayShih @mupceet @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-appControl.md @littlejerry1 @huipeizi @gwang2008 @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-batteryStatistics.md  @warehouse12  @alien0208
+zh-cn/application-dev/reference/apis/js-apis-colorSpaceManager.md @zhangqiang183  @ge-yafang @liuchao92 @zxg-gitee
+zh-cn/application-dev/reference/apis/js-apis-configPolicy.md @liuzuming @ningningW @yangqing3
+zh-cn/application-dev/reference/apis/js-apis-cooperate.md @yuanxinying @ningningW @cococoler @alien0208
+zh-cn/application-dev/reference/apis/js-apis-curve.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-defaultAppManager.md @shuaytao @huipeizi @wangzhen107 @inter515
+zh-cn/application-dev/reference/apis/js-apis-distributedBundle.md @shuaytao @RayShih @wangzhen107 @inter515
+zh-cn/application-dev/reference/apis/js-apis-distributedKVStore.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-enterprise-applicationManager.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-accountManager.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-adminManager.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-bundleManager.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-browser.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-dateTimeManager.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-deviceControl.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-deviceInfo.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-networkManager.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-EnterpriseAdminExtensionAbility.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-restrictions.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-usbManager.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-enterprise-wifiManager.md @liuzuming @ningningW @yangqing3 @caiminggang
+zh-cn/application-dev/reference/apis/js-apis-geoLocationManager.md @cheng_guohong @RayShih @cheng_guohong @xiangkejin123
+zh-cn/application-dev/reference/apis/js-apis-inputmethod-subtype.md @hu-zhiqiong @illybyy @murphy1984 @feng-aiwen @SuperShrimp @murphy1984
+zh-cn/application-dev/reference/apis/js-apis-matrix4.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-net-ethernet.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-net-sharing.md @zhang-hai-feng @zhang_yixin13 @jyh926 @gaoxi785
+zh-cn/application-dev/reference/apis/js-apis-nfctech.md @cheng_guohong @zhang_yixin13 @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-promptAction.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-reminderAgentManager.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/reference/apis/js-apis-resourceschedule-deviceStandby.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/reference/apis/js-apis-resourceschedule-backgroundTaskManager.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/reference/apis/js-apis-resourceschedule-deviceUsageStatistics.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/reference/apis/js-apis-resourceschedule-workScheduler.md @chenmingJay @ningningW @very0228 @iceice1001
+zh-cn/application-dev/reference/apis/js-apis-stationary.md @mayunteng_1 @hu-zhiqiong @cococoler @alien0208
+zh-cn/application-dev/reference/apis/js-apis-system-capability.md taiyipei  taiyipei BlackStone
+zh-cn/application-dev/reference/apis/js-apis-system-parameterV9.md @mupceet @zhang_yixin13 @handyohos @nan-xiansen
+zh-cn/application-dev/reference/apis/js-apis-tagSession.md @cheng_guohong @zhang_yixin13 @cheng_guohong @quanli125
+zh-cn/application-dev/reference/apis/js-apis-arkui-componentSnapshot.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-arkui-drawableDescriptor.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-arkui-UIContext.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-font.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-plugincomponent.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/apis/js-apis-uiappearance.md @HelloCrease @niulihua @tomatodevboy
+zh-cn/application-dev/reference/errorcodes/errorcode-accessibility.md @RayShih
+zh-cn/application-dev/reference/errorcodes/errorcode-account.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-animator.md @HelloCrease
+zh-cn/application-dev/reference/errorcodes/errorcode-app-account.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-audio.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-avsession.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-backgroundTaskMgr.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-batteryStatistics.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-brightness.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-buffer.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-colorspace-manager.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-containers.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-data-rdb.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-datashare.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-device-manager.md @RayShih
+zh-cn/application-dev/reference/errorcodes/errorcode-DeviceUsageStatistics.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-display.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-distributed-dataObject.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-distributedKVStore.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-DistributedNotificationService.md @RayShih
+zh-cn/application-dev/reference/errorcodes/errorcode-DistributedSchedule.md @RayShih
+zh-cn/application-dev/reference/errorcodes/errorcode-enterpriseDeviceManager.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-faultlogger.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-filemanagement.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-geoLocationManager.md @RayShih
+zh-cn/application-dev/reference/errorcodes/errorcode-hiappevent.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-hisysevent.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-hiviewdfx-hidebug.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-huks.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-i18n.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-inputmethod-framework.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-media.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-multimodalinput.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-nfc.md @RayShih
+zh-cn/application-dev/reference/errorcodes/errorcode-pasteboard.md @HelloCrease
+zh-cn/application-dev/reference/errorcodes/errorcode-power.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-preferences.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-promptAction.md @HelloCrease
+zh-cn/application-dev/reference/errorcodes/errorcode-reminderAgentManager.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-request.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-resource-manager.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-router.md @HelloCrease
+zh-cn/application-dev/reference/errorcodes/errorcode-rpc.md @RayShih
+zh-cn/application-dev/reference/errorcodes/errorcode-runninglock.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-sensor.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-system-parameterV9.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-thermal.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-uitest.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-universal.md @RayShih
+zh-cn/application-dev/reference/errorcodes/errorcode-update.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-usb.md @warehouse12
+zh-cn/application-dev/reference/errorcodes/errorcode-useriam.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-vibrator.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-webview.md @HelloCrease
+zh-cn/application-dev/reference/errorcodes/errorcode-window.md @ge-yafang
+zh-cn/application-dev/reference/errorcodes/errorcode-workScheduler.md @ningningW
+zh-cn/application-dev/reference/errorcodes/errorcode-zlib.md @RayShih
+zh-cn/application-dev/reference/apis/js-apis-calendarManager.md @hu-zhiqiong @jt_123456 @edollar
+zh-cn/application-dev/arkts-utils/arkts-commonlibrary-overview.md @ge-yafang @gongjunsong @weng-changcheng @blackstone-oh
+zh-cn/application-dev/arkts-utils/concurrency-overview.md @ge-yafang @gongjunsong @weng-changcheng @blackstone-oh
+zh-cn/application-dev/arkts-utils/async-concurrency-overview.md @ge-yafang @gongjunsong @weng-changcheng @blackstone-oh
+zh-cn/application-dev/arkts-utils/single-io-development.md @ge-yafang @gongjunsong @weng-changcheng @blackstone-oh
+zh-cn/application-dev/arkts-utils/multi-thread-concurrency-overview.md @ge-yafang @gongjunsong @weng-changcheng @blackstone-oh
+zh-cn/application-dev/arkts-utils/taskpool-vs-worker.md @ge-yafang @gongjunsong @weng-changcheng @blackstone-oh
+zh-cn/application-dev/arkts-utils/cpu-intensive-task-development.md @ge-yafang @gongjunsong @weng-changcheng @blackstone-oh
+zh-cn/application-dev/arkts-utils/io-intensive-task-development.md @ge-yafang @gongjunsong @weng-changcheng @blackstone-oh
+zh-cn/application-dev/arkts-utils/sync-task-development.md @ge-yafang @gongjunsong @weng-changcheng @blackstone-oh
+zh-cn/application-dev/arkts-utils/container-overview.md @ge-yafang @gongjunsong @blackstone-oh
+zh-cn/application-dev/arkts-utils/linear-container.md @ge-yafang @gongjunsong @blackstone-oh
+zh-cn/application-dev/arkts-utils/nonlinear-container.md @ge-yafang @gongjunsong @blackstone-oh
+zh-cn/application-dev/arkts-utils/xml-overview.md @ge-yafang @gongjunsong @blackstone-oh
+zh-cn/application-dev/arkts-utils/xml-generation.md @ge-yafang @gongjunsong @blackstone-oh
+zh-cn/application-dev/arkts-utils/xml-parsing.md @ge-yafang @gongjunsong @blackstone-oh
+zh-cn/application-dev/arkts-utils/xml-conversion.md @ge-yafang @gongjunsong @blackstone-oh
+zh-cn/application-dev/database/data-mgmt-overview.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/app-data-persistence-overview.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/data-persistence-by-preferences.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/data-persistence-by-kv-store.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/data-persistence-by-rdb-store.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/sync-app-data-across-devices-overview.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/data-sync-of-rdb-store.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/data-sync-of-kv-store.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/data-reliability-security-overview.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/data-backup-and-restore.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/data-encryption.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/access-control-by-device-and-data-level.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/data-share-overview.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/unified-data-definition.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/share-data-by-datashareextensionability.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/share-data-by-silent-access.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+zh-cn/application-dev/database/unified-data-channels.md @ge-yafang @feng-aiwen @gong-a-shi @logic42
+
+[ArkTS组件开发指南配置文件]
+zh-cn/application-dev/ui/arkui-overview.md			@tomatodevboy	@HelloCrease
+zh-cn/application-dev/ui/arkts-ui-development-overview.md			@tomatodevboy	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-overview.md			@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-linear.md	@crazyracing0726	@ileft2019	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-stack-layout.md	@crazyracing0726	@ileft2019	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-flex-layout.md	@crazyracing0726	@ileft2019	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-relative-layout.md	@crazyracing0726	@ileft2019	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-grid-layout.md	@crazyracing0726	@ileft2019	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-media-query.md	@ileft2019	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-create-list.md	@yeyinglong_admin	@cc520bf	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-create-grid.md	@zcdqs	@cc520bf	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-layout-development-create-looping.md	@yan-shuifeng	@cc520bf	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-components-button.md	@niulihua	@zhangfanfan2	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-components-radio-button.md	@niulihua	@zhangfanfan2	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-components-switch.md	@niulihua	@zhangfanfan2	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-components-progress-indicator.md	@yeyinglong_admin	@cc520bf	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-components-text-display.md	@crazyracing0726	@ileft2019	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-components-text-input.md	@crazyracing0726	@ileft2019	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-components-custom-dialog.md	@niulihua	@zhangfanfan2	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-components-video-player.md	@keerecles	@seaside_wu	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-components-xcomponent.md	@keerecles	@seaside_wu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-popup-and-menu-components-popup.md	@niulihua	@zhangfanfan2	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-popup-and-menu-components-menu.md	@niulihua	@zhangfanfan2	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-routing.md	@raulnaruto_admin	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-navigation-navigation.md	@jiangdayuan	@raulnaruto_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-navigation-tabs.md	@yan-shuifeng	@cc520bf	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-graphics-display.md	@crazyracing0726	@ileft2019	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/ui/arkts-geometric-shape-drawing.md	@keerecles	@seaside_wu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-drawing-customization-on-canvas.md	@keerecles	@seaside_wu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-animation.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-attribute-animation-overview.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-attribute-animation-apis.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-custom-attribute-animation.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-transition-overview.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-enter-exit-transition.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-navigation-transition.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-modal-transition.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-shared-element-transition.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-page-transition-animation.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-component-animation.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-curve-overview.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-traditional-curve.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-spring-curve.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-animation-smoothing.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-blur-effect.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-shadow-effect.md	@lightningHo	@huaweimaxuchu	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-color-effect.md	@lightningHo		@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-event-overview.md	@zhaojian2021	@jiangtao92	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-events-touch-screen-event.md	@zhaojian2021	@jiangtao92	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-events-device-input-event.md	@zhaojian2021	@jiangtao92	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-common-events-focus-event.md	@piggyguy	@jiangtao92	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-gesture-events-binding.md	@zhaojian2021	@jiangtao92	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-gesture-events-single-gesture.md	@zhaojian2021	@jiangtao92	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/ui/arkts-gesture-events-combined-gestures.md	@zhaojian2021	@jiangtao92	@zhangshuang-xiaohuihui	@HelloCrease
+
+
+[ArkTS组件参考配置文件]
+zh-cn/application-dev/reference/arkui-ts/ts-universal-events-click.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-events-touch.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-events-show-hide.md	@jiangtao92	@sunfei2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-events-drag-drop.md	@jiangtao92	@piggyguy	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-events-key.md	@jiangtao92	@piggyguy	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-focus-event.md	@jiangtao92	@piggyguy	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-mouse-key.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-component-area-change-event.md	@jiangtao92	@sunfei2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-component-visible-area-change-event.md	@jiangtao92	@sunfei2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-events-keyboardshortcut.md	@jiangtao92	@piggyguy	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-size.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-location.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-layout-constraints.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-flex-layout.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-border.md	@ileft2019	@crazyracing0726	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-border-image.md	@ileft2019	@crazyracing0726	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-background.md	@jiangtao92	@sunfei2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-opacity.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-visibility.md	@jiangtao92	@sunfei2021	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-enable.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-overlay.md	@jiangtao92	@sunfei2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-z-order.md	@jiangtao92	@sunfei2021	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-transformation.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-sharp-clipping.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-text-style.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-grid.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-gradient-color.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-popup.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-menu.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-image-effect.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-focus.md	@jiangtao92	@piggyguy	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-hover-effect.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-touch-target.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-polymorphic-style.md	@jiangtao92	@piggyguy	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-hit-test-behavior.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-component-id.md	@jiangtao92	@sunfei2021	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-backgroundBlurStyle.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-restoreId.md	@jiangtao92	@sunfei2021	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-foreground-color.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-foreground-blur-style.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-click-effect.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-accessibility.md	@jayleehw			@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-touch-target.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-modal-transition.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-sheet-transition.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-obscured.md	@jiangtao92	@sunfei2021	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-text-style.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-drag-drop.md	@jiangtao92	@piggyguy	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-expand-safe-area.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-use-effect.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-renderfit.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-gesture-settings.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-gestures-tapgesture.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-gestures-longpressgesture.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-gestures-pangesture.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-gestures-pinchgesture.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-gestures-rotationgesture.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-gestures-swipegesture.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-combined-gestures.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-alphabet-indexer.md	@cc520bf	@yeyinglong_admin	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-blank.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-button.md	@zhangfanfan2	@zhanghaibo0	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-calendarpicker.md	@zhangfanfan2	@zhanghaibo0	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-checkbox.md	@zhangfanfan2	@zhanghaibo0	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-checkboxgroup.md	@zhangfanfan2	@zhanghaibo0	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-datapanel.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-datepicker.md	@zhangfanfan2	@zhanghaibo0	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-divider.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-formcomponent.md	@raulnaruto_admin		@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-gauge.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-image.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-imageanimator.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+eSpace_Desktop/UserData/p00810128/ReceiveFile/ImageSpan	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-loadingprogress.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-marquee.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-menu.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-menuitem.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-menuitemgroup.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-navigation.md	@raulnaruto_admin	@jiangdayuan	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-navrouter.md	@raulnaruto_admin	@jiangdayuan	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-navdestination.md	@raulnaruto_admin	@jiangdayuan	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-patternlock.md	@cc520bf	@yeyinglong_admin	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-plugincomponent.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-progress.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-qrcode.md	@cc520bf	@zcdqs	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-rating.md	@zhangfanfan2	@zhanghaibo0	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-radio.md	@zhangfanfan2	@zhanghaibo0	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-remotewindow.md	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-richeditor.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-richtext.md	@bigpumpkin @HelloCrease @litao33 @zhang-xinyue15
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-scrollbar.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-search.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-select.md	@zhangfanfan2	@zhanghaibo0	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-slider.md	@zhangfanfan2	@zhanghaibo0	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-span.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-stepper.md	@raulnaruto_admin	@jiangdayuan	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-stepperitem.md	@raulnaruto_admin	@jiangdayuan	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-text.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-textarea.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-textclock.md	@cc520bf	@zcdqs	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-textinput.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-textpicker.md	@zhangfanfan2	@zhanghaibo0	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-texttimer.md	@cc520bf	@zcdqs	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-timepicker.md	@zhangfanfan2	@zhanghaibo0	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-toggle.md	@zhangfanfan2	@zhanghaibo0	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-web.md	@bigpumpkin @HelloCrease @litao33 @zhang-xinyue15
+zh-cn/application-dev/reference/arkui-ts/ts-basic-components-xcomponent.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-badge.md	@cc520bf	@zcdqs	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-column.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-columnsplit.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-counter.md	@cc520bf	@zcdqs	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-flex.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-flowitem.md	@cc520bf	@zcdqs	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-formlink.md	@raulnaruto_admin			@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-gridcol.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-gridrow.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-grid.md	@cc520bf	@zcdqs	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-griditem.md	@cc520bf	@zcdqs	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-hyperlink.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-list.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-listitem.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-listitemgroup.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-navigator.md	@raulnaruto_admin	@jiangdayuan	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-panel.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-refresh.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-relativecontainer.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-row.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-rowsplit.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-scroll.md	@cc520bf	@yeyinglong_admin	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-sidebarcontainer.md	@raulnaruto_admin	@jiangdayuan	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-stack.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-swiper.md	@cc520bf	@yan-shuifeng	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-tabs.md	@cc520bf	@yan-shuifeng	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-tabcontent.md	@cc520bf	@yan-shuifeng	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-ui-extension-component.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-waterflow.md	@cc520bf	@zcdqs	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-media-components-video.md	@seaside_wu	@keerecles	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-drawing-components-circle.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-drawing-components-ellipse.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-drawing-components-line.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-drawing-components-polyline.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-drawing-components-polygon.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-drawing-components-path.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-drawing-components-rect.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-drawing-components-shape.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-components-canvas-canvas.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-components-canvas-canvasgradient.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-components-canvas-canvaspattern.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-canvasrenderingcontext2d.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-components-canvas-imagebitmap.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-components-canvas-imagedata.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-components-canvas-matrix2d.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-components-offscreencanvas.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-offscreencanvasrenderingcontext2d.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-components-canvas-path2d.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ohos-multimedia-avcastpicker.md	@zhangfanfan2	@youzhi92		@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-animatorproperty.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-explicit-animation.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-page-transition-animation.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-transition-animation-component.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-transition-animation-shared-elements.md	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-transition-animation-geometrytransition.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-motion-path-animation.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-methods-alert-dialog-box.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-methods-action-sheet.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-methods-custom-dialog-box.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-methods-calendarpicker-dialog.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-methods-datepicker-dialog.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-methods-timepicker-dialog.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-methods-textpicker-dialog.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-methods-menu.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-custom-component-lifecycle.md	@seaside_wu	 @s10021109	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-state-management.md	@seaside_wu	 @s10021109	@zhangshuang-xiaohuihui	@zhang_yixin13
+zh-cn/application-dev/reference/arkui-ts/ts-pixel-units.md	@jiangtao92	@sunfei2021	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-appendix-enums.md	@jiangtao92	@sunfei2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-types.md	@jiangtao92	@sunfei2021	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-arkui-componentSnapshot.md	@jiangtao92	@piggyguy	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-arkui-componentUtils.md	@jiangtao92	@piggyguy	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-arkui-dragController.md	@jiangtao92	@piggyguy	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-arkui-drawableDescriptor.md	@ileft2019	@crazyracing0726	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-arkui-inspector.md	@jayleehw		@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-arkui-performancemonitor.md	@huaweimaxuchu	@lushi1202	@tomatodevboy	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-arkui-UIContext.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-curve.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-font.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-matrix4.md	@huaweimaxuchu	@lightningHo	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-measure.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-mediaquery.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-plugincomponent.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-promptAction.md	@zhangfanfan2	@niulihua	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-router.md	@raulnaruto_admin		@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/apis/js-apis-uiappearance.md	@huaweimaxuchu	@lushi1202	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-ability-component.md	@seaside_wu	@keerecles	@zhangshuang-xiaohuihui	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-container-gridcontainer.md	@ileft2019	@crazyracing0726	@pangxinyu10128	@HelloCrease
+zh-cn/application-dev/reference/arkui-ts/ts-universal-attributes-click.md	@jiangtao92	@zhaojian2021	@zhangshuang-xiaohuihui	@HelloCrease
+
+
+
+
+
+[入门-开发基础知识-应用程序包基础知识与应用配置文件]
+zh-cn/application-dev/quick-start/app*.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/quick-start/module*.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/quick-start/multi-hap*.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/quick-start/deviceconfig-structure.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/quick-start/shared-guide.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/quick-start/har-package.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/quick-start/in-app-hsp.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/quick-start/quickfix*.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+
+
+[开发-应用模型]
+zh-cn/application-dev/application-models/ @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/application-models/uiability*.md @huipeizi  @li-weifeng2  @lxfycode  @lixiaogang30
+zh-cn/application-dev/application-models/*widget*.md @huipeizi  @li-weifeng2  @lxfycode  @lixiaogang30
+zh-cn/application-dev/application-models/thread*.md @huipeizi  @li-weifeng2  @lxfycode  @lixiaogang30
+zh-cn/application-dev/application-models/itc*.md @huipeizi  @li-weifeng2  @lxfycode  @lixiaogang30
+zh-cn/application-dev/application-models/common-event*.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/application-models/windowextensionability.md @zhangqiang183  @ge-yafang @zhouyaoying @zxg-gitee @nobuggers
+
+[开发-通知]
+zh-cn/application-dev/notification/ @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+
+[开发-性能]
+zh-cn/application-dev/performance/ @huipeizi
+zh-cn/application-dev/performance/reduce-package-size.md  @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+
+[工具-调试工具]
+zh-cn/application-dev/tools/aa-tool.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/tools/bm-tool.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/tools/packing-tool.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/tools/unpacking-tool.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/tools/cem-tool.md @huipeizi   @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/tools/anm-tool.md @huipeizi   @idanny  @suzhenxuan  @lixiaogang30
+
+
+
+[API参考-Ability]
+zh-cn/application-dev/reference/apis/js-apis-ability*.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-application*.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-app-*.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-businessAbilityRouter.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-continuation*.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-inner-ability*.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-inner-app*.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-inner-wantAgent*.md @huipeizi  @li-weifeng2  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-uripermissionmanager.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-wantAgent.md @huipeizi  @li-weifeng2  @lxfycode  @lixiaogang30
+
+[API参考-其他子系统-ExtensionAbility]
+zh-cn/application-dev/reference/apis/js-apis-application-AccessibilityExtensionAbility.md @mupceet @RayShih @mupceet @chengxingzhen
+zh-cn/application-dev/reference/apis/js-apis-application-DataShareExtensionAbility.md @feng-aiwen @ge-yafang @gong-a-shi @logic42
+zh-cn/application-dev/reference/apis/js-apis-application-WindowExtensionAbility.md @zhangqiang183  @ge-yafang @zhouyaoying @zxg-gitee @nobuggers
+zh-cn/application-dev/reference/apis/js-apis-inner-application-windowExtensionContext.md @ge-yafang @zhouyaoying @zxg-gitee @nobuggers
+zh-cn/application-dev/reference/apis/js-apis-inner-application-WorkSchedulerExtensionContext.md @chenmingJay @ningningW @very0228 @iceice1001
+
+[API参考-包管理]
+zh-cn/application-dev/reference/apis/js-apis-bundle*.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-appControl.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-defaultAppManager.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-distributedBundleManager.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-freeInstall.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-installer.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-launcherBundleManager.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-overlay.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-zlib.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+
+
+[API参考-公共事件与通知]
+zh-cn/application-dev/reference/apis/js-apis-commonEvent*.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-inner-commonEvent*.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-inner-notification*.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-notification*.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/apis/js-apis-emitter.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/apis/common_event/commonEvent-definitions.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/apis/common_event/commonEventManager-definitions.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/apis/common_event/commonEvent-ability.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/apis/common_event/commonEvent-bundleManager.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+
+
+[错误码-Ability]
+zh-cn/application-dev/reference/errorcodes/errorcode-ability.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/errorcodes/errorcode-DistributedSchedule.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/reference/errorcodes/errorcode-form.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+
+[错误码-包管理]
+zh-cn/application-dev/reference/errorcodes/errorcode-bundle.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/reference/errorcodes/errorcode-zlib.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+
+
+[错误码-公共事件与通知]
+zh-cn/application-dev/reference/errorcodes/errorcode-CommonEventService.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/errorcodes/errorcode-notification.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+zh-cn/application-dev/reference/errorcodes/errorcode-DistributedNotificationService.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+
+
+[FAQ]
+zh-cn/application-dev/faqs/faqs-ability.md @huipeizi  @ccllee  @lxfycode  @lixiaogang30
+zh-cn/application-dev/faqs/faqs-bundle-management.md @huipeizi  @changzheng6  @hou-xiangyu1029  @lixiaogang30
+zh-cn/application-dev/faqs/faqs-event-notification.md @huipeizi  @idanny  @suzhenxuan  @lixiaogang30
+
+[开发指南-媒体]
+zh-cn/application-dev/media/ @zengyawen
+
+[开发指南-安全]
+zh-cn/application-dev/security/ @zengyawen
+
+[开发指南-文件]
+zh-cn/application-dev/file-management/ @zengyawen
+
+[开发指南-DFX]
+zh-cn/application-dev/dfx/
+zh-cn/application-dev/dfx/errormanager-guidelines.md  @huipeizi @lixiaogang30  @Maplestorys
+zh-cn/application-dev/dfx/apprecovery-guidelines.md   @huipeizi @lixiaogang30  @Maplestorys
+
+[FAQ]
+zh-cn/application-dev/faqs/ @zengyawen
+
+[参考-安全]
+zh-cn/application-dev/reference/apis/js-apis-cert.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-cryptoFramework.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-huks.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-cipher.md @zengyawen
+
+zh-cn/application-dev/reference/errorcodes/errorcode-huks.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-crypto-framework.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-cert.md @zengyawen
+
+[参考-用户IAM]
+zh-cn/application-dev/reference/apis/js-apis-useriam-faceauth.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-useriam-userauth.md @zengyawen
+
+zh-cn/application-dev/reference/errorcodes/errorcode-useriam.md @zengyawen
+
+[参考-访问控制]
+zh-cn/application-dev/reference/apis/js-apis-abilityAccessCtrl.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-dlppermission.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-privacyManager.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-permissionrequestresult.md @zengyawen
+
+zh-cn/application-dev/reference/arkui-ts/ts-security*.md @zengyawen
+
+zh-cn/application-dev/reference/errorcodes/errorcode-access-token.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-dlp.md
+
+
+[参考-帐号]
+zh-cn/application-dev/reference/apis/js-apis-*Account.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-distributed-account.md @zengyawen
+
+zh-cn/application-dev/reference/errorcodes/errorcode-account.md @zengyawen
+
+[参考-文件]
+zh-cn/application-dev/reference/apis/js-apis-application-backupExtensionAbility.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-file*.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-photoAccessHelper.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-userFileManager.md @zengyawen
+
+zh-cn/application-dev/reference/apis/js-apis-document.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-system-file.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-statfs.md @zengyawen
+
+zh-cn/application-dev/reference/errorcodes/errorcode-filemanagement.md @zengyawen
+
+[参考-DFX]
+zh-cn/application-dev/reference/apis/js-apis-hi*.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-faultLogger.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-loglibrary.md
+
+zh-cn/application-dev/reference/apis/js-apis-bytrace.md @zengyawen
+
+zh-cn/application-dev/reference/errorcodes/errorcode-faultlogger.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-hi*.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-loglibrary.md
+
+
+[参考-媒体]
+zh-cn/application-dev/reference/apis/js-apis-inner-multimedia*.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-app-ability-MediaControlExtensionAbility.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-audio.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-avsession.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-camera.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-image.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-media.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-systemSoundManager.md @zengyawen
+zh-cn/application-dev/reference/apis/js-apis-inner-application-MediaControlExtensionContext.md @zengyawen
+
+zh-cn/application-dev/reference/apis/js-apis-medialibrary.md @zengyawen
+
+zh-cn/application-dev/reference/errorcodes/errorcode-audio.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-media.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-avsession.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-camera.md @zengyawen
+zh-cn/application-dev/reference/errorcodes/errorcode-image.md @zengyawen
+
+
+
+
