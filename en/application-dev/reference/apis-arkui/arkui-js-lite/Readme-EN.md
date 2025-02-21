@@ -1,0 +1,39 @@
+# JavaScript-compatible Web-like Development Paradigm (ArkUI.Lite)
+
+- Framework Overview
+  - [File Organization](js-lite-framework-file.md)
+  - ["js" Tag](js-lite-framework-js-tag.md)
+  - [app.js](js-lite-framework-js-file.md)
+  - [Lifecycle](js-lite-framework-lifecycle.md)
+  - [Multi-Language Capability](js-lite-framework-localization.md)
+  - Syntax
+    - [HML](js-lite-framework-syntax-hml.md)
+    - [CSS](js-lite-framework-syntax-css.md)
+    - [JavaScript](js-lite-framework-syntax-js.md)
+- Universal Component Information
+  - [Universal Events](js-lite-common-events.md)
+  - [Universal Attributes](js-lite-common-attributes.md)
+  - [Universal Styles](js-lite-common-styles.md)
+  - [Animation Styles](js-lite-components-common-animation.md)
+  - [Media Query](js-lite-components-common-mediaquery.md)
+- Container Components
+  - [div](js-lite-components-container-div.md)
+  - [list](js-lite-components-container-list.md)
+  - [list-item](js-lite-components-container-list-item.md)
+  - [stack](js-lite-components-container-stack.md)
+  - [swiper](js-lite-components-container-swiper.md)
+- Basic Components
+  - [chart](js-lite-components-basic-chart.md)
+  - [image](js-lite-components-basic-image.md)
+  - [image-animator](js-lite-components-basic-image-animator.md)
+  - [input](js-lite-components-basic-input.md)
+  - [marquee](js-lite-components-basic-marquee.md)
+  - [picker-view](js-lite-components-basic-picker-view.md)
+  - [progress](js-lite-components-basic-progress.md)
+  - [qrcode](js-lite-components-basic-qrcode.md)
+  - [slider](js-lite-components-basic-slider.md)
+  - [switch](js-lite-components-basic-switch.md)
+  - [text](js-lite-components-basic-text.md)
+- Canvas Components
+  - [canvas](js-lite-components-canvas-canvas.md)
+  - [CanvasRenderingContext2D](js-lite-components-canvas-canvasrenderingcontext2d.md)

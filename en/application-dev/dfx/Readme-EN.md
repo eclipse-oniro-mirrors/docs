@@ -1,0 +1,34 @@
+# Performance Analysis Kit
+
+- [Introduction to Performance Analysis Kit](performance-analysis-kit-overview.md)
+- HiLog
+  - [Using HiLog (ArkTS)](hilog-guidelines-arkts.md)
+  - [Using HiLog (C/C++)](hilog-guidelines-ndk.md)
+- HiAppEvent
+  - [HiAppEvent Overview](hiappevent-intro.md)
+  - Event Subscription
+    - [Subscribing to Application Events](hiappevent-watcher-app-events.md)
+    - [Subscribing to Crash Events](hiappevent-watcher-crash-events.md)
+    - [Subscribing to Freeze Events](hiappevent-watcher-freeze-events.md)
+    - [Subscribing to Resource Leak Events](hiappevent-watcher-resourceleak-events.md)
+  - [Event Reporting](hiappevent-event-reporting.md)
+- HiTraceMeter
+  - [Using HiTraceMeter (ArkTS/JS)](hitracemeter-guidelines-arkts.md)
+  - [Using HiTraceMeter (C/C++)](hitracemeter-guidelines-ndk.md)
+  - [Viewing HiTraceMeter Logs](hitracemeter-view.md)
+- [Using HiTraceChain](hitracechain-guidelines.md)
+- Error Management
+  - [Development of Error Manager](errormanager-guidelines.md)
+  - [Development of Application Recovery](apprecovery-guidelines.md)
+- Fault Analysis
+  - [Analyzing JSCrash](jscrash-guidelines.md)
+  - [Analyzing CppCrash](cppcrash-guidelines.md)
+  - [Analyzing AppFreeze](appfreeze-guidelines.md)
+- Command Line Tools
+  - [hdc](hdc.md)
+  - [hilog](hilog.md)
+  - [hidumper](hidumper.md)
+  - [hitrace](hitrace.md)
+  - [hiperf](hiperf.md)
+  - [hisysevent](hisysevent.md)
+  - [uinput](uinput.md)
