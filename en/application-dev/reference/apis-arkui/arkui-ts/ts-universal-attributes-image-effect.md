@@ -1,0 +1,1599 @@
+# Image Effect
+<!--Kit: ArkUI-->
+<!--Subsystem: ArkUI-->
+<!--Owner: @CCFFWW-->
+<!--Designer: @CCFFWW-->
+<!--Tester: @lxl007-->
+<!--Adviser: @Brilliantry_Rui-->
+
+Image effects include blur, shadow, spherical effect, and much more.
+
+>  **NOTE**
+>
+>  The feature is supported since API version 7. Updates will be marked with a superscript to indicate their earliest API version.
+
+## blur
+
+blur(value: number, options?: BlurOptions): T
+
+Applies a foreground blur effect to the component.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 9.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name               | Type                                                        | Mandatory| Description                                                        |
+| --------------------- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| value                 | number                                                       | Yes  | Foreground blur effect to apply to the component. The input parameter is the blur radius. The larger the radius is, the more blurred the content is. If the value is **0**, the content is not blurred.|
+| options<sup>11+</sup> | [BlurOptions](ts-universal-attributes-foreground-blur-style.md#bluroptions11) | No  | Grayscale parameters.                                                |
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## blur<sup>18+</sup>
+
+blur(blurRadius: Optional\<number>, options?: BlurOptions): T
+
+Applies a foreground blur effect to the component. Compared to [blur](#blur), the **blurRadius** parameter supports the **undefined** type.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name               | Type                                                        | Mandatory| Description                                                        |
+| --------------------- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| blurRadius            | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number>                                            | Yes  | Foreground blur effect to apply to the component. The input parameter is the blur radius. The larger the radius is, the more blurred the content is. If the value is **0**, the content is not blurred.<br>If **blurRadius** is set to **undefined**, the previous value is retained.|
+| options | [BlurOptions](ts-universal-attributes-foreground-blur-style.md#bluroptions11) | No  | Grayscale parameters.  |
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## blur<sup>19+</sup>
+
+blur(blurRadius: Optional\<number>, options?: BlurOptions, sysOptions?: SystemAdaptiveOptions): T
+
+Applies a foreground blur effect to the component. Compared to [blur<sup>18+</sup>](#blur18), this API adds the **sysOptions** parameter, which allows for system adaptive adjustments.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 19.
+
+**Atomic service API**: This API can be used in atomic services since API version 19.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name               | Type                                                        | Mandatory| Description                                                        |
+| --------------------- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| blurRadius            | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number>                                            | Yes  | Foreground blur effect to apply to the component. The input parameter is the blur radius. The larger the radius is, the more blurred the content is. If the value is **0**, the content is not blurred.<br>If **blurRadius** is set to **undefined**, the previous value is retained.|
+| options | [BlurOptions](ts-universal-attributes-foreground-blur-style.md#bluroptions11) | No  | Grayscale parameters.  |
+| sysOptions   |  [SystemAdaptiveOptions](ts-universal-attributes-background.md#systemadaptiveoptions19)    |   No  |  System adaptive adjustment options.<br>Default value: **{ disableSystemAdaptation: false }**   |
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## shadow
+
+shadow(value: ShadowOptions | ShadowStyle): T
+
+Applies a shadow effect to the component.
+
+**Widget capability**: Since API version 9, this API is supported in ArkTS widgets. Yet, the [ShadowStyle](ts-universal-attributes-image-effect.md#shadowstyle10) type is not supported in ArkTS widgets.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type                                                        | Mandatory| Description                                                        |
+| ------ | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| value  | [ShadowOptions](#shadowoptions)&nbsp;\|&nbsp;[ShadowStyle](#shadowstyle10)<sup>10+</sup> | Yes  | Shadow of the component.<br>When the value type is **ShadowOptions**, the blur radius, shadow color, and offset along the x-axis and y-axis can be specified.<br>When the value type is **ShadowStyle**, the shadow style can be specified.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## shadow<sup>18+</sup>
+
+shadow(options: Optional\<ShadowOptions | ShadowStyle>): T
+
+Applies a shadow effect to the component. Compared to [shadow](#shadow), the **options** parameter supports the **undefined** type.
+
+**Widget capability**: Since API version 18, this API is supported in ArkTS widgets. Yet, the [ShadowStyle](ts-universal-attributes-image-effect.md#shadowstyle10) type is not supported in ArkTS widgets.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name | Type                                                        | Mandatory                                                        | Description|
+| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ---- |
+| options | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<[ShadowOptions](#shadowoptions) \| [ShadowStyle](#shadowstyle10)>| Yes|   Shadow of the component.<br>When the value type is **ShadowOptions**, the blur radius, shadow color, and offset along the x-axis and y-axis can be specified.<br>When the value type is **ShadowStyle**, the shadow style can be specified.<br>If **options** is **undefined**, the component reverts to its original effect with no shadow.  |
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## grayscale
+
+grayscale(value: number): T
+
+Applies a grayscale effect to the component. The grayscale rendering of the upper layer will overlay that of lower-layer child components. If this API is not used, there will be no change by default.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 9.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                                                        |
+| ------ | ------ | ---- | ------------------------------------------------------------ |
+| value  | number | Yes  | Grayscale conversion ratio of the component. If the value is **1.0**, the component is completely converted to grayscale. If the value is **0.0**, the component remains unchanged. Between **0** and **1**, the value applies a linear multiplier on the grayscale effect.<br>Value range: [0.0, 1.0]<br>**NOTE**<br>A value less than **0.0** evaluates to the value **0.0**. A value greater than **1.0** evaluates to the value **1.0**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## grayscale<sup>18+</sup>
+
+grayscale(grayscale: Optional\<number>): T
+
+Applies a grayscale effect to the component. The grayscale rendering of the upper layer will overlay that of lower-layer child components. If this API is not used, there will be no change by default. Compared to [grayscale](#grayscale), the **grayscale** parameter supports the **undefined** type.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name   | Type             | Mandatory| Description                                                        |
+| --------- | ----------------- | ---- | ------------------------------------------------------------ |
+| grayscale | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number> | Yes  | Grayscale conversion ratio of the component. If the value is **1.0**, the component is completely converted to grayscale. If the value is **0.0**, the component remains unchanged. Between **0** and **1**, the value applies a linear multiplier on the grayscale effect.<br>Value range: [0.0, 1.0]<br>**NOTE**<br>A value less than **0.0** evaluates to the value **0.0**. A value greater than **1.0** evaluates to the value **1.0**.<br>If **grayscale** is set to **undefined**, the default value **0.0** is used, which means the component reverts to its original effect with no grayscale.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## brightness
+
+brightness(value: number): T
+
+Applies a brightness effect to the component. If this API is not used, there will be no change by default.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 9.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                                                        |
+| ------ | ------ | ---- | ------------------------------------------------------------ |
+| value  | number | Yes  | Brightness effect of the component. **1**: No brightness adjustment. Less than 1.0: decreases brightness. 0 or less: Complete black. Greater than 1: increases brightness. 2 or greater: complete white.<br>Value range: [0, +∞)<br>Recommended value range: [0, 2]<br>**NOTE**<br>A value less than 0 evaluates to the value **0**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## brightness<sup>18+</sup>
+
+brightness(brightness: Optional\<number>): T
+
+Applies a brightness effect to the component. If this API is not used, there will be no change by default. Compared with [brightness](#brightness), this API supports the **undefined** type for the **brightness** parameter.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name    | Type             | Mandatory| Description                                                        |
+| ---------- | ----------------- | ---- | ------------------------------------------------------------ |
+| brightness | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number> | Yes  | Brightness effect of the component. **1**: No brightness adjustment. Less than 1.0: decreases brightness. 0 or less: Complete black. Greater than 1: increases brightness. 2 or greater: complete white.<br>Value range: [0, +∞)<br>Recommended value range: [0, 2]<br>**NOTE**<br>A value less than 0 evaluates to the value **0**.<br>If **brightness** is **undefined**, the brightness level is reset to **1**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## saturate
+
+saturate(value: number): T
+
+Applies a saturation effect to the component. If this API is not used, there will be no change by default.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 9.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                                                        |
+| ------ | ------ | ---- | ------------------------------------------------------------ |
+| value  | number | Yes  | Saturation of the component. The saturation is the ratio of the chromatic component to the achromatic component (gray) in a color. If the value is **1**, the original image is displayed. If the value is greater than **1**, a higher percentage of the chromatic component indicates a higher saturation. If the value is less than **1**, a higher percentage of the achromatic component indicates a lower saturation.<br>Recommended value range: [0, 50)<br>**NOTE**<br>A value less than 0 evaluates to the value **0**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## saturate<sup>18+</sup>
+
+saturate(saturate: Optional\<number>): T
+
+Applies a saturation effect to the component. If this API is not used, there will be no change by default. Compared to [saturate](#saturate), the **saturate** parameter supports the **undefined** type.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name  | Type             | Mandatory| Description                                                        |
+| -------- | ----------------- | ---- | ------------------------------------------------------------ |
+| saturate | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number> | Yes  | Saturation of the component. The saturation is the ratio of the chromatic component to the achromatic component (gray) in a color. If the value is **1**, the original image is displayed. If the value is greater than **1**, a higher percentage of the chromatic component indicates a higher saturation. If the value is less than **1**, a higher percentage of the achromatic component indicates a lower saturation.<br>Recommended value range: [0, 50)<br>**NOTE**<br>A value less than 0 evaluates to the value **0**.<br>If **saturate** is **undefined**, the saturation effect is reset to **1.0**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## contrast
+
+contrast(value: number): T
+
+Applies a contrast effect to the component. If this API is not used, there will be no change by default.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 9.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                                                        |
+| ------ | ------ | ---- | ------------------------------------------------------------ |
+| value  | number | Yes  | Contrast of the component. The input parameter is a contrast value. If the value is **1**, the source image is displayed. If the value is greater than 1, a larger value indicates a higher contrast and a clearer image. If the value is less than 1, a smaller value indicates a lower contrast is. If the value is **0**, the image becomes all gray.<br>Recommended value range: [0, 10)<br>**NOTE**<br>A value less than 0 evaluates to the value **0**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## contrast<sup>18+</sup>
+
+contrast(contrast: Optional\<number>): T
+
+Applies a contrast effect to the component. If this API is not used, there will be no change by default. Compared to [contrast](#contrast), the **contrast** parameter supports the **undefined** type.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name  | Type             | Mandatory| Description                                                        |
+| -------- | ----------------- | ---- | ------------------------------------------------------------ |
+| contrast | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number> | Yes  | Contrast of the component. The input parameter is a contrast value. If the value is **1**, the source image is displayed. If the value is greater than 1, a larger value indicates a higher contrast and a clearer image. If the value is less than 1, a smaller value indicates a lower contrast is. If the value is **0**, the image becomes all gray.<br>Recommended value range: [0, 10)<br>**NOTE**<br>A value less than 0 evaluates to the value **0**.<br>If **contrast** is **undefined**, the contrast effect is reset to **1.0**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## invert
+
+invert(value: number | InvertOptions): T
+
+Inverts an image.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 9.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type                                                        | Mandatory| Description                                                        |
+| ------ | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| value  | number&nbsp;\|&nbsp;[InvertOptions](#invertoptions11)<sup>11+</sup> | Yes  | How an image is inverted.<br>When the input parameter is a number: If the value is **1**, the component is completely inverted. If the value is **0**, the component remains unchanged.<br>Value range: [0, 1].<br>A value less than 0 evaluates to the value **0**. A value larger than 1 is treated as **1**.<br>If the value is of the InvertOptions type, the grayscale value of the background color is compared with the threshold range. If the grayscale value is greater than the upper bound of the threshold range, the **high** value is used. If the grayscale value is less than the lower bound of the threshold range, the **low** value is used. If the grayscale value is within the threshold range, the background color changes linearly from high to low.<br>**NOTE**<br>The number and InvertOptions parameter types produce different inversion effects. When you switch parameter types, previous effects persist and both effects coexist. Use consistent parameter types for predictable results.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## invert<sup>18+</sup>
+
+invert(options: Optional\<number | InvertOptions>): T
+
+Inverts an image. Compared with [invert](#invert), this API supports the **undefined** type for the **options** parameter.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name | Type                                                        | Mandatory| Description                                                        |
+| ------- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| options | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number&nbsp;\|&nbsp;[InvertOptions](#invertoptions11)<sup>11+</sup>> | Yes  | How an image is inverted.<br>When the input parameter is a number: If the value is **1**, the component is completely inverted. If the value is **0**, the component remains unchanged.<br>Value range: [0, 1].<br>A value less than 0 evaluates to the value **0**. A value larger than 1 is treated as **1**.<br>If the value is of the InvertOptions type, the grayscale value of the background color is compared with the threshold range. If the grayscale value is greater than the upper bound of the threshold range, the **high** value is used. If the grayscale value is less than the lower bound of the threshold range, the **low** value is used. If the grayscale value is within the threshold range, the background color changes linearly from high to low.<br>If **options** is **undefined**, the component reverts to its original effect.<br>**NOTE**<br>The number and InvertOptions parameter types produce different inversion effects. When you switch parameter types, previous effects persist and both effects coexist. Use consistent parameter types for predictable results.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## sepia
+
+sepia(value: number): T
+
+Converts the image to a sepia tone, reducing color intensity to create a warm, vintage image style.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 9.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                                                        |
+| ------ | ------ | ---- | ------------------------------------------------------------ |
+| value  | number | Yes  | Intensity of the sepia filter. A value of 1 results in a completely sepia image, values less than or equal to 0 leave the image unchanged, and values greater than 1 increase the color shift, making the image brighter and more yellow or red, though this is not a standard sepia effect.<br>Value range: [0, +∞). Recommended value range: (0, 1].|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## sepia<sup>18+</sup>
+
+sepia(sepia: Optional\<number>): T
+
+Converts the image to a sepia tone, reducing color intensity to create a warm, vintage image style. Compared to [sepia](#sepia), this API supports the **undefined** type for the **sepia** parameter.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type             | Mandatory| Description                                                        |
+| ------ | ----------------- | ---- | ------------------------------------------------------------ |
+| sepia  | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number> | Yes  | Intensity of the sepia filter. A value of 1 results in a completely sepia image, values less than or equal to 0 leave the image unchanged, and values greater than 1 increase the color shift, making the image brighter and more yellow or red, though this is not a standard sepia effect.<br>If **sepia** is **undefined**, the component reverts to its original effect.<br> Value range: [0, +∞). Recommended value range: (0, 1].|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## hueRotate
+
+hueRotate(value: number | string): T
+
+Rotates the hue of the component. If this API is not used, there will be no change by default.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 9.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type                      | Mandatory| Description                                                        |
+| ------ | -------------------------- | ---- | ------------------------------------------------------------ |
+| value  | number&nbsp;\|&nbsp;string | Yes  | Hue rotation angle of the component.<br>Value range: (-∞, +∞)<br>**NOTE**<br>A rotation of 360 degrees leaves the color unchanged. A rotation of 180 degrees and then -180 degrees also leaves the color unchanged. When the data type is number, the value **90** is equivalent to **'90deg'**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## hueRotate<sup>18+</sup>
+
+hueRotate(rotation: Optional\<number | string>): T
+
+Rotates the hue of the component. If this API is not used, there will be no change by default. Compared to [hueRotate](#huerotate), the **rotation** parameter supports the **undefined** type.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name  | Type                                 | Mandatory                                                        | Description|
+| -------- | ------------------------------------- | ------------------------------------------------------------ | ---- |
+| rotation | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number&nbsp;\|&nbsp;string> | Yes  |Hue rotation angle of the component.<br>Value range: (-∞, +∞)<br>For the string type, the value must be a numeric string.<br>**NOTE**<br>A rotation of 360 degrees leaves the color unchanged. A rotation of 180 degrees and then -180 degrees also leaves the color unchanged. When the data type is number, the value **90** is equivalent to **'90deg'**.<br>If **sepia** is **undefined**, the component reverts to its original effect with no hue rotation.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## colorBlend
+
+colorBlend(value: Color | string | Resource): T
+
+Applies a color blend effect to the component.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 9.
+
+**Parameters**
+
+| Name| Type                                                        | Mandatory| Description                                          |
+| ------ | ------------------------------------------------------------ | ---- | ---------------------------------------------- |
+| value  | [Color](ts-appendix-enums.md#color)&nbsp;\|&nbsp;string&nbsp;\|&nbsp;[Resource](ts-types.md#resource) | Yes  | Color to blend with the component. The value can be a string, for example, **'0x000000'** or **'rgba(0,0,0,1)'**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## colorBlend<sup>18+</sup>
+
+colorBlend(color: Optional\<Color | string | Resource>): T
+
+Applies a color blend effect to the component. Compared with [colorBlend](#colorblend), this API supports the **undefined** type for the **color** parameter.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Parameters**
+
+| Name| Type                                                        | Mandatory| Description                                                        |
+| ------ | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| color  | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<[Color](ts-appendix-enums.md#color)&nbsp;\|&nbsp;string&nbsp;\|&nbsp;[Resource](ts-types.md#resource)> | Yes  | Color to blend with the component. The value can be a string, for example, **'0x000000'** or **'rgba(0,0,0,1)'**.<br>If **color** is **undefined**, the component reverts to its original effect with no color blending.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## linearGradientBlur<sup>12+</sup> 
+
+linearGradientBlur(value: number, options: LinearGradientBlurOptions): T
+
+Applies a linear gradient foreground blur effect to the component.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name | Type                                                        | Mandatory| Description                                                        |
+| ------- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| value   | number                                                       | Yes  | Blur radius. A larger value indicates a higher blur degree. If the value is 0, the content is not blurred.<br>Value range: [0, 1000]|
+| options | [LinearGradientBlurOptions](#lineargradientbluroptions12)| Yes  | Linear gradient blur effect.<br>The linear gradient blur effect is defined by [fractionStops](#lineargradientbluroptions12) and [direction](#lineargradientbluroptions12).                                    |
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## linearGradientBlur<sup>18+</sup> 
+
+linearGradientBlur(blurRadius: Optional\<number>, options: Optional\<LinearGradientBlurOptions>): T
+
+Applies a linear gradient foreground blur effect to the component. Compared with [linearGradientBlur<sup>12+</sup>](#lineargradientblur12), this API supports the **undefined** type.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name | Type                                                        | Mandatory| Description                                                        |
+| ------- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| blurRadius   | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number>                                            | Yes  | Blur radius. A larger value indicates a higher blur degree. If the value is 0, the content is not blurred.<br>Value range: [0, 1000]<br>If **blurRadius** is **undefined**, the gradient blur effect reverts to **0**.|
+| options | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<[LinearGradientBlurOptions](#lineargradientbluroptions12)>| Yes  | Linear gradient blur effect.<br>If **options** is **undefined**, the gradient blur effect reverts to **0**.<br>The linear gradient blur effect is defined by [fractionStops](#lineargradientbluroptions12) and [direction](#lineargradientbluroptions12). |
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## renderGroup<sup>10+</sup>
+
+renderGroup(value: boolean): T
+
+Sets whether to form a render group. A render group means that the subtree composed of the current component and its child components is first rendered on an offscreen canvas and then composited with the parent component. Setting a render group allows the system to cache the rendering result, improving performance. However, if components within the render group are frequently updated, cache invalidation may lead to performance degradation. Additionally, when a render group is set and the current component's opacity is not **1**, the rendering effect may differ.
+
+If this attribute is not set, no render group is formed by default.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 12.
+
+**Parameters**
+
+| Name| Type   | Mandatory| Description                                                        |
+| ------ | ------- | ---- | ------------------------------------------------------------ |
+| value  | boolean | Yes  | Whether the current component and its child components form a render group.<br> **false**: no. Rendering is performed directly without offscreen rendering.<br> **true**: yes. The current component and its child components are rendered offscreen first and then composited with the parent component.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## renderGroup<sup>18+</sup>
+
+renderGroup(isGroup: Optional\<boolean>): T
+
+Sets whether to form a render group. A render group means that the subtree composed of the current component and its child components is first rendered on an offscreen canvas and then composited with the parent component. Setting a render group allows the system to cache the rendering result, improving performance. However, if components within the render group are frequently updated, cache invalidation may lead to performance degradation. Additionally, when a render group is set and the current component's opacity is not **1**, the rendering effect may differ.
+
+Compared with [renderGroup<sup>10+</sup>](#rendergroup10), this API supports the **undefined** type for the **isGroup** parameter.
+
+If this attribute is not set, no render group is formed by default.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Parameters**
+
+| Name | Type              | Mandatory| Description                                                        |
+| ------- | ------------------ | ---- | ------------------------------------------------------------ |
+| isGroup | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<boolean> | Yes  | Whether the current component and its child components form a render group.<br> **false**: no. Rendering is performed directly without offscreen rendering.<br> **true**: yes. The current component and its child components are rendered offscreen first and then composited with the parent component.<br>If **isGroup** is set to **undefined**, no render group is formed.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## blendMode<sup>11+</sup>
+
+blendMode(value: BlendMode, type?: BlendApplyType): T
+
+Defines how the component's content (including the content of it child components) is blended with the existing content on the canvas (possibly offscreen canvas) below.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 11.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type                               | Mandatory| Description                                                        |
+| ------ | ----------------------------------- | ---- | ------------------------------------------------------------ |
+| value  | [BlendMode](#blendmode11)   | Yes  | Blend mode.<br>Default value: **BlendMode.NONE**<br>**NOTE**<br>When **BlendMode.NONE** is used, the blend effect is **BlendMode.SRC_OVER** by default, and **BlendApplyType** does not take effect.|
+| type   | [BlendApplyType](#blendapplytype11) | No  | Whether the blend mode is implemented offscreen.<br>Default value: **BlendApplyType.FAST**<br>**NOTE**<br>1. **BlendApplyType.FAST**: The blend mode is not implemented offscreen.<br>2. **BlendApplyType.OFFSCREEN**: An offscreen canvas of the size of the current component is created. The content of the current component (including child components) is then drawn onto the offscreen canvas, and blended with the existing content on the canvas below using the specified blend mode. This approach may cause issues with screen capture for APIs such as [linearGradientBlur<sup>12+</sup>](#lineargradientblur12), [backgroundEffect](ts-universal-attributes-background.md#backgroundeffect11), [brightness](#brightness), and [blur](#blur).|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## blendMode<sup>18+</sup> 
+
+blendMode(mode: Optional\<BlendMode>, type?: BlendApplyType): T
+
+Defines how the component's content (including the content of it child components) is blended with the existing content on the canvas (possibly offscreen canvas) below. Compared to [blendMode<sup>11+</sup>](#blendmode11), the **mode** parameter supports the **undefined** type.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type                           | Mandatory| Description                                                        |
+| ------ | ------------------------------- | ---- | ------------------------------------------------------------ |
+| mode | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<[BlendMode](#blendmode11)>| Yes  | Blend mode.<br>Default value: **BlendMode.NONE**<br>If **mode** is **undefined**, the component reverts to its original effect of not enabling offscreen rendering as a whole before blending with the parent component.<br>**NOTE**<br>When **BlendMode.NONE** is used, the blend effect is **BlendMode.SRC_OVER** by default, and **BlendApplyType** does not take effect.|
+| type   | [BlendApplyType](#blendapplytype11)  |    No   | Whether the blend mode is implemented offscreen.<br>Default value: **BlendApplyType.FAST**<br>**NOTE**<br>1. **BlendApplyType.FAST**: The blend mode is not implemented offscreen.<br>2. **BlendApplyType.OFFSCREEN**: An offscreen canvas of the size of the current component is created. The content of the current component (including child components) is then drawn onto the offscreen canvas, and blended with the existing content on the canvas below using the specified blend mode. This approach may cause issues with screen capture for APIs such as [linearGradientBlur<sup>12+</sup>](#lineargradientblur12), [backgroundEffect](ts-universal-attributes-background.md#backgroundeffect11), [brightness](#brightness), and [blur](#blur).|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## BlendApplyType<sup>11+</sup>
+
+Defines how to apply the specified blend mode to the content of a view.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 11.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name          | Value| Description                                                            |
+| ---------------| ------ | ---------------------------------------------------------------- |
+| FAST           | 0 | The content of the view is blended in sequence on the target image.                       |
+| OFFSCREEN      | 1 | The content of the component and its child components are drawn on the offscreen canvas, and then blended with the existing content on the canvas.   |
+
+## useShadowBatching<sup>11+</sup> 
+
+useShadowBatching(value: boolean): T
+
+Sets whether to render child node shadows at the same layer, enabling shadow overlap within the same layer.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 11.
+
+**Parameters**
+
+| Name| Type   | Mandatory| Description                                                        |
+| ------ | ------- | ---- | ------------------------------------------------------------ |
+| value  | boolean | Yes  | Whether to render child node shadows at the same layer.<br>Default value: **false**<br> **true**: Child node shadows are rendered at the same layer without overlapping.<br> **false**: Child node shadows are rendered separately, with later shadows overlapping earlier ones.<br>**NOTE**<br>1. This feature is disabled by default. When child nodes have large shadow radius and overlapping areas, later-rendered shadows cover earlier ones. Enabling this feature renders all child shadows simultaneously without overlap.<br>2. Avoid nesting **useShadowBatching**. When used in nested mode, **useShadowBatching** takes effect for the current child node only and cannot be recursively used.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## useShadowBatching<sup>18+</sup> 
+
+useShadowBatching(use: Optional\<boolean>): T
+
+Sets whether to render child node shadows at the same layer, enabling shadow overlap within the same layer. Compared with [useShadowBatching<sup>11+</sup>](#useshadowbatching11), this API supports the **undefined** type for the **use** parameter.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Parameters**
+
+| Name| Type              | Mandatory| Description                                                        |
+| ------ | ------------------ | ---- | ------------------------------------------------------------ |
+| use    | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<boolean> | Yes  | Whether to render child node shadows at the same layer.<br>Default value: **false**<br> **true**: Child node shadows are rendered at the same layer without overlapping.<br> **false**: Child node shadows are rendered separately, with later shadows overlapping earlier ones.<br>**NOTE**<br>1. This feature is disabled by default. When child nodes have large shadow radius and overlapping areas, later-rendered shadows cover earlier ones. Enabling this feature renders all child shadows simultaneously without overlap.<br>2. Avoid nesting **useShadowBatching**. When used in nested mode, **useShadowBatching** takes effect for the current child node only and cannot be recursively used.<br>If **use** is **undefined**, the component reverts to its original effect of not using shadow overlapping.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## sphericalEffect<sup>12+</sup>
+
+sphericalEffect(value: number): T
+
+Applies a spherical effect to the component.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                                                        |
+| ------ | ------ | ---- | ------------------------------------------------------------ |
+| value  | number | Yes  | Spherical degree of the component.<br>The value ranges from 0 to 1.<br>**NOTE**<br>1. If the value is **0**, the component remains unchanged. If the value is 1, the component is completely spherical. Between **0** and **1**, a larger value indicates a higher spherical degree.<br>A value less than 0 is handled as the value **0**. A value greater than 1 is handled as the value **1**.<br>2. The component's shadow and outer stroke do not support spherical effects.<br>3. If the value is greater than 0, the component is frozen, and its content is drawn to the transparent offscreen buffer. To update the component attributes, set the value to **0**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## sphericalEffect<sup>18+</sup>
+
+sphericalEffect(effect: Optional\<number>): T
+
+Applies a spherical effect to the component. Compared to [sphericalEffect<sup>12+</sup>](#sphericaleffect12), the **effect** parameter supports the **undefined** type.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type             | Mandatory| Description                                                        |
+| ------ | ----------------- | ---- | ------------------------------------------------------------ |
+| effect | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number> | Yes  | Spherical degree of the component.<br>The value ranges from 0 to 1.<br>**NOTE**<br>1. If the value is **0**, the component remains unchanged. If the value is 1, the component is completely spherical. Between **0** and **1**, a larger value indicates a higher spherical degree.<br>A value less than 0 is handled as the value **0**. A value greater than 1 is handled as the value **1**.<br>2. The component's shadow and outer stroke do not support spherical effects.<br>3. If **effect** is set to a positive number, the component is frozen, and its content is drawn to the transparent offscreen buffer. To update the component attributes, set **effect** to **0**.<br>If **effect** is **undefined**, the spherical degree reverts to **0**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## lightUpEffect<sup>12+</sup> 
+
+lightUpEffect(value: number): T
+
+Applies a light up effect to the component.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                                                        |
+| ------ | ------ | ---- | ------------------------------------------------------------ |
+| value  | number | Yes  | Light up degree of the component.<br>The value ranges from 0 to 1.<br>If the value is **0**, the component is dark. If the value is **1**, the component is fully illuminated. Between **0** and **1**, a larger value indicates higher luminance. A value less than 0 is handled as the value **0**. A value greater than 1 is handled as the value **1**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## lightUpEffect<sup>18+</sup> 
+
+lightUpEffect(degree: Optional\<number>): T
+
+Applies a light up effect to the component. Compared to [lightUpEffect<sup>12+</sup>](#lightupeffect12), the **degree** parameter supports the **undefined** type.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type             | Mandatory| Description                                                        |
+| ------ | ----------------- | ---- | ------------------------------------------------------------ |
+| degree | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<number> | Yes  | Light up degree of the component.<br>The value ranges from 0 to 1.<br>If the value is **0**, the component is dark. If the value is **1**, the component is fully illuminated. Between **0** and **1**, a larger value indicates higher luminance. A value less than 0 is handled as the value **0**. A value greater than 1 is handled as the value **1**.<br>If **degree** is **undefined**, the light up degree reverts to **1**.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## pixelStretchEffect<sup>12+</sup> 
+
+pixelStretchEffect(options: PixelStretchEffectOptions): T
+
+Applies a pixel stretch effect to the component.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name | Type                                                     | Mandatory| Description                                                        |
+| ------- | --------------------------------------------------------- | ---- | ------------------------------------------------------------ |
+| options | [PixelStretchEffectOptions](#pixelstretcheffectoptions10) | Yes  | Pixel stretch effect options.<br>The value includes the length by which a pixel is stretched toward the four edges.<br>**NOTE**<br>1. If the length is a positive value, the original image is stretched, and the image size increases. The edge pixels grow by the set length toward the top, bottom, left, and right edges.<br>2. If the length is a negative value, the original image shrinks as follows, but the image size remains unchanged:<br>Shrinking mode:<br>(1) The image shrinks from the four edges by the absolute value of length set through **options**.<br>(2) The image is stretched back to the original size with edge pixels.<br>3. Constraints on **options**:<br>(1) The length values for the four edges must be all positive or all negative. That is, the four edges are stretched or shrink at the same time in the same direction.<br>(2) The length values must all be a percentage or a specific value. Combined use of the percentage and specific value is not allowed.<br>If the input value is invalid, the image is displayed as {0, 0, 0, 0}, that is, the image remains unchanged.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## pixelStretchEffect<sup>18+</sup> 
+
+pixelStretchEffect(options: Optional\<PixelStretchEffectOptions>): T
+
+Applies a pixel stretch effect to the component. Compared to [pixelStretchEffect<sup>12+</sup>](#pixelstretcheffect12), the **options** parameter supports the **undefined** type.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name | Type                                                        | Mandatory| Description                                                        |
+| ------- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| options | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<[PixelStretchEffectOptions](#pixelstretcheffectoptions10)> | Yes  | Pixel stretch effect options.<br>The value includes the length by which a pixel is stretched toward the four edges.<br>**NOTE**<br>1. If the length is a positive value, the original image is stretched, and the image size increases. The edge pixels grow by the set length toward the top, bottom, left, and right edges.<br>2. If the length is a negative value, the original image shrinks as follows, but the image size remains unchanged:<br>Shrinking mode:<br>(1) The image shrinks from the four edges by the absolute value of length set through **options**.<br>(2) The image is stretched back to the original size with edge pixels.<br>3. Constraints on **options**:<br>(1) The length values for the four edges must be all positive or all negative. That is, the four edges are stretched or shrink at the same time in the same direction.<br>(2) The length values must all be a percentage or a specific value. Combined use of the percentage and specific value is not allowed.<br>If the input value is invalid, the image is displayed as {0, 0, 0, 0}, that is, the image remains unchanged.<br>If **options** is **undefined**, the component reverts to its original effect with no pixel stretch.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## PixelStretchEffectOptions<sup>10+</sup>
+
+Describes the pixel stretch effect options.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name    | Type               | Read-Only  | Optional  | Description            |
+| ------ | ----------------- | ---- | ---- | -------------- |
+| left   | [Length](ts-types.md#length) | No   | Yes   | Length by which a pixel is stretched towards the left edge of the image.<br>Default value: **0vp**|
+| right  | [Length](ts-types.md#length) | No   | Yes   | Length by which a pixel is stretched towards the right edge of the image.<br>Default value: **0vp**|
+| top    | [Length](ts-types.md#length) | No   | Yes   | Length by which a pixel is stretched towards the top edge of the image.<br>Default value: **0vp**|
+| bottom | [Length](ts-types.md#length) | No   | Yes   | Length by which a pixel is stretched towards the right edge of the image.<br>Default value: **0vp**|
+
+## systemBarEffect<sup>12+</sup>
+
+systemBarEffect(): T
+
+Applies a system bar effect to the component, which means to invert colors based on the background and add a blur.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## ShadowType<sup>10+<sup>
+
+Shadow type.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name      | Value| Description                                  |
+| -------- | ------ | ---------------------------------- |
+| COLOR    | 0 | Color.                                   |
+| BLUR     | 1 | Blur.                                   |
+
+
+## ShadowOptions
+
+Provides the shadow attributes, including the blur radius, color, and offset along the x-axis and y-axis.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name     | Type                                      | Read-Only| Optional  | Description                                      |
+| ------- | ---------------------------------------- | ---- | ---- | ---------------------------------------- |
+| radius  | number \| [Resource](ts-types.md#resource) | No| No   | Blur radius of the shadow.<br>Value range: [0, +∞)<br>Unit: px<br>**NOTE**<br>A value less than 0 evaluates to the value **0**.<br>To use a value in the unit of vp, you can use [vp2px](../arkts-apis-uicontext-uicontext.md#vp2px12) to convert the value.<br>If **radius** is of the Resource type, its value must be of the number type.<br>**Atomic service API**: This API can be used in atomic services since API version 11.<br>**Widget capability**: This API can be used in ArkTS widgets since API version 9.|
+| type<sup>10+</sup> | [ShadowType](#shadowtype10)  |      No| Yes   | Shadow type.<br>Default value: **COLOR**<br>**Atomic service API**: This API can be used in atomic services since API version 11.      |
+| color   | [Color](ts-appendix-enums.md#color) \| string \| [Resource](ts-types.md#resource)\| [ColoringStrategy<sup>11+</sup> ](ts-appendix-enums.md#coloringstrategy10) | No | Yes | Color of the shadow.<br>The default color is black.<br>**NOTE**<br>Since API version 11, this API supports **ColoringStrategy**, which cannot be used with ArkTS widgets or the [textShadow](ts-basic-components-text.md#textshadow10) attribute.<br>With **ColoringStrategy**, the average color or primary color can be obtained, and the obtained color is applied to the shadow drawing area.<br>The **'average'** string can be used to trigger the mode for obtaining the average color, and the **'primary'** string for obtaining the primary color.<br>**Atomic service API**: This API can be used in atomic services since API version 11.<br>**Widget capability**: This API can be used in ArkTS widgets since API version 9.|
+| offsetX | number \| [Resource](ts-types.md#resource) | No | Yes | Offset of the shadow along the x-axis.<br>Default value: **0**<br>Unit: px<br>**NOTE**<br>To use a value in the unit of vp, you can use [vp2px](../arkts-apis-uicontext-uicontext.md#vp2px12) to convert the value.<br>If **offsetX** is of the Resource type, its value must be of the number type.<br> **Atomic service API**: This API can be used in atomic services since API version 11.<br>**Widget capability**: This API can be used in ArkTS widgets since API version 9.|
+| offsetY | number \| [Resource](ts-types.md#resource) | No| Yes  | Offset of the shadow along the y-axis.<br>Default value: **0**<br>Unit: px<br>**NOTE**<br>To use a value in the unit of vp, you can use [vp2px](../arkts-apis-uicontext-uicontext.md#vp2px12) to convert the value.<br>If **offsetY** is of the Resource type, its value must be of the number type.<br>**Atomic service API**: This API can be used in atomic services since API version 11.<br>**Widget capability**: This API can be used in ArkTS widgets since API version 9.|
+| fill<sup>11+</sup>     | boolean                                    | No | Yes | Whether to fill the inside of the component with shadow. **true**: Fill the inside of the component with shadow.<br>**false**: Do not fill the inside of the component with shadow.<br>Default value: **false**.<br>**NOTE**<br>This attribute does not take effect in [textShadow](ts-basic-components-text.md#textshadow10).<br>**Atomic service API**: This API can be used in atomic services since API version 12.|
+
+## ShadowStyle<sup>10+</sup>
+
+Defines the shadow effect of a component.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name               | Value| Description    |
+| ----------------- | ---- | ------ |
+| OUTER_DEFAULT_XS  | 0 | Mini shadow. |
+| OUTER_DEFAULT_SM  | 1 | Small shadow.  |
+| OUTER_DEFAULT_MD  | 2 | Medium shadow.  |
+| OUTER_DEFAULT_LG  | 3 | Large shadow.  |
+| OUTER_FLOATING_SM | 4 | Floating small shadow.|
+| OUTER_FLOATING_MD | 5 | Floating medium shadow.|
+
+## BlendMode<sup>11+</sup>
+
+Blend mode.
+
+>  **NOTE**
+>
+>  In the **blendMode** enums, **s** indicates the source pixel, **d** indicates the target pixel, **sa** indicates the opacity of the source pixel, **da** indicates the opacity of the target pixel, **r** indicates the pixel after blending, and **ra** indicates the opacity of the pixel after blending.
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 11.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name          | Value| Description                                                            |
+| ---------------| --- | ------                                                        |
+| NONE            | 0 | The top image is superimposed on the bottom image without any blending.             |
+| CLEAR           | 1 | The target pixels covered by the source pixels are erased by being turned to completely transparent.                     |
+| SRC             | 2 |  r = s: Only the source pixels are displayed.                   |
+| DST             | 3 |  r = d: Only the target pixels are displayed.                 |
+| SRC_OVER        | 4 |  r = s + (1 - sa) * d: The source pixels are blended based on opacity and cover the target pixels.                |
+| DST_OVER        | 5 |  r = d + (1 - da) * s: The target pixels are blended based on opacity and cover on the source pixels.                |
+| SRC_IN          | 6 |  r = s * da: Only the part of the source pixels that overlap with the target pixels is displayed.                       |
+| DST_IN          | 7 |  r = d * sa: Only the part of the target pixels that overlap with the source pixels is displayed.                       |
+| SRC_OUT         | 8 |  r = s * (1 - da): Only the part of the source pixels that do not overlap with the target pixels is displayed.               |
+| DST_OUT         | 9 |  r = d * (1 - sa): Only the part of the target pixels that do not overlap with the source pixels is displayed.               |
+| SRC_ATOP        | 10 |  r = s * da + d * (1 - sa): The part of the source pixels that overlap with the target pixels is displayed and the part of the target pixels that do not overlap with the source pixels are displayed.                |
+| DST_ATOP        | 11 |  r = d * sa + s * (1 - da): The part of the target pixels that overlap with the source pixels and the part of the source pixels that do not overlap with the target pixels are displayed.                |
+| XOR             | 12 |  r = s * (1 - da) + d * (1 - sa). The pixel is not displayed where the source pixel overlaps the target pixel, and the source pixel and target pixel are displayed where the source pixel does not overlap the target pixel.                    |
+| PLUS            | 13 |  r = min(s + d, 1): New pixels resulting from adding the source pixels to the target pixels are displayed.                    |
+| MODULATE        | 14 |  r = s * d: New pixels resulting from multiplying the source pixels with the target pixels are displayed.                         |
+| SCREEN          | 15 |  r = s + d - s * d: Pixels are blended by adding the source pixels to the target pixels and subtracting the product of their multiplication.                   |
+| OVERLAY         | 16 |  The MULTIPLY or SCREEN mode is used based on the target pixels.                                 |
+| DARKEN          | 17 |  rc = s + d - max(s * da, d * sa), ra = kSrcOver: When two colors overlap, whichever is darker is used.                |
+| LIGHTEN         | 18 |  rc = s + d - min(s * da, d * sa), ra = kSrcOver: The darker of the pixels (source and target) is used.           |
+| COLOR_DODGE     | 19 |  The colors of the target pixels are lightened to reflect the source pixels.                    |
+| COLOR_BURN      | 20 |  The colors of the target pixels are darkened to reflect the source pixels.                    |
+| HARD_LIGHT      | 21 |  The MULTIPLY or SCREEN mode is used, depending on the source pixels.                 |
+| SOFT_LIGHT      | 22 |  The LIGHTEN or DARKEN mode is used, depending on the source pixels.                                                            |
+| DIFFERENCE      | 23 |  rc = s + d - 2 * (min(s * da, d * sa)), ra = kSrcOver: The final pixel is the result of subtracting the darker of the two pixels (source and target) from the lighter one.                     |
+| EXCLUSION       | 24 |  rc = s + d - two(s * d), ra = kSrcOver: The final pixel is similar to **DIFFERENCE**, but with less contrast.         |
+| MULTIPLY        | 25 |  r = s * (1 - da) + d * (1 - sa) + s * d: The final pixel is the result of multiplying the source pixel by the target pixel.                          |
+| HUE             | 26 |  The resultant image is created with the luminance and saturation of the source image and the hue of the target image.                                  |
+| SATURATION      | 27 |  The resultant image is created with the luminance and hue of the target image and the saturation of the source image.                               |
+| COLOR           | 28 |  The resultant image is created with the saturation and hue of the source image and the luminance of the target image.                                  |
+| LUMINOSITY      | 29 |  The resultant image is created with the saturation and hue of the target image and the luminance of the source image.                                    |
+
+## LinearGradientBlurOptions<sup>12+</sup>
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name         | Type                                                       | Read-Only| Optional | Description                                                        |
+| ------------- | ----------------------------------------------------------- | ----- | ----- |------------------------------------------------------------ |
+| fractionStops | [FractionStop](#fractionstop12)[]                          | No| No   | Gradient blur stops. The value is a set of binary arrays, each of which indicates [blur degree, blur position] and consists of numbers ranging from 0 to 1 (those less than 0 are treated as **0**, and those greater than 1 are treated as **1**). The blur positions in the arrays must be in strict ascending order. Noncompliance will be logged. For the blur settings to take effect, the number of binary arrays must be greater than or equal to 2.|
+| direction     | [GradientDirection](ts-appendix-enums.md#gradientdirection) | No| No   | Gradient blur direction.<br>Default value:<br>GradientDirection.Bottom |
+
+## FractionStop<sup>12+</sup>
+
+type FractionStop = [ number, number ]
+
+Defines a gradient blur stop.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Type     | Description                                                      |
+| ------------- | ---------------------------------------------------------- |
+| [ number, number ]        |   The first number indicates the opacity value. The value **1** indicates fully opaque, and **0** indicates fully transparent.<br>Value range: [0, 1].<br>The second number indicates the position in gradient . The value **1** indicates the end position, and **0** indicates the start position.<br> Value range: [0, 1].    |
+
+## InvertOptions<sup>11+</sup>
+
+Describes the options for inverting the foreground color.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name           |  Type | Read-Only | Optional | Description                                      |
+| -------------- | ------ | ----- | ----- | ------------------------------------------ |
+| low            | number | No   | No   | Value when the background color is greater than the grayscale threshold.<br>Value range: [0, 1].                |
+| high           | number | No   | No   | Value when the background color is less than the grayscale threshold.<br>Value range: [0, 1].           |
+| threshold      | number | No   | No   | Grayscale threshold.<br>Value range: [0, 1].                           |
+| thresholdRange | number | No   | No   | Threshold value range.<br>Value range: [0, 1].<br>**NOTE**<br>This range defines the upper and lower bounds of the grayscale threshold. The grayscale value changes linearly from high to low within the range.|
+
+## BackgroundImageOptions<sup>18+</sup>
+
+Defines the background image options.
+
+>  **NOTE**
+>
+>  Synchronously loading background images can lead to potential performance issues. For details, see [Image](ts-basic-components-image.md#image-1).
+
+**Widget capability**: This API can be used in ArkTS widgets since API version 18.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name           |  Type                                          | Read-Only | Optional | Description                                                    |
+| -------------- | ------------------------------------------------| ----- | ----- | --------------------------------------------------------|
+| syncLoad       | boolean                                         | No   | Yes   | Whether to load the image synchronously. By default, the image is loaded asynchronously. During synchronous loading, the UI thread is blocked and the placeholder image is not displayed.<br>Default value: **false**<br>**false**: Asynchronously load the image.<br>**true**: Synchronously load the image.     |
+| repeat         | [ImageRepeat](ts-appendix-enums.md#imagerepeat) | No   | Yes   | Repeat pattern of the background image. Default value: **ImageRepeat.NoRepeat**.                    |
+
+## freeze<sup>12+</sup>
+
+freeze(value: boolean): T
+
+Sets whether to freeze the component. When frozen, the component and its children are cached for repeated drawing after offscreen rendering, without updating internal attributes.
+
+>**NOTE**
+>
+> This API can be called within [attributeModifier](ts-universal-attributes-attribute-modifier.md#attributemodifier) since API version 20.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type   | Mandatory| Description                                                        |
+| ------ | ------- | ---- | ------------------------------------------------------------ |
+| value  | boolean | Yes  | Whether to freeze the component. When frozen, the component and its children are cached for repeated drawing after offscreen rendering, without updating internal attributes. If the opacity of the component is not 1, the drawing effect may vary depending on the value.<br>Default value: **false**<br> **true**: Freeze the component.<br>**false**: Do not freeze the component.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## freeze<sup>18+</sup>
+
+freeze(freeze: Optional\<boolean>): T
+
+Sets whether to freeze the component. When frozen, the component and its children are cached for repeated drawing after offscreen rendering, without updating internal attributes. Compared with [freeze](#freeze12), this API supports the **undefined** type for the **freeze** parameter.
+
+>**NOTE**
+>
+> This API can be called within [attributeModifier](ts-universal-attributes-attribute-modifier.md#attributemodifier) since API version 20.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type              | Mandatory| Description                                                        |
+| ------ | ------------------ | ---- | ------------------------------------------------------------ |
+| freeze | [Optional](ts-universal-attributes-custom-property.md#optionalt)\<boolean> | Yes  | Whether to freeze the component. When frozen, the component and its children are cached for repeated drawing after offscreen rendering, without updating internal attributes. If the opacity of the component is not 1, the drawing effect may vary depending on the value.<br>Default value: **false**<br> **true**: Freeze the component.<br>**false**: Do not freeze the component.<br>If **freeze** is set to **undefined**, the previous value is retained.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## Example
+
+### Example 1: Setting Different Image Attributes
+This example applies different image effects.
+```ts
+// xxx.ets
+@Entry
+@Component
+struct ImageEffectsExample {
+  build() {
+    Column({ space: 5 }) {
+      // Apply the shadow effect.
+      Text('shadow').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image'))
+        .width('90%')
+        .height(30)
+        .shadow({
+          radius: 10,
+          color: Color.Green,
+          offsetX: 20,
+          offsetY: 20
+        })
+
+      // Add the internal shadow effect.
+      Text('shadow').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image'))
+        .width('90%')
+        .height(30)
+        .shadow({
+          radius: 5,
+          color: Color.Green,
+          offsetX: 20,
+          offsetY: 20,
+          fill: true
+        }).opacity(0.5)
+
+      // Apply the grayscale effect. The grayscale value ranges from 0 to 1. The closer the grayscale value is to 1, the more obvious the grayscale effect is.
+      Text('grayscale').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).grayscale(0.3)
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).grayscale(0.8)
+
+      // Apply the brightness effect. The value 1 indicates no effects. If the value is less than 1, the brightness decreases. If the value is greater than 1, the brightness increases.
+      Text('brightness').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).brightness(1.2)
+
+      // Apply the saturation effect. If the value is 1, the source image is displayed.
+      Text('saturate').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).saturate(2.0)
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).saturate(0.7)
+
+      // Apply the contrast effect. If the value is 1, the source image is displayed. If the value is greater than 1, a larger value indicates a higher contrast and a clearer image. If the value is less than 1, a smaller value indicates a lower contrast is.
+      Text('contrast').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).contrast(2.0)
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).contrast(0.8)
+
+      // Invert the image.
+      Text('invert').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).invert(0.2)
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).invert(0.8)
+
+      // Apply the color blend effect.
+      Text('colorBlend').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).colorBlend(Color.Green)
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).colorBlend(Color.Blue)
+
+      // Convert the image color to sepia.
+      Text('sepia').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).sepia(0.8)
+
+      // Apply the hue rotation effect.
+      Text('hueRotate').fontSize(15).fontColor(0xCCCCCC).width('90%')
+      // Replace $r("app.media.image") with the image resource file you use.
+      Image($r('app.media.image')).width('90%').height(30).hueRotate(90)
+    }.width('100%').margin({ top: 5 })
+  }
+}
+```
+
+![imageeffect](figures/imageeffect.png)
+
+
+### Example 2: Applying a Linear Gradient Blur Effect
+
+This example demonstrates how to apply a linear gradient blur effect on a component using [linearGradientBlur](#lineargradientblur12).
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct ImageExample1 {
+  // Replace $r('app.media.testlinearGradientBlurOrigin') with the resource file you use.
+  private_resource1: Resource = $r('app.media.testlinearGradientBlurOrigin')
+  @State image_src: Resource = this.private_resource1
+
+  build() {
+    Column() {
+      Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start }) {
+        Row({ space: 5 }) {
+          Image(this.image_src)
+            .blur(0) // Set the blur effect of the image to none (no blur applied).
+            .linearGradientBlur(60,
+              { fractionStops: [[0, 0], [0, 0.33], [1, 0.66], [1, 1]], direction: GradientDirection.Bottom })
+        }
+      }
+    }
+  }
+}
+```
+
+![testlinearGradientBlur](figures/testlinearGradientBlur.png)
+
+### Example 3: Setting Offscreen Rendering Effect
+
+This example demonstrates how to use [renderGroup](#rendergroup10) to set whether the component is rendered entirely offscreen and then composited with its parent component.
+
+```ts
+// xxx.ets
+@Component
+struct Component1 {
+  @Prop renderGroupValue: boolean;
+
+  build() {
+    Row() {
+      Row() {
+        Row()
+          .backgroundColor(Color.Black)
+          .width(100)
+          .height(100)
+          .opacity(1)
+      }
+      .backgroundColor(Color.White)
+      .width(150)
+      .height(150)
+      .justifyContent(FlexAlign.Center)
+      .opacity(0.6)
+      .renderGroup(this.renderGroupValue)
+    }
+    .backgroundColor(Color.Black)
+    .width(200)
+    .height(200)
+    .justifyContent(FlexAlign.Center)
+    .opacity(1)
+  }
+}
+
+@Entry
+@Component
+struct RenderGroupExample {
+  build() {
+    Column() {
+      Component1({ renderGroupValue: true })
+        .margin(20)
+      Component1({ renderGroupValue: false })
+        .margin(20)
+    }
+    .width("100%")
+    .height("100%")
+    .alignItems(HorizontalAlign.Center)
+  }
+}
+```
+
+![renderGroup](figures/renderGroup.png)
+
+### Example 4: Blending the Current Component Content with Canvas Content
+
+This example demonstrates how to blend the current component content with the canvas content below using [blendMode](#blendmode11).
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct Index {
+  build() {
+    Column() {
+      Text("blendMode")
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#ffff0101')
+      Row() {
+        Circle()
+          .width(200)
+          .height(200)
+          .fill(Color.Green)
+          .position({ x: 50, y: 50 })
+        Circle()
+          .width(200)
+          .height(200)
+          .fill(Color.Blue)
+          .position({ x: 150, y: 50 })
+      }
+      .blendMode(BlendMode.OVERLAY, BlendApplyType.OFFSCREEN)
+      .alignItems(VerticalAlign.Center)
+      .height(300)
+      .width('100%')
+    }
+    .height('100%')
+    .width('100%')
+    // Replace $r("app.media.image") with the image resource file you use.
+    .backgroundImage($r('app.media.image'))
+    .backgroundImageSize(ImageSize.Cover)
+  }
+}
+```
+
+![en-us_image_effect_blendMode2](figures/en-us_image_effect_blendMode.png)
+
+### Example 5: Inverting the Foreground Color
+
+This example demonstrates how to achieve intelligent foreground color inversion using [InvertOptions](#invertoptions11).
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct Index {
+  build() {
+    Stack() {
+      Column()
+      Stack() {
+        // Replace $r("app.media.r") with the image resource file you use.
+        // In this example, the images are arranged from left to right, and the color is from light to dark.
+        Image($r('app.media.r')).width('100%')
+        Column() {
+          Column().width("100%").height(30).invert({
+            low: 0,
+            high: 1,
+            threshold: 0.5,
+            thresholdRange: 0.2
+          })
+          Column().width("100%").height(30).invert({
+            low: 0.2,
+            high: 0.5,
+            threshold: 0.3,
+            thresholdRange: 0.2
+          })
+        }
+      }
+      .width('100%')
+      .height('100%')
+    }
+  }
+}
+```
+
+![testDestinationIn_lockDemo](figures/testInvertOptions.png)
+
+### Example 6: Setting Non-Overlapping Same-Layer Shadows
+
+This example demonstrates how to implement non-overlapping shadow effect within the same layer using [useShadowBatching](#useshadowbatching11) in combination with [shadow](#shadow).
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct UseShadowBatchingExample {
+  build() {
+    Column() {
+      Column({ space: 10 }) {
+        Stack() {
+
+        }
+        .width('90%')
+        .height(50)
+        .margin({ top: 5 })
+        .backgroundColor(0xFFE4C4)
+        .shadow({
+          radius: 120,
+          color: Color.Green,
+          offsetX: 0,
+          offsetY: 0
+        })
+        .align(Alignment.TopStart)
+        .shadow({
+          radius: 120,
+          color: Color.Green,
+          offsetX: 0,
+          offsetY: 0
+        })
+
+        Stack() {
+
+        }
+        .width('90%')
+        .height(50)
+        .margin({ top: 5 })
+        .backgroundColor(0xFFE4C4)
+        .align(Alignment.TopStart)
+        .shadow({
+          radius: 120,
+          color: Color.Red,
+          offsetX: 0,
+          offsetY: 0
+        })
+        .width('90%')
+        .backgroundColor(Color.White)
+
+        Column() {
+          Text()
+            .fontWeight(FontWeight.Bold)
+            .fontSize(20)
+            .fontColor(Color.White)
+        }
+        .justifyContent(FlexAlign.Center)
+        .width(150)
+        .height(150)
+        .borderRadius(10)
+        .backgroundColor(0xf56c6c)
+        .shadow({
+          radius: 300,
+          color: Color.Yellow,
+          offsetX: 0,
+          offsetY: 0
+        })
+
+        Column() {
+          Text()
+            .fontWeight(FontWeight.Bold)
+            .fontSize(20)
+            .fontColor(Color.White)
+        }
+        .justifyContent(FlexAlign.Center)
+        .width(150)
+        .height(150)
+        .backgroundColor(0x67C23A)
+        .borderRadius(10)
+        .translate({ y: -50 })
+        .shadow({
+          radius: 220,
+          color: Color.Blue,
+          offsetX: 0,
+          offsetY: 0
+        })
+      }
+      .useShadowBatching(true)
+    }
+    .width('100%').margin({ top: 5 })
+  }
+}
+```
+
+![testUseShadowBatchingDemo](figures/testUseShadowBatching.png)
+
+### Example 7: Applying a Spherical Effect to a Component
+
+This example demonstrates how to apply a spherical effect to a component using [sphericalEffect](#sphericaleffect12).
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct SphericalEffectExample {
+  build() {
+    Stack() {
+      TextInput({ placeholder: "Enter a percentage ([0%, 100%])." })
+        .width('50%')
+        .height(35)
+        .type(InputType.Number)
+        .enterKeyType(EnterKeyType.Done)
+        .caretColor(Color.Red)
+        .placeholderColor(Color.Blue)
+        .placeholderFont({
+          size: 20,
+          style: FontStyle.Italic,
+          weight: FontWeight.Bold
+        })
+        .sphericalEffect(0.5)
+    }.alignContent(Alignment.Center).width("100%").height("100%")
+  }
+}
+```
+
+Below is how the component looks with the spherical effect applied.
+
+![textInputSpherical1](figures/textInputSpherical1.png)
+
+Below is how the component looks without the spherical effect applied.
+
+![textInputSpherical2](figures/textInputSpherical2.png)
+
+### Example 8: Applying a Light Up Effect to a Component
+
+This example demonstrates how to apply a light up effect to a component using [lightUpEffect](#lightupeffect12).
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct LightUpExample {
+  build() {
+    Stack() {
+      Text('This is the text content with letterSpacing 0.')
+        .letterSpacing(0)
+        .fontSize(12)
+        .border({ width: 1 })
+        .padding(10)
+        .width('50%')
+        .lightUpEffect(0.6)
+    }.alignContent(Alignment.Center).width("100%").height("100%")
+  }
+}
+
+```
+
+Below is how the component looks with the light up effect applied.
+
+![textLightUp3](figures/textLightUp3.png)
+
+Below is how the component looks with **lightUpEffect** set to **0.2**:
+
+![textLightUp2](figures/textLightUp2.png)
+
+Below is how the component looks without the light up effect applied.
+
+![textLightUp1](figures/textLightUp1.png)
+
+### Example 9: Applying a Pixel Stretch Effect to a Component
+
+This example demonstrates how to apply a pixel stretch effect to a component using [pixelStretchEffect](#pixelstretcheffect12).
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct PixelStretchExample {
+  build() {
+    Stack() {
+      Text('This is the text content with letterSpacing 0.')
+        .letterSpacing(0)
+        .fontSize(12)
+        .border({ width: 1 })
+        .padding(10)
+        .clip(false)
+        .width('50%')
+        .pixelStretchEffect({
+          top: 10,
+          left: 10,
+          right: 10,
+          bottom: 10
+        })
+    }.alignContent(Alignment.Center).width("100%").height("100%")
+  }
+}
+```
+
+Below is how the component looks with the pixel stretch effect applied.
+
+![textPixelStretch1](figures/textPixelStretch1.png)
+
+Below is how the component looks without the pixel stretch effect applied.
+
+![textPixelStretch2](figures/textPixelStretch2.png)
+
+
+### Example 10: Applying a System Bar Effect to a Component
+
+This example demonstrates how to apply a system bar effect to a component using [systemBarEffect](#systembareffect12).
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct Index {
+  build() {
+    Column() {
+      Stack() {
+        // Replace $r("app.media.testImage") with the image resource file you use.
+        Image($r('app.media.testImage')).width('100%').height('100%')
+        Column()
+          .width(150)
+          .height(10)
+          .systemBarEffect()
+          .border({ radius: 5 })
+          .margin({ bottom: 80 })
+      }.alignContent(Alignment.Center)
+    }
+  }
+}
+```
+
+Below is how the component looks with the system bar effect applied.
+
+![systemBarEffect](figures/systemBarEffect.png)

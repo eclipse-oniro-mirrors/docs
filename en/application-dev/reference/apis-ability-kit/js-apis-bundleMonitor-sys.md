@@ -1,0 +1,150 @@
+# @ohos.bundle.bundleMonitor (bundleMonitor Module) (System API)
+<!--Kit: Ability Kit-->
+<!--Subsystem: BundleManager-->
+<!--Owner: @wanghang904-->
+<!--Designer: @hanfeng6-->
+<!--Tester: @kongjing2-->
+<!--Adviser: @Brilliantry_Rui-->
+
+The module provides APIs for listening for bundle installation, uninstall, and updates.
+
+> **NOTE**
+>
+> The initial APIs of this module are supported since API version 9. Newly added APIs will be marked with a superscript to indicate their earliest API version.
+>
+> The APIs provided by this module are system APIs.
+
+## Modules to Import
+
+```ts
+import { bundleMonitor } from '@kit.AbilityKit';
+```
+
+## BundleChangedInfo
+
+**System capability**: SystemCapability.BundleManager.BundleFramework.Core
+
+**System API**: This is a system API.
+
+| Name      | Type  | Read-Only| Optional| Description                      |
+| ---------- | ------ | ---- | ---- | -------------------------- |
+| bundleName | string | Yes  | No  | Name of the bundle whose status changes.|
+| userId     | number | Yes  | No  | ID of the user for whom the bundle status changes. You can obtain the ID by calling [getOsAccountLocalId](../apis-basic-services-kit/js-apis-osAccount.md#getosaccountlocalid9).  |
+| appIndex<sup>12+</sup>   | number | Yes  | No  |  Index of the application clone whose status changes. |
+
+## BundleChangedEvent
+
+type BundleChangedEvent = 'add' | 'update' | 'remove'
+
+Enumerates the types of events to listen for.
+
+The value type is one of the types listed in the table below.
+
+**System capability**: SystemCapability.BundleManager.BundleFramework.Core
+
+**System API**: This is a system API.
+
+| Type      | Description                                     |
+| ---------- | ----------------------------------------- |
+| 'add'      | To subscribe to bundle installation events, the value is fixed at **'add'**.     |
+| 'update'   | To subscribe to bundle update events, the value is fixed at **'update'**.  |
+| 'remove'   | To subscribe to bundle removal events, the value is fixed at **'remove'**.  |
+
+## bundleMonitor.on
+
+on(type: BundleChangedEvent, callback: Callback\<BundleChangedInfo>): void
+
+Subscribes to bundle installation, uninstall, and update events. This API uses an asynchronous callback to return the result.
+>**NOTE**
+>
+>This API must be used together with [bundleMonitor.off](#bundlemonitoroff). When the lifecycle of a component, page, or application ends, use [bundleMonitor.off](#bundlemonitoroff) to unsubscribe from the bundle installation, uninstall, and update events.
+
+**Required permissions**: ohos.permission.LISTEN_BUNDLE_CHANGE
+
+**System API**: This is a system API.
+
+**System capability**: SystemCapability.BundleManager.BundleFramework.Core
+
+**Parameters**
+
+| Name                      | Type    | Mandatory| Description              |
+| ---------------------------- | -------- | ---- | ------------------ |
+| type| [BundleChangedEvent](js-apis-bundleMonitor-sys.md#bundlechangedevent)| Yes  | Type of the event to subscribe to.|
+| callback | callback\<BundleChangedInfo>| Yes  | [Callback](../apis-basic-services-kit/js-apis-base.md#callback) used to return the result. If the operation is successful, **err** is **null** and **data** is the bundle change information obtained. Otherwise, **err** is an error object.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md).
+
+| ID| Error Message                           |
+| -------- | --------------------------------------|
+| 201 | Verify permission denied. |
+| 202 | Permission denied, non-system app called system api. |
+| 401 | Parameter error. Possible causes: 1. Mandatory parameters are left unspecified; 2. Incorrect parameter types.|
+
+**Example**
+
+```ts
+import { bundleMonitor } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let callbackFun = (bundleChangeInfo: bundleMonitor.BundleChangedInfo) => {
+  console.info(`bundleName : ${bundleChangeInfo.bundleName} userId : ${bundleChangeInfo.userId}`);
+};
+try {
+  bundleMonitor.on('add', callbackFun);
+} catch (errData) {
+  let message = (errData as BusinessError).message;
+  let errCode = (errData as BusinessError).code;
+  console.error(`errData is errCode:${errCode}  message:${message}`);
+}
+```
+
+## bundleMonitor.off
+
+off(type: BundleChangedEvent, callback?: Callback\<BundleChangedInfo>): void
+
+Unsubscribes from bundle installation, uninstall, and update events. This API uses an asynchronous callback to return the result.
+
+**Required permissions**: ohos.permission.LISTEN_BUNDLE_CHANGE
+
+**System API**: This is a system API.
+
+**System capability**: SystemCapability.BundleManager.BundleFramework.Core
+
+**Parameters**
+
+| Name                      | Type    | Mandatory| Description                                                      |
+| ---------------------------- | -------- | ---- | ---------------------------------------------------------- |
+| type| [BundleChangedEvent](js-apis-bundleMonitor-sys.md#bundlechangedevent)| Yes  | Type of the event to unsubscribe from.                                        |
+| callback | callback\<BundleChangedInfo>| No  | [Callback](../apis-basic-services-kit/js-apis-base.md#callback) used to return the result. If the operation is successful, **err** is **null** and **data** is the bundle change information obtained. Otherwise, **err** is an error object.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md).
+
+| ID| Error Message                           |
+| -------- | --------------------------------------|
+| 201 | Verify permission denied. |
+| 202 | Permission denied, non-system app called system api. |
+| 401 | Parameter error. Possible causes: 1. Mandatory parameters are left unspecified; 2. Incorrect parameter types.|
+
+**Example**
+
+```ts
+import { bundleMonitor } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+// The variable in this API must be the same as that in bundleMonitor.on. Otherwise, the callback cannot be unsubscribed from.
+let callbackFun = (bundleChangeInfo: bundleMonitor.BundleChangedInfo) => {
+  console.info(`bundleName : ${bundleChangeInfo.bundleName} userId : ${bundleChangeInfo.userId}`);
+};
+
+try {
+  bundleMonitor.off('add', callbackFun);
+} catch (errData) {
+  let message = (errData as BusinessError).message;
+  let errCode = (errData as BusinessError).code;
+  console.error(`errData is errCode:${errCode}  message:${message}`);
+}
+```

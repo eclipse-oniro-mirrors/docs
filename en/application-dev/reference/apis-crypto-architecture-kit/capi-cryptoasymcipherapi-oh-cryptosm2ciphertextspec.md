@@ -1,0 +1,22 @@
+# OH_CryptoSm2CiphertextSpec
+
+<!--Kit: Crypto Architecture Kit-->
+<!--Subsystem: Security-->
+<!--Owner: @zxz--3-->
+<!--Designer: @lanming-->
+<!--Tester: @PAFT-->
+<!--Adviser: @zengyawen-->
+
+```c
+typedef struct OH_CryptoSm2CiphertextSpec OH_CryptoSm2CiphertextSpec
+```
+
+## Overview
+
+Defines a struct for SM2 ciphertext specifications.
+
+**Since**: 20
+
+**Related module**: [CryptoAsymCipherApi](capi-cryptoasymcipherapi.md)
+
+**Header file:** [crypto_asym_cipher.h](capi-crypto-asym-cipher-h.md)

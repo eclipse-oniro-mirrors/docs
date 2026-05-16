@@ -1,0 +1,1287 @@
+# native_avscreen_capture.h
+<!--Kit: Media Kit-->
+<!--Subsystem: Multimedia-->
+<!--Owner: @zzs_911-->
+<!--Designer: @stupig001-->
+<!--Tester: @xdlinc-->
+<!--Adviser: @w_Machine_cc-->
+
+## Overview
+
+The file declares the APIs used to create an OH_AVScreenCapture instance.
+
+**File to include**: <multimedia/player_framework/native_avscreen_capture.h>
+
+**Library**: libnative_avscreen_capture.so
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Related module**: [AVScreenCapture](capi-avscreencapture.md)
+
+ 
+
+## Summary
+
+### Functions
+
+<!--Table: 50%; 50% -->
+| Name| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture *OH_AVScreenCapture_Create(void)](#oh_avscreencapture_create) | Creates an OH_AVScreenCapture instance.<br> You can release the instance by calling [OH_AVScreenCapture_Release](#oh_avscreencapture_release).|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_Init(struct OH_AVScreenCapture *capture, OH_AVScreenCaptureConfig config)](#oh_avscreencapture_init) | Initializes parameters related to an [OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) instance, including audio sampling parameters for external capture using microphones (optional), audio sampling parameters for internal capture, and video resolution parameters.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StartScreenCapture(struct OH_AVScreenCapture *capture)](#oh_avscreencapture_startscreencapture) | Starts screen capture and collects original streams.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StopScreenCapture(struct OH_AVScreenCapture *capture)](#oh_avscreencapture_stopscreencapture) | Stops screen capture. This function is used in pair with [OH_AVScreenCapture_StartScreenCapture](#oh_avscreencapture_startscreencapture). After calling this function, the application stops screen capture or screen share and releases the microphone.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StartScreenRecording(struct OH_AVScreenCapture *capture)](#oh_avscreencapture_startscreenrecording) | Starts screen recording, with recordings saved in files.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StopScreenRecording(struct OH_AVScreenCapture *capture)](#oh_avscreencapture_stopscreenrecording) | Stops screen recording. This function is used in pair with [OH_AVScreenCapture_StartScreenRecording](#oh_avscreencapture_startscreenrecording).|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_AcquireAudioBuffer(struct OH_AVScreenCapture *capture, OH_AudioBuffer **audiobuffer, OH_AudioCaptureSourceType type)](#oh_avscreencapture_acquireaudiobuffer) | Obtains an audio buffer. When calling this function, the application must allocate the memory of the corresponding struct size to the audio buffer.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) instead.|
+| [OH_NativeBuffer* OH_AVScreenCapture_AcquireVideoBuffer(struct OH_AVScreenCapture *capture, int32_t *fence, int64_t *timestamp, struct OH_Rect *region)](#oh_avscreencapture_acquirevideobuffer) | Obtains a video buffer. The application can call this function to obtain information such as the video buffer and timestamp.<br> When a video buffer is no longer needed, call **OH_AVScreenCapture_ReleaseVideoBuffer** to release it.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) instead.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ReleaseAudioBuffer(struct OH_AVScreenCapture *capture, OH_AudioCaptureSourceType type)](#oh_avscreencapture_releaseaudiobuffer) | Releases an audio buffer. When an audio buffer is no longer needed, call this function to release it.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) instead.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ReleaseVideoBuffer(struct OH_AVScreenCapture *capture)](#oh_avscreencapture_releasevideobuffer) | Releases a video buffer. When a video buffer is no longer needed, call this function to release it.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) instead.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCallback(struct OH_AVScreenCapture *capture, struct OH_AVScreenCaptureCallback callback)](#oh_avscreencapture_setcallback) | Sets a callback to listen for available video buffers and audio buffers and errors that occur during the function calling.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_SetErrorCallback](#oh_avscreencapture_seterrorcallback) and [OH_AVScreenCapture_SetDataCallback](#oh_avscreencapture_setdatacallback) instead.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_Release(struct OH_AVScreenCapture *capture)](#oh_avscreencapture_release) | Releases an OH_AVScreenCapture instance. This function is used in pair with [OH_AVScreenCapture_Create](#oh_avscreencapture_create).|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetMicrophoneEnabled(struct OH_AVScreenCapture *capture, bool isMicrophone)](#oh_avscreencapture_setmicrophoneenabled) | Enables or disables the microphone.<br> When **isMicrophone** is set to **true**, the microphone is enabled, and the original PCM data of the microphone can be obtained by calling [OH_AVScreenCapture_StartScreenCapture](#oh_avscreencapture_startscreencapture) and [OH_AVScreenCapture_AcquireAudioBuffer](#oh_avscreencapture_acquireaudiobuffer). When **isMicrophone** is set to **false**, the obtained audio data is silent data.<br> By default, the microphone is enabled.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetStateCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnStateChange callback, void *userData)](#oh_avscreencapture_setstatecallback) | Sets a state change callback. This function must be called before screen capture starts.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetDataCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnBufferAvailable callback, void *userData)](#oh_avscreencapture_setdatacallback) | Sets a data processing callback. This function must be called before screen capture starts.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetErrorCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnError callback, void *userData)](#oh_avscreencapture_seterrorcallback) | Sets an error processing callback. This function must be called before screen capture starts.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StartScreenCaptureWithSurface(struct OH_AVScreenCapture *capture, OHNativeWindow *window)](#oh_avscreencapture_startscreencapturewithsurface) | Starts screen capture in surface mode.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCanvasRotation(struct OH_AVScreenCapture *capture, bool canvasRotation)](#oh_avscreencapture_setcanvasrotation) | Sets whether the captured screen data should rotate.<br> When **canvasRotation** is set to **true**, rotation is enabled and the captured screen data remains upright.<br> The default value is **false**.|
+| [struct OH_AVScreenCapture_ContentFilter *OH_AVScreenCapture_CreateContentFilter(void)](#oh_avscreencapture_createcontentfilter) | Creates a content filter.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ReleaseContentFilter(struct OH_AVScreenCapture_ContentFilter *filter)](#oh_avscreencapture_releasecontentfilter) | Releases a content filter.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ContentFilter_AddAudioContent(struct OH_AVScreenCapture_ContentFilter *filter, OH_AVScreenCaptureFilterableAudioContent content)](#oh_avscreencapture_contentfilter_addaudiocontent) | Adds audio content to a content filter.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ExcludeContent(struct OH_AVScreenCapture *capture, struct OH_AVScreenCapture_ContentFilter *filter)](#oh_avscreencapture_excludecontent) | Sets a content filter for an OH_AVScreenCapture instance.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ContentFilter_AddWindowContent(struct OH_AVScreenCapture_ContentFilter *filter, int32_t *windowIDs, int32_t windowCount)](#oh_avscreencapture_contentfilter_addwindowcontent) | Adds a list of window IDs to a ContentFilter instance.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ResizeCanvas(struct OH_AVScreenCapture *capture, int32_t width, int32_t height)](#oh_avscreencapture_resizecanvas) | Adjusts the screen resolution.<br> This function is used to set the resolution of screen capture data. **width** indicates the screen width and **height** indicates the screen height.<br> Currently, this function supports only the scenario of capturing streams, but not the scenario of storing captured files. In addition, the caller of this function and the video data consumer must ensure that they support resolution changes of the received video data.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SkipPrivacyMode(struct OH_AVScreenCapture *capture, int32_t *windowIDs, int32_t windowCount)](#oh_avscreencapture_skipprivacymode) | Exempts privacy windows during screen capture.<br> Currently, all the IDs of the subwindows and main windows to skip must be passed in.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetMaxVideoFrameRate(struct OH_AVScreenCapture *capture, int32_t frameRate)](#oh_avscreencapture_setmaxvideoframerate) | Sets the maximum frame rate for screen capture.<br> This function must be called after screen capture starts.<br>  <br> The maximum frame rate that can be configured is subject to the device's limitations and is ultimately governed by the capabilities of the underlying system.<br>  Although there is no limit on the maximum value of the input parameter, the maximum frame rate supported is 60 FPS. If the input parameter value exceeds 60 FPS, 60 FPS is used. If the value does not exceed the upper limit, the passed value is used.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ShowCursor(struct OH_AVScreenCapture *capture, bool showCursor)](#oh_avscreencapture_showcursor) | Sets whether to show the cursor.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetDisplayCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnDisplaySelected callback, void *userData)](#oh_avscreencapture_setdisplaycallback) | Sets a callback function for obtaining the display ID.|
+| [OH_AVScreenCapture_CaptureStrategy* OH_AVScreenCapture_CreateCaptureStrategy(void)](#oh_avscreencapture_createcapturestrategy) | Creates a screen capture strategy.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ReleaseCaptureStrategy(OH_AVScreenCapture_CaptureStrategy* strategy)](#oh_avscreencapture_releasecapturestrategy) | Releases a screen capture strategy.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCaptureStrategy(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_CaptureStrategy *strategy)](#oh_avscreencapture_setcapturestrategy) | Sets a screen capture strategy for an OH_AVScreenCapture instance.<br> This function must be called before screen capture starts.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForCanvasFollowRotation(OH_AVScreenCapture_CaptureStrategy *strategy, bool value)](#oh_avscreencapture_strategyforcanvasfollowrotation) | Sets the automatic rotation following configuration for screen capture. If the value is set to **true**, the screen capture follows the rotation, and the virtual screen size is automatically adjusted after a rotation to ensure the output image matches the new orientation.<br> After this setting, there is no need to manually call [OH_AVScreenCapture_ResizeCanvas](#oh_avscreencapture_resizecanvas) after rotation notifications.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForKeepCaptureDuringCall(OH_AVScreenCapture_CaptureStrategy *strategy, bool value)](#oh_avscreencapture_strategyforkeepcaptureduringcall) | Sets whether to keep screen capture during a cellular call.<br> When **value** is set to **true** and screen capture is active during a cellular call, for privacy reasons, the voices of both parties (local microphone and remote speaker) are not captured. Other system sounds are captured normally. After the call ends, the screen capture framework resumes microphone recording. If the screen capture application is running in the background when the call ends, microphone recording fails to start because the audio module does not allow background applications to activate microphone recording.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCaptureContentChangedCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnCaptureContentChanged callback, void *userData)](#oh_avscreencapture_setcapturecontentchangedcallback) | Sets the callback for screen capture content changes. This function must be called before screen capture starts.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCaptureArea(struct OH_AVScreenCapture \*capture, uint64_t displayId, OH_Rect\* area)](#oh_avscreencapture_setcapturearea) | Sets or updates the capture area.<br> This function can be called before or after screen capture starts. The coordinates and dimensions provided must be non-negative, and the capture area must not span multiple screens. If setting the area fails, the previously set area is used for capturing.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForPrivacyMaskMode(OH_AVScreenCapture_CaptureStrategy *strategy, int32_t value)](#oh_avscreencapture_strategyforprivacymaskmode) | Sets the privacy window masking mode.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetSelectionCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnUserSelected callback, void *userData)](#oh_avscreencapture_setselectioncallback) | Registers a callback to handle user selection results on the manual confirmation UI. This callback must be invoked before screen capture starts.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_GetCaptureTypeSelected(OH_AVScreenCapture_UserSelectionInfo \*selection, int32_t\* type)](#oh_avscreencapture_getcapturetypeselected) | Obtains the screen capture object type selected by the user on the confirmation UI. This function is used in the [OH_AVScreenCapture_OnUserSelected](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onuserselected) callback. The **selection** pointer is destroyed after the callback is complete.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_GetDisplayIdSelected(OH_AVScreenCapture_UserSelectionInfo \*selection, uint64_t\* displayId)](#oh_avscreencapture_getdisplayidselected) | Obtains the display ID of the screen selected by the user for capture. This function is used in the [OH_AVScreenCapture_OnUserSelected](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onuserselected) callback. The **selection** pointer is destroyed after the callback is complete.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForBFramesEncoding(OH_AVScreenCapture_CaptureStrategy *strategy, bool value)](#oh_avscreencapture_strategyforbframesencoding) | Sets whether to enable B-frame encoding for a CaptureStrategy instance to reduce the size of the recorded file.<br> For details about the restrictions on B-frame video encoding, see [Constraints in B-Frame Video Encoding](../../media/avcodec/video-encoding-b-frame.md#constraints). If the current environment does not meet the restrictions, B-frames will be skipped during screen capture, and no error will be returned.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForPickerPopUp(OH_AVScreenCapture_CaptureStrategy *strategy, bool value)](#oh_avscreencapture_strategyforpickerpopup) | Sets whether to display the screen capture picker.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForFillMode(OH_AVScreenCapture_CaptureStrategy *strategy, OH_AVScreenCapture_FillMode mode)](#oh_avscreencapture_strategyforfillmode) | Sets the fill mode of the captured image in the target region.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_PresentPicker(struct OH_AVScreenCapture *capture)](#oh_avscreencapture_presentpicker) | Displays the picker once more after the screen capture starts, allowing for dynamic updates to the recording source, such as changing the window or screen being captured. The ongoing capture process remains uninterrupted while updating the recording source.<br> Following the dynamic update of the recording source through the picker, the capture can proceed with the newly selected source.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCaptureAreaHighlight(struct OH_AVScreenCapture *capture, OH_AVScreenCaptureHighlightConfig config)](#oh_avscreencapture_setcaptureareahighlight) | Sets the highlight style for the screen capture area.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetPickerMode(struct OH_AVScreenCapture *capture, OH_CapturePickerMode pickerMode)](#oh_avscreencapture_setpickermode) | Sets the display mode of the picker. You can define the content type displayed in the picker. The mode change takes effect when [OH_AVScreenCapture_PresentPicker](#oh_avscreencapture_presentpicker) is called next time.|
+| [OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ExcludePickerWindows(struct OH_AVScreenCapture *capture, const int32_t *excludedWindowIDs, uint32_t windowCount)](#oh_avscreencapture_excludepickerwindows) | Hides the specified window in the picker. This function is called before the picker is displayed. It is to filter and hide a window.|
+
+## Function Description
+
+### OH_AVScreenCapture_Create()
+
+```c
+struct OH_AVScreenCapture *OH_AVScreenCapture_Create(void)
+```
+
+**Description**
+
+Creates an OH_AVScreenCapture instance.<br> You can release the instance by calling [OH_AVScreenCapture_Release](#oh_avscreencapture_release).
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) * | Pointer to the OH_AVScreenCapture instance.|
+
+### OH_AVScreenCapture_Init()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_Init(struct OH_AVScreenCapture *capture, OH_AVScreenCaptureConfig config)
+```
+
+**Description**
+
+Initializes parameters related to an [OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) instance, including audio sampling parameters for external capture using microphones (optional), audio sampling parameters for internal capture, and video resolution parameters.<br> In the scenario where screen recording files are stored, the application must ensure that the video encoding parameters, video sampling parameters, audio encoding parameters, audio sampling parameters for internal capture, and audio sampling parameters for external capture using microphones (optional) are valid.<br> In the scenario where screen capture streams are generated, the application must ensure that either audio sampling parameters for internal capture or video sampling parameters are valid, or both are valid, and audio sampling parameters for external capture using microphones are valid (optional).<br> The members of the struct variables are not initialized during initialization. Therefore, the application must correctly set the parameters based on the use scenario. You are advised to set all memory bytes of the OH_AVScreenCaptureConfig struct variables to **0**, and then set valid parameters based on the screen capture scenario.<br> If both **audioSampleRate** and **audioChannels** in the [OH_AudioCaptureInfo](capi-avscreencapture-oh-audiocaptureinfo.md) struct are **0**, the OH_AVScreenCapture instance ignores the corresponding audio parameters and does not collect the audio data.<br> If both **videoFrameWidth** and **videoFrameHeight** in the [OH_VideoCaptureInfo](capi-avscreencapture-oh-videocaptureinfo.md) struct are **0**, the OH_AVScreenCapture instance ignores the corresponding video parameters and does not collect the screen data.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AVScreenCaptureConfig](capi-avscreencapture-oh-avscreencaptureconfig.md) config | Parameters related to screen capture initialization.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The configuration fails to be initialized.|
+
+### OH_AVScreenCapture_StartScreenCapture()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StartScreenCapture(struct OH_AVScreenCapture *capture)
+```
+
+**Description**
+
+Starts screen capture and collects original streams.<br> After this function is called, the callback [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) can be used to check whether streams are generated, and the callback [OH_AVScreenCapture_OnStateChange](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onstatechange) can be used to check the startup status.<br> The application can obtain the original streams of screen capture by calling [OH_AVScreenCapture_AcquireAudioBuffer](#oh_avscreencapture_acquireaudiobuffer) and [OH_AVScreenCapture_AcquireVideoBuffer](#oh_avscreencapture_acquirevideobuffer).
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_UNSUPPORT** (available since API version 20): The device does not support the operation.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The privacy permission fails to be enabled or screen capture fails to start.|
+
+### OH_AVScreenCapture_StopScreenCapture()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StopScreenCapture(struct OH_AVScreenCapture *capture)
+```
+
+**Description**
+
+Stops screen capture. This function is used in pair with [OH_AVScreenCapture_StartScreenCapture](#oh_avscreencapture_startscreencapture). After calling this function, the application stops screen capture or screen share and releases the microphone.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. Screen capture fails to stop.|
+
+### OH_AVScreenCapture_StartScreenRecording()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StartScreenRecording(struct OH_AVScreenCapture *capture)
+```
+
+**Description**
+
+Starts screen recording, with recordings saved in files.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_UNSUPPORT** (available since API version 20): The device does not support the operation.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The privacy permission fails to be enabled or screen capture fails to start.|
+
+### OH_AVScreenCapture_StopScreenRecording()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StopScreenRecording(struct OH_AVScreenCapture *capture)
+```
+
+**Description**
+
+Stops screen recording. This function is used in pair with [OH_AVScreenCapture_StartScreenRecording](#oh_avscreencapture_startscreenrecording).
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. Screen capture fails to stop.|
+
+### OH_AVScreenCapture_AcquireAudioBuffer()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_AcquireAudioBuffer(struct OH_AVScreenCapture *capture, OH_AudioBuffer **audiobuffer, OH_AudioCaptureSourceType type)
+```
+
+**Description**
+
+Obtains an audio buffer. When calling this function, the application must allocate the memory of the corresponding struct size to the audio buffer.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) instead.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AudioBuffer](capi-avscreencapture-oh-audiobuffer.md) **audiobuffer | Pointer to the struct for storing the audio buffer. This struct is used to obtain the information about the audio buffer and the timestamp of the buffer.|
+| [OH_AudioCaptureSourceType](capi-native-avscreen-capture-base-h.md#oh_audiocapturesourcetype) type | Type of the audio buffer, which is used to distinguish external streams recorded by the microphone from internal streams played by the system.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** or **audiobuffer** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_NO_MEMORY**: The audio buffer fails to be allocated due to insufficient memory.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The privacy permission fails to be enabled or the audio buffer fails to be obtained.|
+
+### OH_AVScreenCapture_AcquireVideoBuffer()
+
+```c
+OH_NativeBuffer* OH_AVScreenCapture_AcquireVideoBuffer(struct OH_AVScreenCapture *capture, int32_t *fence, int64_t *timestamp, struct OH_Rect *region)
+```
+
+**Description**
+
+Obtains a video buffer. The application can call this function to obtain information such as the video buffer and timestamp.<br> When a video buffer is no longer needed, call **OH_AVScreenCapture_ReleaseVideoBuffer** to release it.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) instead.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| int32_t *fence | Pointer to parameters for synchronization display.|
+| int64_t *timestamp | Pointer to the timestamp of the video frame.|
+| [struct OH_Rect](capi-avscreencapture-oh-rect.md) *region | Pointer to the coordinates related to video display.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_NativeBuffer](capi-avscreencapture-avscreencapture-oh-nativebuffer.md)* | OH_NativeBuffer object if the operation is successful. The application can call the APIs provided by the OH_NativeBuffer object to obtain information such as the video buffer and resolution.|
+
+### OH_AVScreenCapture_ReleaseAudioBuffer()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ReleaseAudioBuffer(struct OH_AVScreenCapture *capture, OH_AudioCaptureSourceType type)
+```
+
+**Description**
+
+Releases an audio buffer. When an audio buffer is no longer needed, call this function to release it.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) instead.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AudioCaptureSourceType](capi-native-avscreen-capture-base-h.md#oh_audiocapturesourcetype) type | Type of the audio buffer, which is used to distinguish external streams recorded by the microphone from internal streams played by the system.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The data callback has been set or the audio buffer fails to be released.|
+
+### OH_AVScreenCapture_ReleaseVideoBuffer()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ReleaseVideoBuffer(struct OH_AVScreenCapture *capture)
+```
+
+**Description**
+
+Releases a video buffer. When a video buffer is no longer needed, call this function to release it.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) instead.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The data callback has been set or the video buffer fails to be released.|
+
+### OH_AVScreenCapture_SetCallback()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCallback(struct OH_AVScreenCapture *capture, struct OH_AVScreenCaptureCallback callback)
+```
+
+**Description**
+
+Sets a callback to listen for available video buffers and audio buffers and errors that occur during the function calling.<br> Starting from API version 12, you are advised to use [OH_AVScreenCapture_SetErrorCallback](#oh_avscreencapture_seterrorcallback) and [OH_AVScreenCapture_SetDataCallback](#oh_avscreencapture_setdatacallback) instead.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [struct OH_AVScreenCaptureCallback](capi-avscreencapture-oh-avscreencapturecallback.md) callback | OH_AVScreenCaptureCallback struct, which stores related callback function pointers.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** or **callback** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The callback fails to be set.|
+
+### OH_AVScreenCapture_Release()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_Release(struct OH_AVScreenCapture *capture)
+```
+
+**Description**
+
+Releases an OH_AVScreenCapture instance. This function is used in pair with [OH_AVScreenCapture_Create](#oh_avscreencapture_create).
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The OH_AVScreenCapture instance fails to be released.|
+
+### OH_AVScreenCapture_SetMicrophoneEnabled()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetMicrophoneEnabled(struct OH_AVScreenCapture *capture, bool isMicrophone)
+```
+
+**Description**
+
+Enables or disables the microphone.<br> When **isMicrophone** is set to **true**, the microphone is enabled, and the original PCM data of the microphone can be obtained by calling [OH_AVScreenCapture_StartScreenCapture](#oh_avscreencapture_startscreencapture) and [OH_AVScreenCapture_AcquireAudioBuffer](#oh_avscreencapture_acquireaudiobuffer). When **isMicrophone** is set to **false**, the obtained audio data is silent data.<br> By default, the microphone is enabled.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 10
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| bool isMicrophone | Whether to enable the microphone.<br> **true** to enable, **false** to disable.<br> The default value is **true**.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The microphone fails to be enabled or disabled.|
+
+### OH_AVScreenCapture_SetStateCallback()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetStateCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnStateChange callback, void *userData)
+```
+
+**Description**
+
+Sets a state change callback. This function must be called before screen capture starts.<br> The callback is triggered when the state changes during the running of an OH_AVScreenCapture instance.<br> A privacy dialog box is displayed to ask for user consent before screen capture starts. After a successful call to this function, the following scenarios are possible:<br> 1. If the user agrees, the screen capture startup process starts. If screen capture starts successfully, the state change callback is triggered to report the [OH_AVScreenCaptureStateCode](capi-native-avscreen-capture-base-h.md#oh_avscreencapturestatecode).OH_SCREEN_CAPTURE_STATE_STARTED status to notify the application of the startup success, with a screen capture notification displayed. If screen capture fails to start, the state change callback is triggered to report the failure information (for example, [OH_AVScreenCaptureStateCode](capi-native-avscreen-capture-base-h.md#oh_avscreencapturestatecode).OH_SCREEN_CAPTURE_STATE_MIC_UNAVAILABLE if the microphone is unavailable), or the error processing callback [OH_AVScreenCapture_OnError](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onerror) is triggered to report the error information.<br> 2. If the user disagrees, the screen capture startup process stops. The state change callback is triggered to report the [OH_AVScreenCaptureStateCode](capi-native-avscreen-capture-base-h.md#oh_avscreencapturestatecode).OH_SCREEN_CAPTURE_STATE_CANCELED status to notify the application of the startup failure due to user rejection.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AVScreenCapture_OnStateChange](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onstatechange) callback | State change callback.|
+| void *userData | Pointer to the user-defined data. The data is returned as an input parameter when the state change callback is triggered.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** or **callback** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_NO_MEMORY**: The memory fails to be allocated due to insufficient memory.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The state callback fails to be set.|
+
+### OH_AVScreenCapture_SetDataCallback()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetDataCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnBufferAvailable callback, void *userData)
+```
+
+**Description**
+
+Sets a data processing callback. This function must be called before screen capture starts.<br> The callback is triggered when an audio buffer or a video buffer becomes available during the running of an OH_AVScreenCapture instance.<br> The application needs to process microphone audio, internal audio, and video data based on the data type in the callback. After the callback is triggered, the buffer is no longer valid.<br> A successful call to this function leads to the following scenarios:<br> 1. The callbacks [OH_AVScreenCaptureOnAudioBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencaptureonaudiobufferavailable) and [OH_AVScreenCaptureOnVideoBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencaptureonvideobufferavailable) set by calling [OH_AVScreenCapture_SetCallback](#oh_avscreencapture_setcallback) will no longer be triggered, even when an audio buffer or a video buffer becomes available.<br> 2. A failure message is returned for a call to any of the following functions: [OH_AVScreenCapture_AcquireAudioBuffer](#oh_avscreencapture_acquireaudiobuffer), [OH_AVScreenCapture_ReleaseAudioBuffer](#oh_avscreencapture_releaseaudiobuffer), [OH_AVScreenCapture_AcquireVideoBuffer](#oh_avscreencapture_acquirevideobuffer), and [OH_AVScreenCapture_ReleaseVideoBuffer](#oh_avscreencapture_releasevideobuffer).
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AVScreenCapture_OnBufferAvailable](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onbufferavailable) callback | Data processing callback.|
+| void *userData | Pointer to the user-defined data. The data is returned as an input parameter when the data processing callback is triggered.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** or **callback** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_NO_MEMORY**: The memory fails to be allocated due to insufficient memory.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The data callback fails to be set.|
+
+### OH_AVScreenCapture_SetErrorCallback()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetErrorCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnError callback, void *userData)
+```
+
+**Description**
+
+Sets an error processing callback. This function must be called before screen capture starts.<br> The callback is triggered when an error occurs during the running of an OH_AVScreenCapture instance.<br> After a successful call to this function, the callback [OH_AVScreenCaptureOnError](capi-native-avscreen-capture-base-h.md#oh_avscreencaptureonerror) set by calling [OH_AVScreenCapture_SetCallback](#oh_avscreencapture_setcallback) will no longer be triggered, even when an error occurs in the OH_AVScreenCapture instance.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AVScreenCapture_OnError](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onerror) callback | Error processing callback.|
+| void *userData | Pointer to the user-defined data. The data is returned as an input parameter when the error processing callback is triggered.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** or **callback** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_NO_MEMORY**: The memory fails to be allocated due to insufficient memory.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The error callback fails to be set.|
+
+### OH_AVScreenCapture_StartScreenCaptureWithSurface()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StartScreenCaptureWithSurface(struct OH_AVScreenCapture *capture, OHNativeWindow *window)
+```
+
+**Description**
+
+Starts screen capture in surface mode.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OHNativeWindow](../apis-arkgraphics2d/capi-nativewindow-nativewindow.md) *window | Pointer to the OHNativeWindow instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture**, input parameter **window**, or **windowSurface** pointed to by **window** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_UNSUPPORT** (available since API version 20): The device does not support the operation.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The privacy permission fails to be enabled or screen capture with a surface fails to start.|
+
+### OH_AVScreenCapture_SetCanvasRotation()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCanvasRotation(struct OH_AVScreenCapture *capture, bool canvasRotation)
+```
+
+**Description**
+
+Sets whether the captured screen data should rotate.<br> When **canvasRotation** is set to **true**, rotation is enabled and the captured screen data remains upright.<br> The default value is **false**.
+
+> **NOTE**
+>
+> Since API version 20, foldable PCs/2-in-1 devices are supported.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| bool canvasRotation | Whether to enable rotation for the captured screen data.<br> The value **true** means to enable rotation, keeping the screen data upright regardless of the device's orientation. The value **false** means to disable rotation, allowing the screen data to rotate along with the device's orientation.<br> The default value is **false**.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_UNSUPPORT** (available since API version 20): The device does not support the operation.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. Canvas rotation fails to be set for screen capture.|
+
+### OH_AVScreenCapture_CreateContentFilter()
+
+```c
+struct OH_AVScreenCapture_ContentFilter *OH_AVScreenCapture_CreateContentFilter(void)
+```
+
+**Description**
+
+Creates a content filter.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| struct [OH_AVScreenCapture_ContentFilter](capi-avscreencapture-oh-avscreencapture-contentfilter.md) * | OH_AVScreenCapture_ContentFilter instance if the operation is successful; nullptr otherwise.|
+
+### OH_AVScreenCapture_ReleaseContentFilter()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ReleaseContentFilter(struct OH_AVScreenCapture_ContentFilter *filter)
+```
+
+**Description**
+
+Releases a content filter.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture_ContentFilter](capi-avscreencapture-oh-avscreencapture-contentfilter.md) *filter | Pointer to the OH_AVScreenCapture_ContentFilter instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **filter** is nullptr.|
+
+### OH_AVScreenCapture_ContentFilter_AddAudioContent()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ContentFilter_AddAudioContent(struct OH_AVScreenCapture_ContentFilter *filter, OH_AVScreenCaptureFilterableAudioContent content)
+```
+
+**Description**
+
+Adds audio content to a content filter.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture_ContentFilter](capi-avscreencapture-oh-avscreencapture-contentfilter.md) *filter | Pointer to the OH_AVScreenCapture_ContentFilter instance.|
+| [OH_AVScreenCaptureFilterableAudioContent](capi-native-avscreen-capture-base-h.md#oh_avscreencapturefilterableaudiocontent) content | Pointer to the OH_AVScreenCaptureFilterableAudioContent instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **filter** is nullptr or the input parameter **content** is invalid.|
+
+### OH_AVScreenCapture_ExcludeContent()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ExcludeContent(struct OH_AVScreenCapture *capture, struct OH_AVScreenCapture_ContentFilter *filter)
+```
+
+**Description**
+
+Sets a content filter for an OH_AVScreenCapture instance.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [struct OH_AVScreenCapture_ContentFilter](capi-avscreencapture-oh-avscreencapture-contentfilter.md) *filter | Pointer to the OH_AVScreenCapture_ContentFilter instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** or **filter** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_UNSUPPORT**: The operation is not supported. For streams, the AudioCapturer API must be called for the operation to take effect during the start.<br>         For captured files, the Recorder API must be called for the operation to take effect during the start.|
+
+### OH_AVScreenCapture_ContentFilter_AddWindowContent()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ContentFilter_AddWindowContent(struct OH_AVScreenCapture_ContentFilter *filter, int32_t *windowIDs, int32_t windowCount)
+```
+
+**Description**
+
+Adds a list of window IDs to a ContentFilter instance.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture_ContentFilter](capi-avscreencapture-oh-avscreencapture-contentfilter.md) *filter | Pointer to the OH_AVScreenCapture_ContentFilter instance.|
+| int32_t *windowIDs | Pointer to the window IDs.|
+| int32_t windowCount | Length of the window ID list.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK** if the operation is successful; a specific error code if the operation fails.|
+
+### OH_AVScreenCapture_ResizeCanvas()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ResizeCanvas(struct OH_AVScreenCapture *capture, int32_t width, int32_t height)
+```
+
+**Description**
+
+Adjusts the screen resolution.<br> This function is used to set the resolution of screen capture data. **width** indicates the screen width and **height** indicates the screen height.<br> Currently, this function supports only the scenario of capturing streams, but not the scenario of storing captured files. In addition, the caller of this function and the video data consumer must ensure that they support resolution changes of the received video data.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| int32_t width | Width of the screen to capture.|
+| int32_t height | Height of the screen to capture.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_UNSUPPORT** (available since API version 20): The device does not support the operation.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed.|
+
+### OH_AVScreenCapture_SkipPrivacyMode()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SkipPrivacyMode(struct OH_AVScreenCapture *capture, int32_t *windowIDs, int32_t windowCount)
+```
+
+**Description**
+
+Exempts privacy windows during screen capture.<br> Currently, all the IDs of the subwindows and main windows to skip must be passed in.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 12
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| int32_t *windowIDs | Pointer to the IDs of the privacy windows to skip.|
+| int32_t windowCount | Length of the privacy window ID list.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_UNSUPPORT** (available since API version 20): The device does not support the operation.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed.|
+
+### OH_AVScreenCapture_SetMaxVideoFrameRate()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetMaxVideoFrameRate(struct OH_AVScreenCapture *capture, int32_t frameRate)
+```
+
+**Description**
+
+Sets the maximum frame rate for screen capture.<br> This function must be called after screen capture starts.<br>  <br> The maximum frame rate that can be configured is subject to the device's limitations and is ultimately governed by the capabilities of the underlying system.<br>  Although there is no limit on the maximum value of the input parameter, the maximum frame rate supported is 60 FPS. If the input parameter value exceeds 60 FPS, 60 FPS is used. If the value does not exceed the upper limit, the passed value is used.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 14
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| int32_t frameRate | Maximum frame rate for screen capture.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr, or the input parameter **frameRate** is not supported.<br>         **AV_SCREEN_CAPTURE_ERR_UNSUPPORT** (available since API version 20): The device does not support the operation.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed.|
+
+### OH_AVScreenCapture_ShowCursor()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ShowCursor(struct OH_AVScreenCapture *capture, bool showCursor)
+```
+
+**Description**
+
+Sets whether to show the cursor.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 15
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| bool showCursor | Whether to show the cursor.<br> **true** to show, false to hide.<br> The default value is **true**.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_UNSUPPORT** (available since API version 20): The device does not support the operation.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The cursor setting fails.|
+
+### OH_AVScreenCapture_SetDisplayCallback()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetDisplayCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnDisplaySelected callback, void *userData)
+```
+
+**Description**
+
+Sets a callback function for obtaining the display ID.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 15
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AVScreenCapture_OnDisplaySelected](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_ondisplayselected) callback | Callback function for returning the display ID.|
+| void *userData | Pointer to the user-defined data. The data is returned as an input parameter when the state change callback is triggered.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** or **callback** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_NO_MEMORY**: The memory fails to be allocated due to insufficient memory.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_STATE**: The callback must be called before the **start** function.|
+
+### OH_AVScreenCapture_CreateCaptureStrategy()
+
+```c
+OH_AVScreenCapture_CaptureStrategy* OH_AVScreenCapture_CreateCaptureStrategy(void)
+```
+
+**Description**
+
+Creates a screen capture strategy.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 20
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVScreenCapture_CaptureStrategy](capi-avscreencapture-oh-avscreencapture-capturestrategy.md)* | OH_AVScreenCapture_CaptureStrategy instance if the operation is successful; nullptr otherwise.|
+
+### OH_AVScreenCapture_ReleaseCaptureStrategy()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ReleaseCaptureStrategy(OH_AVScreenCapture_CaptureStrategy* strategy)
+```
+
+**Description**
+
+Releases a screen capture strategy.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [OH_AVScreenCapture_CaptureStrategy](capi-avscreencapture-oh-avscreencapture-capturestrategy.md)* strategy | Pointer to the OH_AVScreenCapture_CaptureStrategy instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **strategy** is nullptr.|
+
+### OH_AVScreenCapture_SetCaptureStrategy()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCaptureStrategy(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_CaptureStrategy *strategy)
+```
+
+**Description**
+
+Sets a screen capture strategy for an OH_AVScreenCapture instance.<br> This function must be called before screen capture starts.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AVScreenCapture_CaptureStrategy](capi-avscreencapture-oh-avscreencapture-capturestrategy.md) *strategy | Pointer to the OH_AVScreenCapture_CaptureStrategy instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** or **strategy** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_STATE**: This function is called after screen capture starts.|
+
+### OH_AVScreenCapture_StrategyForCanvasFollowRotation()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForCanvasFollowRotation(OH_AVScreenCapture_CaptureStrategy *strategy, bool value)
+```
+
+**Description**
+
+Sets the automatic rotation following configuration for screen capture. If the value is set to **true**, the screen capture follows the rotation, and the virtual screen size is automatically adjusted after a rotation to ensure the output image matches the new orientation.<br> After this setting, there is no need to manually call [OH_AVScreenCapture_ResizeCanvas](#oh_avscreencapture_resizecanvas) after rotation notifications.
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [OH_AVScreenCapture_CaptureStrategy](capi-avscreencapture-oh-avscreencapture-capturestrategy.md) *strategy | Pointer to the OH_AVScreenCapture_CaptureStrategy instance.|
+| bool value | Whether the width and height of the virtual screen rotate with the screen.<br> **true** to rotate with the screen, **false** to keep the initial settings.<br> The default value is **false**.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **strategy** is nullptr.|
+
+### OH_AVScreenCapture_StrategyForKeepCaptureDuringCall()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForKeepCaptureDuringCall(OH_AVScreenCapture_CaptureStrategy *strategy, bool value)
+```
+
+**Description**
+
+Sets whether to keep screen capture during a cellular call.<br> When **value** is set to **true** and screen capture is active during a cellular call, for privacy reasons, the voices of both parties (local microphone and remote speaker) are not captured. Other system sounds are captured normally. After the call ends, the screen capture framework resumes microphone recording. If the screen capture application is running in the background when the call ends, microphone recording fails to start because the audio module does not allow background applications to activate microphone recording.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [OH_AVScreenCapture_CaptureStrategy](capi-avscreencapture-oh-avscreencapture-capturestrategy.md) *strategy | Pointer to the OH_AVScreenCapture_CaptureStrategy instance.|
+| bool value | Whether to keep screen capture during a cellular call.<br> **true** to keep, **false** otherwise.<br> The default value is **false**.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **strategy** is nullptr.|
+
+### OH_AVScreenCapture_SetCaptureContentChangedCallback()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCaptureContentChangedCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnCaptureContentChanged callback, void *userData)
+```
+
+**Description**
+
+Sets the callback for screen capture content changes. This function must be called before screen capture starts.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AVScreenCapture_OnCaptureContentChanged](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_oncapturecontentchanged) callback | Pointer to the callback method instance for the screen capture content change event.|
+| void *userData | Pointer to the user-defined data. The data is returned as an input parameter when the error processing callback is triggered.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** or **callback** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed. The screen capture callback fails to be set.|
+
+### OH_AVScreenCapture_SetCaptureArea()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCaptureArea(struct OH_AVScreenCapture *capture, uint64_t displayId, OH_Rect* area)
+```
+
+**Description**
+
+Sets or updates the capture area.<br> This function can be called before or after screen capture starts. The coordinates and dimensions provided must be non-negative, and the capture area must not span multiple screens. If setting the area fails, the previously set area is used for capturing.
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| uint64_t displayId | ID of the screen to capture.|
+| [OH_Rect](capi-avscreencapture-oh-rect.md)* area | Area in the screen to capture.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is a nullptr, the input **displayId** does not exist, or the input **area** is abnormal.|
+
+### OH_AVScreenCapture_StrategyForPrivacyMaskMode()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForPrivacyMaskMode(OH_AVScreenCapture_CaptureStrategy *strategy, int32_t value)
+```
+
+**Description**
+
+Sets the privacy window masking mode.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [OH_AVScreenCapture_CaptureStrategy](capi-avscreencapture-oh-avscreencapture-capturestrategy.md) *strategy | Pointer to the OH_AVScreenCapture_CaptureStrategy instance.|
+| int32_t value | If this parameter is set to **0**, the full-screen masking mode is used when there is a privacy window.<br> If this parameter is set to **1**, the privacy window masking mode is used when there is a privacy window. Any other value will result in an error.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **strategy** is nullptr or **value** is invalid.|
+
+### OH_AVScreenCapture_SetSelectionCallback()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetSelectionCallback(struct OH_AVScreenCapture *capture, OH_AVScreenCapture_OnUserSelected callback, void *userData)
+```
+
+**Description**
+
+Registers a callback to handle user selection results on the manual confirmation UI. This callback must be invoked before screen capture starts.
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AVScreenCapture_OnUserSelected](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onuserselected) callback | Callback used to instruct the application to carry out the relevant logic processing once the user has confirmed on the UI.|
+| void *userData | Pointer to application-specific data, returned to the application.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.|
+
+### OH_AVScreenCapture_GetCaptureTypeSelected()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_GetCaptureTypeSelected(OH_AVScreenCapture_UserSelectionInfo *selection, int32_t* type)
+```
+
+**Description**
+
+Obtains the screen capture object type selected by the user on the confirmation UI. This function is used in the [OH_AVScreenCapture_OnUserSelected](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onuserselected) callback. The **selection** pointer is destroyed after the callback is complete.
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [OH_AVScreenCapture_UserSelectionInfo](capi-avscreencapture-oh-avscreencapture-userselectioninfo.md) *selection | Pointer to the OH_AVScreenCapture_UserSelectionInfo instance.|
+| int32_t* type | Pointer to the type of the capture object selected by the user. The value **0** means a screen, and **1** means a window.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **selection** is nullptr.|
+
+### OH_AVScreenCapture_GetDisplayIdSelected()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_GetDisplayIdSelected(OH_AVScreenCapture_UserSelectionInfo *selection, uint64_t* displayId)
+```
+
+**Description**
+
+Obtains the display ID of the screen selected by the user for capture. This function is used in the [OH_AVScreenCapture_OnUserSelected](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_onuserselected) callback. The **selection** pointer is destroyed after the callback is complete.
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [OH_AVScreenCapture_UserSelectionInfo](capi-avscreencapture-oh-avscreencapture-userselectioninfo.md) *selection | Pointer to the OH_AVScreenCapture_UserSelectionInfo instance.|
+| uint64_t* displayId | Pointer to the ID of the screen selected by the user.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **selection** is nullptr.|
+
+### OH_AVScreenCapture_StrategyForBFramesEncoding()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForBFramesEncoding(OH_AVScreenCapture_CaptureStrategy *strategy, bool value)
+```
+
+**Description**
+
+Sets whether to enable B-frame encoding for a CaptureStrategy instance to reduce the size of the recorded file.<br> For details about the restrictions on B-frame video encoding, see [Constraints in B-Frame Video Encoding](../../media/avcodec/video-encoding-b-frame.md#constraints). If the current environment does not meet the restrictions, B-frames will be skipped during screen capture, and no error will be returned.
+
+**System capability**: SystemCapability.Multimedia.Media.AVScreenCapture
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [OH_AVScreenCapture_CaptureStrategy](capi-avscreencapture-oh-avscreencapture-capturestrategy.md) *strategy | Pointer to the OH_AVScreenCapture_CaptureStrategy instance.|
+| bool value | Whether to enable B-frame encoding for the recorded file.<br> **true** to enable, **false** otherwise.<br> The default value is **false**.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **strategy** is nullptr.|
+
+### OH_AVScreenCapture_StrategyForPickerPopUp()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForPickerPopUp(OH_AVScreenCapture_CaptureStrategy *strategy, bool value)
+```
+
+**Description**
+
+Sets whether to display the screen capture picker.
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [OH_AVScreenCapture_CaptureStrategy](capi-avscreencapture-oh-avscreencapture-capturestrategy.md) *strategy | Pointer to the OH_AVScreenCapture_CaptureStrategy instance.|
+| bool value | If this parameter is set to **false**, the application has specified the content to capture, and the picker is not displayed after screen capture starts. If this parameter is set to **true**, the picker is displayed after screen capture starts. If this parameter is not set, the system's recommended behavior is used.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **strategy** is nullptr or **value** is invalid.|
+
+### OH_AVScreenCapture_StrategyForFillMode()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_StrategyForFillMode(OH_AVScreenCapture_CaptureStrategy *strategy, OH_AVScreenCapture_FillMode mode)
+```
+
+**Description**
+
+Sets the fill mode of the captured image in the target region.
+
+**Since**: 20
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [OH_AVScreenCapture_CaptureStrategy](capi-avscreencapture-oh-avscreencapture-capturestrategy.md) *strategy | Pointer to the OH_AVScreenCapture_CaptureStrategy instance.|
+| [OH_AVScreenCapture_FillMode](capi-native-avscreen-capture-base-h.md#oh_avscreencapture_fillmode) mode | Fill mode of the captured image.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **strategy** is nullptr.|
+
+### OH_AVScreenCapture_PresentPicker()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_PresentPicker(struct OH_AVScreenCapture *capture)
+```
+
+**Description**
+
+Displays the picker once more after the screen capture starts, allowing for dynamic updates to the recording source, such as changing the window or screen being captured. The ongoing capture process remains uninterrupted while updating the recording source.<br> Following the dynamic update of the recording source through the picker, the capture can proceed with the newly selected source.
+
+**Since**: 22
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed.|
+
+### OH_AVScreenCapture_SetCaptureAreaHighlight()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetCaptureAreaHighlight(struct OH_AVScreenCapture *capture, OH_AVScreenCaptureHighlightConfig config)
+```
+
+**Description**
+
+Sets the highlight style for the screen capture area.
+
+**Since**: 22
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_AVScreenCaptureHighlightConfig](capi-avscreencapture-oh-avscreencapturehighlightconfig.md) config | Highlight parameters for the screen capture area.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr or **config** is invalid.|
+
+### OH_AVScreenCapture_SetPickerMode()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_SetPickerMode(struct OH_AVScreenCapture *capture, OH_CapturePickerMode pickerMode)
+```
+
+**Description**
+
+Sets the display mode of the picker. You can define the content type displayed in the picker. The mode change takes effect when [OH_AVScreenCapture_PresentPicker](#oh_avscreencapture_presentpicker) is called next time.
+
+**Since**: 22
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| [OH_CapturePickerMode](capi-native-avscreen-capture-base-h.md#oh_capturepickermode) pickerMode | Display mode of the picker. For details, see **OH_CapturePickerMode**.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr or **pickerMode** is invalid.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed.|
+
+### OH_AVScreenCapture_ExcludePickerWindows()
+
+```c
+OH_AVSCREEN_CAPTURE_ErrCode OH_AVScreenCapture_ExcludePickerWindows(struct OH_AVScreenCapture *capture, const int32_t *excludedWindowIDs, uint32_t windowCount)
+```
+
+**Description**
+
+Hides the specified window in the picker. This function is called before the picker is displayed. It is to filter and hide a window.
+
+**Since**: 22
+
+**Parameters**
+
+| Parameter| Description|
+| -- | -- |
+| [struct OH_AVScreenCapture](capi-avscreencapture-oh-avscreencapture.md) *capture | Pointer to the OH_AVScreenCapture instance.|
+| const int32_t *excludedWindowIDs | Array of IDs of the windows to be hidden (existing windows).|
+| uint32_t windowCount | Size of the array.|
+
+**Returns**
+
+| Type| Description|
+| -- | -- |
+| [OH_AVSCREEN_CAPTURE_ErrCode](capi-native-avscreen-capture-errors-h.md#oh_avscreen_capture_errcode) | **AV_SCREEN_CAPTURE_ERR_OK**: The operation is successful.<br>         **AV_SCREEN_CAPTURE_ERR_INVALID_VAL**: The input parameter **capture** is nullptr or **excludedWindowIDs** is invalid.<br>         **AV_SCREEN_CAPTURE_ERR_OPERATE_NOT_PERMIT**: The operation is not allowed.|

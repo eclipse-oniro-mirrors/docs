@@ -1,0 +1,51 @@
+# AutoStartupInfo (System API)
+<!--Kit: Ability Kit-->
+<!--Subsystem: Ability-->
+<!--Owner: @dsz2025-->
+<!--Designer: @ccllee1-->
+<!--Tester: @lixueqing513-->
+<!--Adviser: @huipeizi-->
+The module defines information about the application component that automatically starts upon system boot.
+
+> **NOTE**
+> 
+> The initial APIs of this module are supported since API version 11. Newly added APIs will be marked with a superscript to indicate their earliest API version.
+>
+> The APIs of this module can be used only in the stage model.
+> The APIs provided by this module are system APIs.
+
+## Properties
+
+**System API**: This is a system API.
+
+**System capability**: SystemCapability.Ability.AbilityRuntime.Core
+
+| Name                       | Type   | Read-Only| Optional| Description                                          |
+| --------------------------- | ------- | ---- | ---- | ---------------------------------------------- |
+| bundleName                  | string  | No  | No  | Bundle name.                        |
+| moduleName                  | string  | No  | Yes  | Module name.                        |
+| abilityName                 | string  | No  | No  | Ability name.                       |
+| abilityTypeName             | string  | No  | Yes  | Ability type.                       |
+| appCloneIndex<sup>12+</sup> | number  | No  | Yes  | Index of an application clone.                                |
+| userId<sup>20+</sup>        | number  | Yes  | Yes  | User ID associated with the application, used to differentiate applications belonging to different user accounts on the same device.     |
+| setterUserId<sup>20+</sup>  | number  | Yes  | Yes  | User ID of the person who set the application to automatically start upon system boot.        |
+| canUserModify<sup>20+</sup> | boolean | Yes  | Yes  | Whether the developer is allowed to modify the auto-startup status of this application. The options include **true** (yes) and **false** (no).|
+
+**Example**
+
+```ts
+import { autoStartupManager, common } from '@kit.AbilityKit';
+
+autoStartupManager.setApplicationAutoStartup({
+  bundleName: 'com.example.autostartupapp',
+  moduleName: 'entry',
+  abilityName: 'EntryAbility',
+  abilityTypeName: 'ServiceExtension'
+} as common.AutoStartupInfo, (err) => {
+  if (err) {
+    console.error(`setApplicationAutoStartup failed, err code: ${err.code}, err msg: ${err.message}.`);
+    return;
+  }
+  console.info(`setApplicationAutoStartup success.`);
+});
+```

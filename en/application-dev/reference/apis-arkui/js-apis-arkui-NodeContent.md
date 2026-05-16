@@ -1,0 +1,179 @@
+# NodeContent
+<!--Kit: ArkUI-->
+<!--Subsystem: ArkUI-->
+<!--Owner: @wangyang2022-->
+<!--Designer: @wangyang2022-->
+<!--Tester: @sally__-->
+<!--Adviser: @Brilliantry_Rui-->
+
+**NodeContent** is the ArkUI-provided manager for [ContentSlot](./arkui-ts/ts-components-contentSlot.md).
+
+> **NOTE**
+>
+> - The initial APIs of this module are supported since API version 12. Newly added APIs will be marked with a superscript to indicate their earliest API version.
+>
+> - **NodeContent** objects do not support JSON serialization.
+
+## Modules to Import
+
+```ts
+import { NodeContent } from '@kit.ArkUI';
+```
+
+## NodeContent
+
+**NodeContent** is the entity-level encapsulation of node content.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+### constructor
+
+constructor()
+
+A constructor used to create a **NodeContent** object.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Example**
+
+<!--code_no_check-->
+
+```ts
+import { nativeNode } from 'libNativeNode.so'; // Developer-implemented .so file.
+import { NodeContent } from '@kit.ArkUI';
+
+@Component
+struct Parent {
+  private nodeContent: Content = new NodeContent();
+
+  aboutToAppear() {
+    // Create a node through the C API and add it to the nodeContent manager.
+    nativeNode.createNativeNode(this.nodeContent);
+  }
+
+  build() {
+    Column() {
+      // Display the native components stored in the nodeContent manager.
+      ContentSlot(this.nodeContent)
+    }
+  }
+}
+```
+
+For details about the implementation of the .so file in the preceding code, see <!--RP1-->[Native XComponent](https://gitcode.com/openharmony/applications_app_samples/tree/master/code/BasicFeature/Native/NativeXComponent)<!--RP1End-->.
+
+### addFrameNode<sup>12+</sup>
+
+addFrameNode(node: FrameNode): void
+
+Adds a FrameNode to this **NodeContent** object.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name | Type                                                  | Mandatory| Description            |
+| ------- | ------------------------------------------------------ | ---- | ---------------- |
+| node | [FrameNode](./js-apis-arkui-frameNode.md) | Yes  | FrameNode to add.|
+
+**Error codes**
+
+For details about the error codes, see [Custom Node Error Codes](./errorcode-node.md).
+
+| ID| Error Message                        |
+| -------- | -------------------------------- |
+| 100025 | The parameter is invalid. Details about the invalid parameter and the reason are included in the error message. For example: "The parameter 'node' is invalid: it cannot be adopted." |
+
+### removeFrameNode<sup>12+</sup>
+
+removeFrameNode(node: FrameNode): void
+
+Removes a FrameNode from this **NodeContent** object.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name | Type                                                  | Mandatory| Description            |
+| ------- | ------------------------------------------------------ | ---- | ---------------- |
+| node | [FrameNode](./js-apis-arkui-frameNode.md) | Yes  | FrameNode to remove.|
+
+**Example**
+
+This example shows how to add or remove a FrameNode in the **NodeContent** object.
+
+```ts
+// xxx.ets
+import { NodeContent, typeNode } from '@kit.ArkUI';
+
+class NodeContentCtrl {
+  content: NodeContent;
+  textNode: Array<typeNode.Text> = new Array();
+  uiContext: UIContext;
+  width: number;
+
+  constructor(uiContext: UIContext) {
+    this.content = new NodeContent();
+    this.uiContext = uiContext;
+    this.width = Infinity;
+  }
+
+  AddNode() {
+    let node = typeNode.createNode(this.uiContext, "Text");
+    node.initialize("ContentText:" + this.textNode.length).fontSize(20);
+    this.textNode.push(node);
+    this.content.addFrameNode(node);
+  }
+
+  RemoveNode() {
+    let node = this.textNode.pop();
+    this.content.removeFrameNode(node);
+  }
+
+  RemoveFront() {
+    let node = this.textNode.shift();
+    this.content.removeFrameNode(node);
+  }
+
+  GetContent(): NodeContent {
+    return this.content;
+  }
+}
+
+@Entry
+@Component
+struct Index {
+  @State message: string = 'Hello World';
+  controller = new NodeContentCtrl(this.getUIContext());
+
+  build() {
+    Row() {
+      Column() {
+        ContentSlot(this.controller.GetContent())
+        Button("AddToSlot")
+          .onClick(() => {
+            this.controller.AddNode();
+          })
+        Button("RemoveBack")
+          .onClick(() => {
+            this.controller.RemoveNode();
+          })
+        Button("RemoveFront")
+          .onClick(() => {
+            this.controller.RemoveFront();
+          })
+      }
+      .width('100%')
+    }
+    .height('100%')
+  }
+}
+```

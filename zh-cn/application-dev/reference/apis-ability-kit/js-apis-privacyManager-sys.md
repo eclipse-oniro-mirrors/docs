@@ -1,0 +1,1023 @@
+# @ohos.privacyManager (隐私管理)(系统接口)
+
+<!--Kit: Ability Kit-->
+<!--Subsystem: Security-->
+<!--Owner: @xia-bubai-->
+<!--Designer: @linshuqing; @hehehe-li-->
+<!--Tester: @leiyuqian-->
+<!--Adviser: @zengyawen-->
+
+本模块主要提供权限使用记录等隐私管理接口。
+
+> **说明：**
+>
+> - 本模块首批接口从API version 9开始支持。后续版本的新增接口，采用上角标单独标记接口的起始版本。
+> - 本模块为系统接口。
+
+## 导入模块
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+```
+
+
+## privacyManager.addPermissionUsedRecord
+
+addPermissionUsedRecord(tokenID: number, permissionName: Permissions, successCount: number, failCount: number, options?: AddPermissionUsedRecordOptions): Promise&lt;void&gt;
+
+受应用权限保护的应用在被其他服务、应用调用时，可以使用该接口增加一条权限使用记录。使用Promise异步回调。
+
+权限使用记录包括：调用方的应用身份标识、使用的应用权限名称，和其访问本应用成功、失败的次数。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名   | 类型                 | 必填 | 说明                                       |
+| -------- | -------------------  | ---- | ------------------------------------------ |
+| tokenID   |  number   | 是   | 调用方的应用身份标识。可通过应用的[ApplicationInfo](js-apis-bundleManager-applicationInfo.md)的accessTokenId字段获得。|
+| permissionName | Permissions | 是   | 应用权限名称。 |
+| successCount | number | 是   | 访问成功的次数。 |
+| failCount | number | 是   | 访问失败的次数。 |
+| options<sup>12+</sup> | [AddPermissionUsedRecordOptions](#addpermissionusedrecordoptions12) | 否   | 添加权限使用记录可选参数，默认值为NORMAL_TYPE，从API version 12开始支持。 |
+
+**返回值：**
+
+| 类型          | 说明                                |
+| :------------ | :---------------------------------- |
+| Promise&lt;void&gt; | Promise对象。无返回结果。 |
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The tokenID is 0, the permissionName exceeds 256 characters, the count value is invalid, or usedType in [AddPermissionUsedRecordOptions](#addpermissionusedrecordoptions12) is invalid. |
+| 12100002 | The specified tokenID does not exist or refer to an application process. |
+| 12100003 | The specified permission does not exist or is not a user_grant permission. |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+| 12100009 | Common inner error. A database error occurs. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let tokenID: number = 0; // 可以通过getApplicationInfo获取accessTokenId。
+privacyManager.addPermissionUsedRecord(tokenID, 'ohos.permission.READ_AUDIO', 1, 0).then(() => {
+  console.info('addPermissionUsedRecord success');
+}).catch((err: BusinessError) => {
+  console.error(`addPermissionUsedRecord fail, code: ${err.code}, message: ${err.message}`);
+});
+// with options param
+let options: privacyManager.AddPermissionUsedRecordOptions = {
+  usedType: privacyManager.PermissionUsedType.PICKER_TYPE
+};
+privacyManager.addPermissionUsedRecord(tokenID, 'ohos.permission.READ_AUDIO', 1, 0, options).then(() => {
+  console.info('addPermissionUsedRecord success');
+}).catch((err: BusinessError) => {
+  console.error(`addPermissionUsedRecord fail, code: ${err.code}, message: ${err.message}`);
+});
+```
+
+## privacyManager.addPermissionUsedRecord
+
+addPermissionUsedRecord(tokenID: number, permissionName: Permissions, successCount: number, failCount: number, callback: AsyncCallback&lt;void&gt;): void
+
+受应用权限保护的应用在被其他服务、应用调用时，可以使用该接口增加一条权限使用记录。使用callback异步回调。
+
+权限使用记录包括：调用方的应用身份标识、使用的应用权限名称，和其访问本应用成功、失败的次数。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名   | 类型                 | 必填 | 说明                                       |
+| -------- | -------------------  | ---- | ------------------------------------------ |
+| tokenID   |  number   | 是   | 调用方的应用身份标识。可通过应用的[ApplicationInfo](js-apis-bundleManager-applicationInfo.md)的accessTokenId字段获得。|
+| permissionName | Permissions | 是   | 应用权限名称，合法的权限名取值可在[应用权限列表](../../security/AccessToken/app-permissions.md)中查询。 |
+| successCount | number | 是   | 访问成功的次数。 |
+| failCount | number | 是   | 访问失败的次数。 |
+| callback | AsyncCallback&lt;void&gt; | 是   | 回调函数。当添加使用记录成功，err为undefined，否则为错误对象。 |
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The tokenID is 0, the permissionName exceeds 256 characters, or the count value is invalid. |
+| 12100002 | The specified tokenID does not exist or refer to an application process. |
+| 12100003 | The specified permission does not exist or is not a user_grant permission. |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+| 12100009 | Common inner error. A database error occurs. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let tokenID: number = 0; // 可以通过getApplicationInfo获取accessTokenId。
+privacyManager.addPermissionUsedRecord(tokenID, 'ohos.permission.READ_AUDIO', 1, 0, (err: BusinessError, data: void) => {
+  if (err) {
+    console.error(`addPermissionUsedRecord fail, code: ${err.code}, message: ${err.message}`);
+  } else {
+    console.info('addPermissionUsedRecord success');
+  }
+});
+```
+
+## privacyManager.getPermissionUsedRecord
+
+getPermissionUsedRecord(request: PermissionUsedRequest): Promise&lt;PermissionUsedResponse&gt;
+
+获取历史权限使用记录。使用Promise异步回调。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名   | 类型                 | 必填 | 说明                                       |
+| -------- | -------------------  | ---- | ------------------------------------------ |
+| request   |  [PermissionUsedRequest](#permissionusedrequest)   | 是   | 查询权限使用记录的请求。              |
+
+**返回值：**
+
+| 类型          | 说明                                |
+| :------------ | :---------------------------------- |
+| Promise<[PermissionUsedResponse](#permissionusedresponse)> | Promise对象，返回查询的权限使用记录。|
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The value of flag, begin, or end in request is invalid. |
+| 12100007 | The service is abnormal. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let request: privacyManager.PermissionUsedRequest = {
+    'tokenId': 1,
+    'isRemote': false,
+    'deviceId': 'device',
+    'bundleName': 'bundle',
+    'permissionNames': [],
+    'beginTime': 0,
+    'endTime': 1,
+    'flag':privacyManager.PermissionUsageFlag.FLAG_PERMISSION_USAGE_DETAIL,
+};
+
+privacyManager.getPermissionUsedRecord(request).then((data) => {
+  console.info(`getPermissionUsedRecord success, result: ${data}`);
+}).catch((err: BusinessError) => {
+  console.error(`getPermissionUsedRecord fail, code: ${err.code}, message: ${err.message}`);
+});
+```
+
+## privacyManager.getPermissionUsedRecord
+
+getPermissionUsedRecord(request: PermissionUsedRequest, callback: AsyncCallback&lt;PermissionUsedResponse&gt;): void
+
+获取历史权限使用记录。使用callback异步回调。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名   | 类型                 | 必填 | 说明                                       |
+| -------- | -------------------  | ---- | ------------------------------------------ |
+| request | [PermissionUsedRequest](#permissionusedrequest) | 是 | 查询权限使用记录的请求。 |
+| callback | AsyncCallback<[PermissionUsedResponse](#permissionusedresponse)> | 是 | 回调函数。当查询记录成功，err为undefined，data为查询到的权限使用记录；否则err为错误对象。 |
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The value of flag, begin, or end in request is invalid. |
+| 12100007 | The service is abnormal. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let request: privacyManager.PermissionUsedRequest = {
+    'tokenId': 1,
+    'isRemote': false,
+    'deviceId': 'device',
+    'bundleName': 'bundle',
+    'permissionNames': [],
+    'beginTime': 0,
+    'endTime': 1,
+    'flag':privacyManager.PermissionUsageFlag.FLAG_PERMISSION_USAGE_DETAIL,
+};
+
+privacyManager.getPermissionUsedRecord(request, (err: BusinessError, data: privacyManager.PermissionUsedResponse) => {
+  if (err) {
+    console.error(`getPermissionUsedRecord fail, code: ${err.code}, message: ${err.message}`);
+  } else {
+    console.info(`getPermissionUsedRecord success, result: ${data}`);
+  }
+});
+```
+
+## privacyManager.setPermissionUsedRecordToggleStatus<sup>18+</sup>
+
+setPermissionUsedRecordToggleStatus(status: boolean): Promise&lt;void&gt;
+
+设置是否记录当前用户的权限使用情况。系统应用调用此接口，可以设置当前用户的权限使用记录开关状态。使用Promise异步回调。
+
+status为true时，[addPermissionUsedRecord](#privacymanageraddpermissionusedrecord)接口可以正常添加使用记录；status为false时，[addPermissionUsedRecord](#privacymanageraddpermissionusedrecord)接口不记录权限使用记录，并且删除当前用户的历史记录。
+
+**需要权限：** ohos.permission.PERMISSION_RECORD_TOGGLE，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名          | 类型   | 必填 | 说明                                  |
+| -------------- | ------ | ---- | ------------------------------------ |
+| status        | boolean | 是   | 权限使用记录开关状态。true为开，false为关。|
+
+**返回值：**
+
+| 类型          | 说明                                    |
+| ------------- | --------------------------------------- |
+| Promise&lt;void&gt; | Promise对象，无返回结果。|
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_RECORD_TOGGLE". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100007 | The service is abnormal. |
+| 12100009 | Common inner error. Possible causes: 1. A database error occurs; 2. Failed to query applications under the user. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+privacyManager.setPermissionUsedRecordToggleStatus(true).then(() => {
+  console.info('setPermissionUsedRecordToggleStatus success');
+}).catch((err: BusinessError) => {
+  console.error(`setPermissionUsedRecordToggleStatus fail, code: ${err.code}, message: ${err.message}`);
+});
+```
+
+## privacyManager.getPermissionUsedRecordToggleStatus<sup>18+</sup>
+
+getPermissionUsedRecordToggleStatus(): Promise&lt;boolean&gt;
+
+系统应用调用此接口，可以获取当前用户的权限使用记录开关状态。使用Promise异步回调。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**返回值：**
+
+| 类型          | 说明                                    |
+| ------------- | --------------------------------------- |
+| Promise&lt;boolean&gt; | Promise对象。返回true，表示当前用户的开关状态值为开启。返回false，表示当前用户的开关状态值为关闭。|
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 12100007 | The service is abnormal. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+privacyManager.getPermissionUsedRecordToggleStatus().then((res) => {
+  console.info('getPermissionUsedRecordToggleStatus success');
+  if (res == true) {
+    console.info('get status is TRUE');
+  } else {
+    console.info('get status is FALSE');
+  }
+}).catch((err: BusinessError) => {
+  console.error(`getPermissionUsedRecordToggleStatus fail, code: ${err.code}, message: ${err.message}`);
+});
+```
+
+## privacyManager.startUsingPermission
+
+startUsingPermission(tokenID: number, permissionName: Permissions): Promise&lt;void&gt;
+
+系统应用调用此接口，能够传递应用在前后台的权限使用情况，并依据应用的生命周期做出相应的响应。使用Promise异步回调。
+
+当应用开始使用某项权限时，隐私服务将通知隐私指示器该应用正在使用该权限；当应用退出时，隐私服务将通知隐私指示器该应用已停止使用该权限，并清除相应的缓存。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名          | 类型   | 必填 | 说明                                  |
+| -------------- | ------ | ---- | ------------------------------------ |
+| tokenID        | number | 是   | 调用方的应用身份标识。可通过应用的[ApplicationInfo](js-apis-bundleManager-applicationInfo.md)的accessTokenId字段获得。|
+| permissionName | Permissions | 是   | 需要使用的权限名，合法的权限名取值可在[应用权限列表](../../security/AccessToken/app-permissions.md)中查询。|
+
+**返回值：**
+
+| 类型          | 说明                                    |
+| ------------- | --------------------------------------- |
+| Promise&lt;void&gt; | Promise对象，无返回结果。|
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The tokenID is 0, the permissionName exceeds 256 characters, or the type of the specified tokenID is not of the application type. |
+| 12100002 | (Deprecated in 12) The specified tokenID does not exist or refer to an application process. |
+| 12100003 | The specified permission does not exist or is not a user_grant permission. |
+| 12100004 | The API is used repeatedly with the same input. It means the application specified by the tokenID has been using the specified permission. |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let tokenID: number = 0; // 可以通过getApplicationInfo获取accessTokenId。
+privacyManager.startUsingPermission(tokenID, 'ohos.permission.READ_AUDIO').then(() => {
+  console.info('startUsingPermission success');
+}).catch((err: BusinessError) => {
+  console.error(`startUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+});
+```
+
+## privacyManager.startUsingPermission<sup>18+</sup>
+
+startUsingPermission(tokenID: number, permissionName: Permissions, pid?: number, usedType?: PermissionUsedType): Promise&lt;void&gt;
+
+系统应用调用此接口，能够传递应用在前后台的权限使用情况，并依据应用的生命周期做出相应的响应。使用Promise异步回调。
+
+当应用按照某种权限授予方式使用权限时，隐私服务将通知隐私指示器该应用正在使用该权限；当应用退出时，隐私服务将通知隐私指示器该应用已停止使用该权限，并清除相应的缓存。
+
+在传递多进程应用的权限使用情况时，可以指定应用进程的pid。若未指定pid，默认按应用响应，在应用退出时，隐私服务通知隐私指示器并清除缓存。
+
+若指定了pid，当该进程退出时，隐私服务通知隐私指示器并清除缓存，此时pid必须为tokenID对应应用的进程pid，不能为其他应用的pid。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名          | 类型   | 必填 | 说明                                  |
+| -------------- | ------ | ---- | ------------------------------------ |
+| tokenID        | number | 是   | 调用方的应用身份标识。可通过应用的[ApplicationInfo](js-apis-bundleManager-applicationInfo.md)的accessTokenId字段获得。|
+| permissionName | Permissions | 是   | 需要使用的权限名，合法的权限名取值可在[应用权限列表](../../security/AccessToken/app-permissions.md)中查询。|
+| pid            | number | 否   | 调用方的进程pid，默认-1，-1表示不根据进程生命周期响应。|
+| usedType       | [PermissionUsedType](#permissionusedtype12) | 否 | 敏感权限访问方式，默认NORMAL_TYPE。 |
+
+**返回值：**
+
+| 类型          | 说明                                    |
+| ------------- | --------------------------------------- |
+| Promise&lt;void&gt; | Promise对象，无返回结果。|
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The tokenID is 0, the permissionName exceeds 256 characters, the type of the specified tokenID is not of the application type, or usedType is invalid. |
+| 12100003 | The specified permission does not exist or is not a user_grant permission. |
+| 12100004 | The API is used repeatedly with the same input. It means the application specified by the tokenID has been using the specified permission. |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { rpc } from '@kit.IPCKit'
+
+let tokenID: number = rpc.IPCSkeleton.getCallingTokenId(); // 可以通过getApplicationInfo获取accessTokenId。
+let pid: number = rpc.IPCSkeleton.getCallingPid();
+let usedType: privacyManager.PermissionUsedType = privacyManager.PermissionUsedType.PICKER_TYPE;
+
+// without pid and usedType
+privacyManager.startUsingPermission(tokenID, 'ohos.permission.READ_AUDIO').then(() => {
+  console.info('startUsingPermission success');
+}).catch((err: BusinessError) => {
+  console.error(`startUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+});
+// with pid
+privacyManager.startUsingPermission(tokenID, 'ohos.permission.READ_AUDIO', pid).then(() => {
+  console.info('startUsingPermission success');
+}).catch((err: BusinessError) => {
+  console.error(`startUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+});
+// with usedType
+privacyManager.startUsingPermission(tokenID, 'ohos.permission.READ_AUDIO', -1, usedType).then(() => {
+  console.info('startUsingPermission success');
+}).catch((err: BusinessError) => {
+  console.error(`startUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+});
+// with pid and usedType
+privacyManager.startUsingPermission(tokenID, 'ohos.permission.READ_AUDIO', pid, usedType).then(() => {
+  console.info('startUsingPermission success');
+}).catch((err: BusinessError) => {
+  console.error(`startUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+});
+```
+
+## privacyManager.startUsingPermission
+
+startUsingPermission(tokenID: number, permissionName: Permissions, callback: AsyncCallback&lt;void&gt;): void
+
+系统应用调用此接口，能够传递应用在前后台的权限使用情况，并依据应用的生命周期做出相应的响应。使用callback异步回调。
+
+当应用开始使用某项权限时，隐私服务将通知隐私指示器该应用正在使用该权限；当应用退出时，隐私服务将通知隐私指示器该应用已停止使用该权限，并清除相应的缓存。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名          | 类型                  | 必填 | 说明                                  |
+| -------------- | --------------------- | ---- | ------------------------------------ |
+| tokenID        | number                | 是   | 调用方的应用身份标识。可通过应用的[ApplicationInfo](js-apis-bundleManager-applicationInfo.md)的accessTokenId字段获得。|
+| permissionName | Permissions                | 是   | 需要使用的权限名，合法的权限名取值可在[应用权限列表](../../security/AccessToken/app-permissions.md)中查询。|
+| callback       | AsyncCallback&lt;void&gt; | 是   | 回调函数。当开始使用权限成功，err为undefined，否则为错误对象。 |
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The tokenID is 0, the permissionName exceeds 256 characters, or the type of the specified tokenID is not of the application type. |
+| 12100002 | (Deprecated in 12) The specified tokenID does not exist or refer to an application process. |
+| 12100003 | The specified permission does not exist or is not a user_grant permission. |
+| 12100004 | The API is used repeatedly with the same input. It means the application specified by the tokenID has been using the specified permission. |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let tokenID: number = 0; // 可以通过getApplicationInfo获取accessTokenId。
+privacyManager.startUsingPermission(tokenID, 'ohos.permission.READ_AUDIO', (err: BusinessError, data: void) => {
+  if (err) {
+    console.error(`startUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+  } else {
+    console.info('startUsingPermission success');
+  }
+});
+```
+
+## privacyManager.stopUsingPermission
+
+stopUsingPermission(tokenID: number, permissionName: Permissions): Promise&lt;void&gt;
+
+应用停止使用某项权限，与Start对应，由系统服务调用。使用Promise异步回调。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名          | 类型   | 必填 | 说明                                  |
+| -------------- | ------ | ---- | ------------------------------------ |
+| tokenID        | number | 是   | 调用方的应用身份标识。可通过应用的[ApplicationInfo](js-apis-bundleManager-applicationInfo.md)的accessTokenId字段获得。|
+| permissionName | Permissions | 是   | 需要使用的权限名，合法的权限名取值可在[应用权限列表](../../security/AccessToken/app-permissions.md)中查询。|
+
+**返回值：**
+
+| 类型          | 说明                                    |
+| ------------- | --------------------------------------- |
+| Promise&lt;void&gt; | Promise对象，无返回结果。|
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The tokenID is 0, the permissionName exceeds 256 characters, or the type of the specified tokenID is not of the application type. |
+| 12100003 | The specified permission does not exist or is not a user_grant permission. |
+| 12100004 | The API is not used in pair with 'startUsingPermission'. |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let tokenID: number = 0; // 可以通过getApplicationInfo获取accessTokenId。
+privacyManager.stopUsingPermission(tokenID, 'ohos.permission.READ_AUDIO').then(() => {
+  console.info('stopUsingPermission success');
+}).catch((err: BusinessError) => {
+  console.error(`stopUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+});
+```
+
+## privacyManager.stopUsingPermission<sup>18+</sup>
+
+stopUsingPermission(tokenID: number, permissionName: Permissions, pid?: number): Promise&lt;void&gt;
+
+应用停止使用某项权限，与Start对应，由系统服务调用。使用Promise异步回调。
+
+pid需要与startUsingPermission传入的pid相同。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名          | 类型   | 必填 | 说明                                  |
+| -------------- | ------ | ---- | ------------------------------------ |
+| tokenID        | number | 是   | 调用方的应用身份标识。可通过应用的[ApplicationInfo](js-apis-bundleManager-applicationInfo.md)的accessTokenId字段获得。|
+| permissionName | Permissions | 是   | 需要使用的权限名，合法的权限名取值可在[应用权限列表](../../security/AccessToken/app-permissions.md)中查询。|
+| pid            | number | 否   | 与startUsingPermission传入的pid相同，默认-1。|
+
+**返回值：**
+
+| 类型          | 说明                                    |
+| ------------- | --------------------------------------- |
+| Promise&lt;void&gt; | Promise对象，无返回结果。|
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The tokenID is 0, the permissionName exceeds 256 characters, or the type of the specified tokenID is not of the application type. |
+| 12100003 | The specified permission does not exist or is not a user_grant permission. |
+| 12100004 | The API is not used in pair with 'startUsingPermission'. |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { rpc } from '@kit.IPCKit'
+
+let tokenID: number = rpc.IPCSkeleton.getCallingTokenId(); // 也可以通过getApplicationInfo获取accessTokenId。
+let pid: number = rpc.IPCSkeleton.getCallingPid();
+
+// without pid
+privacyManager.stopUsingPermission(tokenID, 'ohos.permission.READ_AUDIO').then(() => {
+  console.info('stopUsingPermission success');
+}).catch((err: BusinessError) => {
+  console.error(`stopUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+});
+
+// with pid
+privacyManager.stopUsingPermission(tokenID, 'ohos.permission.READ_AUDIO', pid).then(() => {
+  console.info('stopUsingPermission success');
+}).catch((err: BusinessError) => {
+  console.error(`stopUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+});
+```
+
+## privacyManager.stopUsingPermission
+
+stopUsingPermission(tokenID: number, permissionName: Permissions, callback: AsyncCallback&lt;void&gt;): void
+
+应用停止使用某项权限，与Start对应，由系统服务调用。使用callback异步回调。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名          | 类型                  | 必填 | 说明                                  |
+| -------------- | --------------------- | ---- | ------------------------------------ |
+| tokenID        | number                | 是   | 调用方的应用身份标识。可通过应用的[ApplicationInfo](js-apis-bundleManager-applicationInfo.md)的accessTokenId字段获得。|
+| permissionName | Permissions                | 是   | 需要使用的权限名，合法的权限名取值可在[应用权限列表](../../security/AccessToken/app-permissions.md)中查询。|
+| callback       | AsyncCallback&lt;void&gt; | 是   | 回调函数。当停止使用权限成功，err为undefined，否则为错误对象。 |
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The tokenID is 0, the permissionName exceeds 256 characters, or the type of the specified tokenID is not of the application type. |
+| 12100003 | The specified permission does not exist or is not a user_grant permission. |
+| 12100004 | The API is not used in pair with 'startUsingPermission'. |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+
+**示例：**
+
+```ts
+import { privacyManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let tokenID: number = 0; // 可以通过getApplicationInfo获取accessTokenId。
+privacyManager.stopUsingPermission(tokenID, 'ohos.permission.READ_AUDIO', (err: BusinessError, data: void) => {
+  if (err) {
+    console.error(`stopUsingPermission fail, code: ${err.code}, message: ${err.message}`);
+  } else {
+    console.info('stopUsingPermission success');
+  }
+});
+```
+
+## privacyManager.on
+
+on(type: 'activeStateChange', permissionList: Array&lt;Permissions&gt;, callback: Callback&lt;ActiveChangeResponse&gt;): void
+
+订阅指定权限列表的权限使用状态变更事件。使用callback异步回调。
+
+允许相同permissionList订阅多个callback。
+
+不允许存在交集的permissionList订阅相同callback。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名             | 类型                   | 必填 | 说明                                                          |
+| ------------------ | --------------------- | ---- | ------------------------------------------------------------ |
+| type               | string                | 是   | 订阅事件类型，固定为'activeStateChange'，权限使用状态变更事件。   |
+| permissionList | Array&lt;Permissions&gt;   | 是   | 订阅的权限名列表，为空时表示订阅所有的权限使用状态变化，合法的权限名取值可在[应用权限列表](../../security/AccessToken/app-permissions.md)中查询。|
+| callback | Callback&lt;[ActiveChangeResponse](#activechangeresponse)&gt; | 是 | 回调函数，返回订阅指定权限使用状态变更事件的对象。 |
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The permissionList exceeds the size limit, or the permissionNames in the list are all invalid. |
+| 12100004 | The API is used repeatedly with the same input. |
+| 12100005 | The registration time has exceeded the limit. |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+
+**示例：**
+
+```ts
+import { privacyManager, Permissions } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let permissionList: Array<Permissions> = [];
+try {
+    privacyManager.on('activeStateChange', permissionList, (data: privacyManager.ActiveChangeResponse) => {
+        console.debug(`receive permission state change, data: + ${data}`);
+    });
+} catch(err) {
+    console.error(`Catch errcode: ${err.code}, message: ${err.message}`);
+}
+```
+
+## privacyManager.off
+
+off(type: 'activeStateChange', permissionList: Array&lt;Permissions&gt;, callback?: Callback&lt;ActiveChangeResponse&gt;): void
+
+取消订阅指定权限列表的权限使用状态变更事件。使用callback异步回调。
+
+取消订阅时，若不传入callback，则批量删除permissionList下的所有callback。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名             | 类型                   | 必填 | 说明                                                          |
+| ------------------ | --------------------- | ---- | ------------------------------------------------------------ |
+| type               | string                | 是   | 取消订阅事件类型，固定为'activeStateChange'，权限使用状态变更事件。   |
+| permissionList | Array&lt;Permissions&gt;   | 是   | 取消订阅的权限名列表，为空时表示取消订阅所有的权限状态变化，必须与[on](#privacymanageron)的输入一致，合法的权限名取值可在[应用权限列表](../../security/AccessToken/app-permissions.md)中查询。|
+| callback | Callback&lt;[ActiveChangeResponse](#activechangeresponse)&gt; | 否 | 回调函数，返回取消订阅指定tokenId与指定权限名状态变更事件的对象。|
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 401 | Parameter error. Possible causes: 1.Mandatory parameters are left unspecified; 2.Incorrect parameter types. |
+| 12100001 | Invalid parameter. The permissionList is not in the listening list. |
+| 12100004 | The API is not used in pair with "on". |
+| 12100007 | The service is abnormal. |
+| 12100008 | Out of memory. |
+
+**示例：**
+
+```ts
+import { privacyManager, Permissions } from '@kit.AbilityKit';
+
+let permissionList: Array<Permissions> = [];
+try {
+    privacyManager.off('activeStateChange', permissionList);
+} catch(err) {
+    console.error(`Catch errcode: ${err.code}, message: ${err.message}`);
+}
+```
+
+## privacyManager.getPermissionUsedTypeInfos<sup>12+</sup>
+
+getPermissionUsedTypeInfos(tokenId?: number | null, permissionName?: Permissions): Promise&lt;Array&lt;PermissionUsedTypeInfo&gt;&gt;
+
+查询设备上指定应用访问敏感权限时的信息（包括敏感权限名称、敏感权限访问方式）。
+
+**需要权限：** ohos.permission.PERMISSION_USED_STATS，仅系统应用可用。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+**参数：**
+
+| 参数名             | 类型                   | 必填 | 说明                                                          |
+| ------------------ | --------------------- | ---- | ------------------------------------------------------------ |
+| tokenId            | number \| null                | 否   | 访问敏感权限的应用身份标识，为0时表示查询所有应用的敏感权限访问类型信息。从API20，新增支持null类型。   |
+| permissionName     | Permissions           | 否   | 被访问的敏感权限名称，为空时标识查询所有敏感权限的访问类型信息。   |
+
+**返回值：**
+
+| 类型          | 说明                                    |
+| ------------- | --------------------------------------- |
+| Promise&lt;Array&lt;[PermissionUsedTypeInfo](#permissionusedtypeinfo12)&gt;&gt; | Promise对象，返回权限访问类型信息列表的Promise对象。|
+
+**错误码：**
+
+以下错误码的详细介绍请参见[访问控制错误码](errorcode-access-token.md)。
+
+| 错误码ID | 错误信息 |
+| -------- | -------- |
+| 201 | Permission denied. Interface caller does not have permission "ohos.permission.PERMISSION_USED_STATS". |
+| 202 | Not system app. Interface caller is not a system app. |
+| 12100001 | Invalid parameter. PermissionName exceeds 256 characters. |
+| 12100002 | The input tokenId does not exist. |
+| 12100003 | The input permissionName does not exist. |
+| 12100009 | Common inner error. A database error occurs. |
+
+**示例：**
+
+```ts
+import { privacyManager, Permissions } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+let tokenId: number = 0; // 可以通过bundleManager.getApplicationInfo获取accessTokenId。
+let permissionName: Permissions = 'ohos.permission.CAMERA';
+// without any param
+privacyManager.getPermissionUsedTypeInfos().then(() => {
+  console.info('getPermissionUsedTypeInfos success');
+}).catch((err: BusinessError) => {
+  console.error(`getPermissionUsedTypeInfos fail, code: ${err.code}, message: ${err.message}`);
+});
+// only tokenId
+privacyManager.getPermissionUsedTypeInfos(tokenId).then(() => {
+  console.info('getPermissionUsedTypeInfos success');
+}).catch((err: BusinessError) => {
+  console.error(`getPermissionUsedTypeInfos fail, code: ${err.code}, message: ${err.message}`);
+});
+// only permissionName
+privacyManager.getPermissionUsedTypeInfos(null, permissionName).then(() => {
+  console.info('getPermissionUsedTypeInfos success');
+}).catch((err: BusinessError) => {
+  console.error(`getPermissionUsedTypeInfos fail, code: ${err.code}, message: ${err.message}`);
+});
+// tokenId and permissionName
+privacyManager.getPermissionUsedTypeInfos(tokenId, permissionName).then(() => {
+  console.info('getPermissionUsedTypeInfos success');
+}).catch((err: BusinessError) => {
+  console.error(`getPermissionUsedTypeInfos fail, code: ${err.code}, message: ${err.message}`);
+});
+```
+
+## PermissionUsageFlag
+
+表示使用记录的查询方式的枚举。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+| 名称                    | 值 | 说明                   |
+| ----------------------- | ------ | ---------------------- |
+| FLAG_PERMISSION_USAGE_SUMMARY             | 0    | 表示查询总览数据。 |
+| FLAG_PERMISSION_USAGE_DETAIL         | 1    | 表示查询详细数据。         |
+
+## PermissionUsedRequest
+
+表示使用记录的查询请求。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+| 名称       | 类型             | 只读 | 可选 | 说明                                       |
+| -------- | -------------- | ---- | ---- | ---------------------------------------- |
+| tokenId  | number         | 否    | 是    | 目标应用的身份标识。<br/> 默认值为0，查询所有应用。         |
+| isRemote | boolean         | 否    | 是    | 指定是否查询远端设备。<br/> 默认值false，表示查询本端设备，true表示查询远端设备。 |
+| deviceId  | string         | 否    | 是    | 目标应用所在设备的ID。<br/> 默认设备ID为本端设备ID。   |
+| bundleName | string         | 否    | 是    | 目标应用的包名。<br/> 默认查询所有应用。 |
+| permissionNames  | Array&lt;Permissions&gt;         | 否    | 是    | 需要查询的权限集合。<br/> 默认查询所有权限的使用记录。               |
+| beginTime | number         | 否    | 是    | 查询的起始时间，单位：ms。<br/>默认值0，不设定起始时间。 |
+| endTime | number         | 否    | 是    | 查询的终止时间，单位：ms。<br/>默认值0，不设定终止时间。 |
+| flag | [PermissionUsageFlag](#permissionusageflag)         | 否    | 否    | 指定查询方式。 |
+
+## PermissionUsedResponse
+
+表示所有应用的访问记录。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+| 名称       | 类型             | 只读 | 可选 | 说明                                       |
+| --------- | -------------- | ---- | ---- | ---------------------------------------- |
+| beginTime | number         | 否    | 否    | 查询记录的起始时间，单位：ms。 |
+| endTime   | number         | 否    | 否    | 查询记录的终止时间，单位：ms。 |
+| bundleRecords  | Array&lt;[BundleUsedRecord](#bundleusedrecord)&gt;         | 否    | 否    | 应用的权限使用记录集合。                                 |
+
+## BundleUsedRecord
+
+某个应用的访问记录。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+| 名称       | 类型             | 只读 | 可选 | 说明                                       |
+| -------- | -------------- | ---- | ---- | ---------------------------------------- |
+| tokenId  | number         | 否    | 否    | 目标应用的身份标识。                                 |
+| isRemote | boolean         | 否    | 否    | 是否是分布式设备。默认值为false，表示不是分布式设备，true表示是分布式设备。 |
+| deviceId  | string         | 否    | 否    | 目标应用所在设备的ID。                                 |
+| bundleName | string         | 否    | 否    | 目标应用的包名。 |
+| permissionRecords  | Array&lt;[PermissionUsedRecord](#permissionusedrecord)&gt;         | 否    | 否    | 每个应用的权限使用记录集合。                                 |
+
+## PermissionUsedRecord
+
+某个权限的访问记录。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+| 名称       | 类型             | 只读 | 可选 | 说明                                       |
+| -------- | -------------- | ---- | ---- | ---------------------------------------- |
+| permissionName  | Permissions         | 否    | 否    | 权限名。                                 |
+| accessCount | number         | 否    | 否    | 该权限访问总次数。 |
+| rejectCount | number         | 否    | 否    | 该权限拒绝总次数。 |
+| lastAccessTime | number         | 否    | 否    | 最后一次访问时间，单位：ms。 |
+| lastRejectTime | number         | 否    | 否    | 最后一次拒绝时间，单位：ms。 |
+| lastAccessDuration | number         | 否    | 否    | 最后一次访问时长，单位：ms。 |
+| accessRecords  | Array&lt;[UsedRecordDetail](#usedrecorddetail)&gt;         | 否    | 否    | 访问记录集合，当flag为FLAG_PERMISSION_USAGE_DETAIL时生效，默认查询10条记录。                                 |
+| rejectRecords  | Array&lt;[UsedRecordDetail](#usedrecorddetail)&gt;         | 否    | 否    | 拒绝记录集合，当flag为FLAG_PERMISSION_USAGE_DETAIL时生效，默认查询10条记录。                                 |
+
+## UsedRecordDetail
+
+单次访问记录详情。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+| 名称       | 类型             | 只读 | 可选 | 说明                                       |
+| -------- | -------------- | ---- | ---- | ---------------------------------------- |
+| status  | number         | 否    | 否    | 访问状态。 |
+| lockScreenStatus<sup>11+</sup>  | number         | 否    | 是    | 访问时的锁屏状态。<br> - 1，表示非锁屏场景使用权限。<br> - 2，表示锁屏场景使用权限。 |
+| timestamp | number         | 否    | 否    | 访问时的时间戳，单位：ms。 |
+| accessDuration  | number         | 否    | 否    | 访问时长，单位：ms。 |
+| count<sup>11+</sup> | number | 否 | 是    | 成功或失败次数。 |
+| usedType<sup>12+</sup> | [PermissionUsedType](#permissionusedtype12) | 否 | 是    | 敏感权限访问方式。 |
+
+## PermissionActiveStatus
+
+表示权限使用状态变化类型的枚举。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+| 名称                      | 值     | 说明              |
+| ------------------------- | ------ | ---------------- |
+| PERM_INACTIVE             | 0      | 表示未使用权限。   |
+| PERM_ACTIVE_IN_FOREGROUND | 1      | 表示前台使用权限。 |
+| PERM_ACTIVE_IN_BACKGROUND | 2      | 表示后台使用权限。 |
+
+## ActiveChangeResponse
+
+表示某次权限使用状态变化的详情。
+
+ **系统能力:** SystemCapability.Security.AccessToken
+
+| 名称           | 类型                    | 只读 | 可选 | 说明                   |
+| -------------- | ---------------------- | ---- | ---- | --------------------- |
+| callingTokenId<sup>18+</sup> | number   | 否   | 是   | 接口调用方的应用身份标识，当activeStatus为INACTIVE时该值无效。 |
+| tokenId        | number                 | 否   | 否   | 被订阅的应用身份标识。    |
+| permissionName | Permissions            | 否   | 否   | 权限使用状态发生变化的权限名。 |
+| deviceId       | string                 | 否   | 否   | 设备号。                 |
+| activeStatus   | [PermissionActiveStatus](#permissionactivestatus) | 否   | 否   | 权限使用状态变化类型。        |
+| usedType<sup>18+</sup> | [PermissionUsedType](#permissionusedtype12) | 否   | 是   | 敏感权限使用类型，当activeStatus为INACTIVE时该值无效。 |
+
+## PermissionUsedType<sup>12+</sup>
+
+表示通过何种方式使用敏感权限的枚举。
+
+**系统能力：** SystemCapability.Security.AccessToken
+
+| 名称                    | 值 | 说明              |
+| ----------------------- | -- | ---------------- |
+| NORMAL_TYPE             | 0  | 表示通过弹窗授权或设置授权来使用敏感权限。   |
+| PICKER_TYPE             | 1  | 表示通过某个PICKER服务来使用敏感权限，但此方式未授予权限。 |
+| SECURITY_COMPONENT_TYPE | 2  | 表示通过安全控件授权的方式来使用敏感权限。 |
+
+## PermissionUsedTypeInfo<sup>12+</sup>
+
+表示某次权限使用类型的详情。
+
+ **系统能力:** SystemCapability.Security.AccessToken
+
+| 名称           | 类型                    | 只读 | 可选 | 说明                   |
+| -------------- | ---------------------- | ---- | ---- | --------------------- |
+| tokenId        | number                 | 否   | 否   | 访问敏感权限的应用身份标识。 |
+| permissionName | Permissions            | 否   | 否   | 被访问的敏感权限名称。 |
+| usedType | [PermissionUsedType](#permissionusedtype12) | 否 | 否    | 敏感权限使用类型。 |
+
+## AddPermissionUsedRecordOptions<sup>12+</sup>
+
+添加权限使用记录可选参数集。
+
+ **系统能力:** SystemCapability.Security.AccessToken
+
+| 名称           | 类型                    | 只读 | 可选 | 说明                   |
+| -------------- | ---------------------- | ---- | ---- | --------------------- |
+| usedType | [PermissionUsedType](#permissionusedtype12) | 否 | 是    | 敏感权限使用类型。 |

@@ -1,0 +1,462 @@
+# @system.geolocation (Geolocation)
+<!--Kit: Location Kit-->
+<!--Subsystem: Location-->
+<!--Owner: @liu-binjun-->
+<!--Designer: @liu-binjun-->
+<!--Tester: @mhy123456789-->
+<!--Adviser: @RayShih-->
+
+The **geolocation** module provides only basic functions such as GNSS positioning and network positioning.
+
+> **NOTE**
+> - The initial APIs of this module are supported since API version 3. Newly added APIs will be marked with a superscript to indicate their earliest API version.
+> - For lite wearables, this module is constantly maintained and available.
+> - For other device types, this module is no longer maintained since API version 9, and you are advised to use [geoLocationManager](js-apis-geoLocationManager.md) instead.
+
+
+## Modules to Import
+
+```js
+import geolocation from '@system.geolocation';
+```
+
+
+## Required Permissions
+
+ohos.permission.LOCATION
+
+
+## geolocation.getLocation<sup>(deprecated)</sup>
+
+getLocation(options?: GetLocationOption): void
+
+Obtains the geographic location.
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables. You are advised to use [geoLocationManager.getCurrentLocation](js-apis-geoLocationManager.md#geolocationmanagergetcurrentlocation) instead.
+
+**Required permissions**: ohos.permission.LOCATION
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+**Parameters**
+
+| Name| Type| Mandatory| Description|
+| -------- | -------- | -------- | -------- |
+| options | [GetLocationOption](#getlocationoptiondeprecated) | No| Options of a single location request.|
+
+**JS example**
+
+```xml
+<div class="container">
+  <text class="title" style="font-size: {{fontSize}}; color: {{fontColor}};">
+    getLocation
+  </text>
+  <input type="button" value="Obtain Device Geographic Location" style="width: 240px; height: 50px;" onclick="getLocation"></input>
+</div>
+```
+
+```css
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 0px;
+  top: 0px;
+  width: 454px;
+  height: 454px;
+}
+
+.title {
+  font-size: 100px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+
+.button {
+  font-size: 30px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+```
+
+```js
+export default {    
+  getLocation() {        
+    geolocation.getLocation({            
+      success: function(data) {                
+        console.info('success get location data. latitude:' + data.latitude);            
+      },            
+      fail: function(data, code) {                
+        console.info('fail to get location. code:' + code + ', data:' + data);            
+      }
+    });    
+  },
+}
+```
+
+
+## geolocation.getLocationType<sup>(deprecated)</sup>
+
+getLocationType(options?: GetLocationTypeOption): void
+
+Obtains the supported location types.
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables. The location subsystem supports only two location types: GNSS positioning and network positioning. No APIs will be provided to query the supported location types.
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+**Parameters**
+
+| Name| Type| Mandatory| Description|
+| -------- | -------- | -------- | -------- |
+| options | [GetLocationTypeOption](#getlocationtypeoptiondeprecated) | No| Callback used to return the result.|
+
+**JS example**
+
+```xml
+<div class="container">
+  <text class="title" style="font-size: {{fontSize}}; color: {{fontColor}};">
+    getLocationType
+  </text>
+  <input type="button" value="Obtain Location Types Supported by Current Device" style="width: 240px; height: 50px;" onclick="getLocationType"></input>
+</div>
+```
+
+```css
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 0px;
+  top: 0px;
+  width: 454px;
+  height: 454px;
+}
+
+.title {
+  font-size: 100px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+
+.button {
+  font-size: 30px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+```
+
+```js
+export default {    
+  getLocationType() {        
+    geolocation.getLocationType({            
+      success: function(data) {                
+        console.info('success get location type:' + data.types[0]);            
+      },            
+      fail: function(data, code) {                
+        console.info('fail to get location. code:' + code + ', data:' + data);            
+       },        
+     });    
+  },
+}
+```
+
+
+## geolocation.subscribe<sup>(deprecated)</sup>
+
+subscribe(options: SubscribeLocationOption): void
+
+Listens to the geographic location. If this API is called multiple times, the last call takes effect.
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables. You are advised to use [geoLocationManager.on('locationChange')](js-apis-geoLocationManager.md#geolocationmanageronlocationchange) instead.
+
+**Required permissions**: ohos.permission.LOCATION
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+**Parameters**
+
+| Name| Type| Mandatory| Description|
+| -------- | -------- | -------- | -------- |
+| options | [SubscribeLocationOption](#subscribelocationoptiondeprecated) | Yes| Options for continuous location.|
+
+**JS example**
+
+```xml
+<div class="container">
+  <text class="title" style="font-size: {{fontSize}}; color: {{fontColor}};">
+    subscribe
+  </text>
+  <input type="button" value="Subscribe to Device Geographic Location Information" style="width: 240px; height: 50px;" onclick="subscribe"></input>
+</div>
+```
+
+```css
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 0px;
+  top: 0px;
+  width: 454px;
+  height: 454px;
+}
+
+.title {
+  font-size: 100px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+
+.button {
+  font-size: 30px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+```
+
+```js
+export default {    
+  subscribe() {        
+    geolocation.subscribe({            
+      success: function(data) {                
+        console.info('get location. latitude:' + data.latitude);            
+      },            
+      fail: function(data, code) {                
+        console.info('fail to get location. code:' + code + ', data:' + data);            
+      },        
+    });    
+  },
+}
+```
+
+
+## geolocation.unsubscribe<sup>(deprecated)</sup>
+
+unsubscribe(): void
+
+Cancels listening to the geographic location.
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables. You are advised to use [geoLocationManager.off('locationChange')](js-apis-geoLocationManager.md#geolocationmanagerofflocationchange) instead.
+
+**Required permissions**: ohos.permission.LOCATION
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+**JS example**
+
+```xml
+<div class="container">
+  <text class="title" style="font-size: {{fontSize}}; color: {{fontColor}};">
+    unsubscribe
+  </text>
+  <input type="button" value="Unsubscribe from Device Geographic Location Information" style="width: 240px; height: 50px;" onclick="unsubscribe"></input>
+</div>
+```
+
+```css
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 0px;
+  top: 0px;
+  width: 454px;
+  height: 454px;
+}
+
+.title {
+  font-size: 100px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+
+.button {
+  font-size: 30px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+```
+
+```js
+export default {    
+  unsubscribe() {        
+    geolocation.unsubscribe();    
+  },
+}
+```
+
+
+## geolocation.getSupportedCoordTypes<sup>(deprecated)</sup>
+
+getSupportedCoordTypes(): Array&lt;string&gt;
+
+Obtains coordinate system types supported by the device.
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables. The location subsystem supports only the WGS-84 coordinate system. No APIs will be provided to query the supported coordinate system types.
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+**Return value**
+
+| Type| Not empty| Description|
+| -------- | -------- | -------- |
+| Array&lt;string&gt; | Yes| Coordinate system types, for example, **[wgs84, gcj02]**.|
+
+**JS example**
+
+```xml
+<div class="container">
+  <text class="title" style="font-size: {{fontSize}}; color: {{fontColor}};">
+    getSupportedCoordTypes
+  </text>
+  <input type="button" value="Obtain Coordinate System Types Supported by Device" style="width: 240px; height: 50px;" onclick="getSupportedCoordTypes"></input>
+</div>
+```
+
+```css
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 0px;
+  top: 0px;
+  width: 454px;
+  height: 454px;
+}
+
+.title {
+  font-size: 100px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+
+.button {
+  font-size: 30px;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+}
+```
+
+```js
+export default {    
+  getSupportedCoordTypes() {       
+    var types = geolocation.getSupportedCoordTypes();
+    console.info('getSupportedCoordTypes:' types); 
+  },
+}
+```
+
+## GetLocationOption<sup>(deprecated)</sup>
+
+Options of a single location request.
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables. You are advised to use [geoLocationManager.CurrentLocationRequest](js-apis-geoLocationManager.md#currentlocationrequest) instead.
+
+**Required permissions**: ohos.permission.LOCATION
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+| Name| Type| Mandatory| Description|
+| -------- | -------- | -------- | -------- |
+| timeout | number | No| Timeout duration, in ms. The default value is **30000**.<br>The timeout duration is necessary in case the request to obtain the geographic location is rejected for the lack of the required permission, weak positioning signal, or incorrect location settings. After the timeout duration expires, the fail function will be called.<br>The value is a 32-digit positive integer. If the specified value is less than or equal to **0**, the default value will be used.|
+| coordType | string | No| Coordinate system type. Available types can be obtained by **getSupportedCoordTypes**. The default type is **wgs84**.|
+| success | (data: [GeolocationResponse](#geolocationresponsedeprecated)) => void | No| Called when API call is successful.|
+| fail |  (data: string, code: number) => void | No| Called when API call has failed. **data** indicates the error information, and **code** indicates the error code.|
+| complete | () => void | No| Called when API call is complete.|
+
+**Return value of fail()**
+
+| Error Code| Description|
+| -------- | -------- |
+| 601 | Failed to obtain the required permission because the user rejected the request.|
+| 602 | Permission not declared.|
+| 800 | Operation times out due to a poor network condition or GNSS unavailability.|
+| 801 | System location disabled.|
+| 802 | API called again while the previous execution result is not returned yet.|
+
+## GeolocationResponse<sup>(deprecated)</sup>
+
+Defines the location information, including the longitude, latitude, and location precision.
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables. You are advised to use [geoLocationManager.Location](js-apis-geoLocationManager.md#location) instead.
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+| Name| Type| Read Only| Optional| Description|
+| -------- | -------- | -------- | -------- | -------- |
+| longitude | number | No| No| Longitude.|
+| latitude | number | No| No| Latitude.|
+| altitude | number | No| No| Altitude.|
+| accuracy | number | No| No| Location accuracy. <!--RP1--> (This field is provided by the GNSS positioning chip or network location service. If this function is not supported, the default value **0** is returned.)<!--RP1End--> |
+| time | number | No| No| Time when the location is obtained.|
+
+## GetLocationTypeOption<sup>(deprecated)</sup>
+
+Defines the location type option, which holds the callback function used to return the query result.
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables.
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+| Name| Type| Mandatory| Description|
+| -------- | -------- | -------- | -------- |
+| success | (data: [GetLocationTypeResponse](#getlocationtyperesponsedeprecated)) => void | No| Called when API call is successful.|
+| fail | (data: string, code: number) => void | No| Called when API call has failed.|
+| complete | () => void | No| Called when API call is complete.|
+
+## GetLocationTypeResponse<sup>(deprecated)</sup>
+
+Defines the list of location types supported by the current device
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables.
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+| Name| Type| Read Only| Optional| Description|
+| -------- | -------- | -------- | -------- | -------- |
+| types | Array&lt;string&gt; | No| No| Available location types, ['gps', 'network']|
+
+## SubscribeLocationOption<sup>(deprecated)</sup>
+
+Defines the options for continuous location.
+
+> **NOTE**<br>
+> This API is deprecated since API version 9 for all device types except lite wearables. You are advised to use [geoLocationManager.CurrentLocationRequest](js-apis-geoLocationManager.md#currentlocationrequest) instead.
+
+**Required permissions**: ohos.permission.LOCATION
+
+**System capability**: SystemCapability.Location.Location.Lite
+
+| Name| Type| Mandatory| Description|
+| -------- | -------- | -------- | -------- |
+| coordType | string | No| Coordinate system type. Available types can be obtained by **getSupportedCoordTypes**. The default type is **wgs84**.|
+| success | (data: [GeolocationResponse](#geolocationresponsedeprecated)) => void | Yes| Called when the geographic location changes.|
+| fail | (data: string, code: number) => void | No| Called when API call has failed.|
+
+**Return value of fail()**
+
+| Error Code| Description|
+| -------- | -------- |
+| 601 | Failed to obtain the required permission because the user rejected the request.|
+| 602 | Permission not declared.|
+| 801 | System location disabled.|

@@ -1,0 +1,593 @@
+# @ohos.multimedia.movingphotoview (MovingPhotoView)
+<!--Kit: Media Library Kit-->
+<!--Subsystem: FileManagement-->
+<!--Owner: @tangye123456-->
+<!--Designer: @YanSanzo-->
+<!--Tester: @tinygreyy-->
+<!--Adviser: @w_Machine_cc-->
+
+The **MovingPhotoView** component is used to play moving photos and control the playback status.
+
+> **NOTE**
+>
+> This component is supported since API version 12. Updates will be marked with a superscript to indicate their earliest API version.
+> Currently, the **MovingPhotoView** component cannot be used in Previewer.
+
+## Modules to Import
+
+> **NOTE**
+>
+> - **MovingPhotoViewAttribute** is essential for configuring the **MovingPhotoView** component. In API version 21 and earlier, you must manually import **MovingPhotoViewAttribute** after importing the **MovingPhotoView** component. Otherwise, a compilation error is reported. However, starting from API version 22, the compilation toolchain automatically imports **MovingPhotoViewAttribute** when it detects the **MovingPhotoView** component, so manual import is no longer necessary.
+> - If you manually import **MovingPhotoViewAttribute**, DevEco Studio shows it as disabled (grayed out). In API version 21 and earlier, removing this import causes a compilation error. But from API version 22 onward, removing it does not affect the functionality.
+ 
+   API version 21 and earlier:
+
+   ```ts
+   import { MovingPhotoView, MovingPhotoViewController, MovingPhotoViewAttribute } from '@kit.MediaLibraryKit';
+   ```
+
+   API version 22 and later:
+   
+   ```ts
+   import { MovingPhotoView, MovingPhotoViewController } from '@kit.MediaLibraryKit';
+   ```
+
+## MovingPhotoView
+
+> **NOTE**
+>
+> - Currently, live attributes cannot be set.
+> - Currently, **expandSafeArea** in the ArkUI common attribute **ComponentOptions** cannot be set.
+> - When this component is long pressed to trigger playback, the component area is zoomed in to 1.1 times.
+> - This component uses [AVPlayer](../apis-media-kit/arkts-apis-media-AVPlayer.md) to play moving photos. A maximum of three AVPlayers can be used at the same time. Otherwise, frame freezing may occur.
+
+MovingPhotoView(options: MovingPhotoViewOptions)
+
+**Parameters**
+
+
+| Name | Type                                                 | Mandatory| Description      |
+| ------- | --------------------------------------------------------- | ---- | -------------- |
+| options | [MovingPhotoViewOptions](#movingphotoviewoptions) | Yes  | Moving photo information.|
+
+## MovingPhotoViewOptions
+
+
+| Name     | Type                                                                                        | Read-Only| Optional| Description                                                                                                                                       |
+| ----------- | ------------------------------------------------------------------------------------------------ | ----------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| movingPhoto | [photoAccessHelper.MovingPhoto](arkts-apis-photoAccessHelper-MovingPhoto.md) | No| No | MovingPhoto data source from the media library. For details, see [MovingPhoto](arkts-apis-photoAccessHelper-MovingPhoto.md).<br>**Atomic service API**: This API can be used in atomic services since API version 12.|
+| controller  | [MovingPhotoViewController](#movingphotoviewcontroller)                                          | No| Yes  | Controller used to control the playback status of the moving photo.<br>**Atomic service API**: This API can be used in atomic services since API version 12.                     |
+| imageAIOptions<sup>18+</sup>   | [ImageAIOptions](../apis-arkui/arkui-ts/ts-image-common.md#imageaioptions12) | No| Yes| AI options. You can set the image analyzer type or bind an image analyzer controller.<br>**Atomic service API**: This API can be used in atomic services since API version 18.|
+
+## Attributes
+
+In addition to the [universal attributes](../apis-arkui/arkui-ts/ts-component-general-attributes.md), the following attributes are supported.
+
+### muted
+
+muted(isMuted: boolean)
+
+Sets whether to mute the player.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name | Type   | Mandatory| Description                        |
+| ------- | ------- | ---- | ---------------------------- |
+| isMuted | boolean | Yes  | Whether to mute the player.<br>The default value is **false**.<br>**true** to mute, **false** otherwise.|
+
+### objectFit
+
+objectFit(value: ImageFit)
+
+Sets the display mode of the moving photo.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name| Type                                                                         | Mandatory| Description                            |
+| ------ | ----------------------------------------------------------------------------- | ---- | -------------------------------- |
+| value  | [ImageFit](../apis-arkui/arkui-ts/ts-appendix-enums.md#imagefit) | Yes  | Image scale type.<br>The default value is **Cover**.|
+
+### autoPlayPeriod<sup>13+</sup>
+
+autoPlayPeriod(startTime: number, endTime: number)
+
+Sets the autoplay period, which is a configuration item of **autoPlay**.
+
+Before this API is called, [autoPlay](#autoplay13) must be set to **true**. Otherwise, the specified video play period (**startTime**, **endTime**) does not take effect.
+
+**Atomic service API**: This API can be used in atomic services since API version 13.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name | Type   | Mandatory| Description                        |
+| ------- | ------- | ---- | ---------------------------- |
+| startTime| number| Yes  | Start playback time, in ms.<br>The value must be greater than or equal to 0.|
+| endTime| number| Yes  | End playback time, in ms.<br>The value must be greater than **startTime**.|
+
+### autoPlay<sup>13+</sup>
+
+autoPlay(isAutoPlay: boolean)
+
+Sets whether to automatically play the video once.
+
+You can call this API when the moving photo is loaded and ready to play. After playback, a static image is displayed.
+
+**Atomic service API**: This API can be used in atomic services since API version 13.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name | Type   | Mandatory| Description                        |
+| ------- | ------- | ---- | ---------------------------- |
+| isAutoPlay| boolean| Yes  | Whether to enable autoplay.<br>**true** to enable, **false** otherwise.<br>The default value is **false**.|
+
+### repeatPlay<sup>13+</sup>
+
+repeatPlay(isRepeatPlay: boolean)
+
+Sets repeat play. **repeatPlay** is mutually exclusive with **autoPlay** and **Long Press**, and takes precedence over them.
+
+**Atomic service API**: This API can be used in atomic services since API version 13.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name | Type   | Mandatory| Description                        |
+| ------- | ------- | ---- | ---------------------------- |
+| isRepeatPlay| boolean| Yes  | Whether to enable repeat play.<br>**true** to enable, **false** otherwise.<br>The default value is **false**.|
+
+### enableAnalyzer<sup>18+</sup> 
+
+enableAnalyzer(enabled: boolean)
+
+Sets the AI analyzer. Currently, the AI analyzer supports features, such as subject recognition, text recognition, and object search.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name | Type   | Mandatory| Description                        |
+| ------- | ------- | ---- | ---------------------------- |
+| enabled| boolean| Yes  | Whether to enable the AI analyzer.<br>**true** to enable, **false** otherwise.<br>The default value is **true**.|
+
+## Events
+
+In addition to [universal events](../apis-arkui/arkui-ts/ts-component-general-events.md), the following events are supported.
+
+### onComplete<sup>13+</sup>
+
+onComplete(callback: MovingPhotoViewEventCallback)
+
+Called when the image of a moving photo is loaded. This API uses an asynchronous callback to return the result.
+
+**Atomic service API**: This API can be used in atomic services since API version 13.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name  | Type                                                         | Mandatory| Description                          |
+| -------- | ------------------------------------------------------------- | ---- | ------------------------------ |
+| callback | [MovingPhotoViewEventCallback](#movingphotovieweventcallback) | Yes  | Callback to be invoked when the image of a moving photo is loaded.|
+
+### onStart
+
+onStart(callback: MovingPhotoViewEventCallback)
+
+Called when a moving photo starts playing. This API uses an asynchronous callback to return the result.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name  | Type                                                         | Mandatory| Description                          |
+| -------- | ------------------------------------------------------------- | ---- | ------------------------------ |
+| callback | [MovingPhotoViewEventCallback](#movingphotovieweventcallback) | Yes  | Callback to be invoked when a moving photo starts playing.|
+
+### onPause
+
+onPause(callback: MovingPhotoViewEventCallback)
+
+Called when the playback is paused. This API uses an asynchronous callback to return the result.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name  | Type                                                         | Mandatory| Description                          |
+| -------- | ------------------------------------------------------------- | ---- | ------------------------------ |
+| callback | [MovingPhotoViewEventCallback](#movingphotovieweventcallback) | Yes  | Callback to be invoked when the playback of a moving photo is paused.|
+
+### onFinish
+
+onFinish(callback: MovingPhotoViewEventCallback)
+
+Called when the playback is finished. This API uses an asynchronous callback to return the result.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name  | Type                                                         | Mandatory| Description                          |
+| -------- | ------------------------------------------------------------- | ---- | ------------------------------ |
+| callback | [MovingPhotoViewEventCallback](#movingphotovieweventcallback) | Yes  | Callback to be invoked when the playback of a moving photo ends.|
+
+### onError
+
+onError(callback: MovingPhotoViewEventCallback)
+
+Called when the playback fails. This API uses an asynchronous callback to return the result.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name  | Type                                                         | Mandatory| Description                          |
+| -------- | ------------------------------------------------------------- | ---- | ------------------------------ |
+| callback | [MovingPhotoViewEventCallback](#movingphotovieweventcallback) | Yes  | Callback to be invoked when the playback of a moving photo fails.|
+
+### onStop
+
+onStop(callback: MovingPhotoViewEventCallback)
+
+Called when the playback is stopped by **stop()**. This API uses an asynchronous callback to return the result.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name  | Type                                                         | Mandatory| Description                          |
+| -------- | ------------------------------------------------------------- | ---- | ------------------------------ |
+| callback | [MovingPhotoViewEventCallback](#movingphotovieweventcallback) | Yes  | Callback to be invoked when the playback of a moving photo is stopped.|
+
+### onPrepared<sup>20+</sup>
+
+onPrepared(callback: MovingPhotoViewEventCallback)
+
+Called when a moving photo is ready for playback. This API uses an asynchronous callback to return the result.
+
+**Atomic service API**: This API can be used in atomic services since API version 20.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+**Parameters**
+
+
+| Name  | Type                                                         | Mandatory| Description                          |
+| -------- | ------------------------------------------------------------- | ---- | ------------------------------ |
+| callback | [MovingPhotoViewEventCallback](#movingphotovieweventcallback) | Yes  | Callback to be invoked when the moving photo is ready for playback.|
+
+## MovingPhotoViewEventCallback
+
+declare type MovingPhotoViewEventCallback = () => void
+
+Defines a callback to be invoked when the playback status of a moving photo changes.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+## MovingPhotoViewController
+
+A MovingPhotoViewController object can be used to control a **MovingPhotoView** component. For details, see [@ohos.multimedia.media](../apis-media-kit/arkts-apis-media.md).
+
+### constructor
+
+constructor()
+
+Constructs a MovingPhotoViewController object.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+### startPlayback
+
+startPlayback()
+
+Starts playback. You can call this API when a moving photo is loaded and is ready to play, or when playback is paused or has finished.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+### stopPlayback
+
+stopPlayback()
+
+Stops playback. Once started again, the playback starts from the beginning.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+### refreshMovingPhoto<sup>18+</sup> 
+
+refreshMovingPhoto()
+
+Forcibly refreshes the video and image resources loaded by the **MovingPhotoView** component. This API will interrupt the ongoing actions of the component. Exercise caution when using it.
+
+**Atomic service API**: This API can be used in atomic services since API version 18.
+
+**System capability**: SystemCapability.FileManagement.PhotoAccessHelper.Core
+
+## Example 1: Playing Moving Photos in Multiple Modes
+
+```ts
+// xxx.ets
+import { photoAccessHelper } from '@kit.MediaLibraryKit';
+import { emitter } from '@kit.BasicServicesKit';
+import { dataSharePredicates } from '@kit.ArkData';
+// For API version 21 and earlier, use the following: import { MovingPhotoView, MovingPhotoViewController, MovingPhotoViewAttribute } from '@kit.MediaLibraryKit';
+// For API version 22 and later, use the following:
+import { MovingPhotoView, MovingPhotoViewController } from '@kit.MediaLibraryKit';
+
+const PHOTO_SELECT_EVENT_ID: number = 80001
+
+@Entry
+@Component
+struct MovingPhotoViewDemo {
+  @State src: photoAccessHelper.MovingPhoto | undefined = undefined
+  @State isMuted: boolean = false
+  controller: MovingPhotoViewController = new MovingPhotoViewController()
+  private uiContext: UIContext = this.getUIContext()
+
+  aboutToAppear(): void {
+    emitter.on({
+      eventId: PHOTO_SELECT_EVENT_ID,
+      priority: emitter.EventPriority.IMMEDIATE,
+    }, (eventData: emitter.EventData) => {
+      this.src = AppStorage.get<photoAccessHelper.MovingPhoto>('mv_data') as photoAccessHelper.MovingPhoto
+    })
+  }
+
+  aboutToDisappear(): void {
+    emitter.off(PHOTO_SELECT_EVENT_ID)
+  }
+
+  build() {
+    Column() {
+      Row() {
+        Button('PICK')
+          .margin(5)
+          .onClick(async () => {
+            try {
+              let uris: Array<string> = []
+              const photoSelectOptions = new photoAccessHelper.PhotoSelectOptions()
+              photoSelectOptions.MIMEType = photoAccessHelper.PhotoViewMIMETypes.IMAGE_VIDEO_TYPE
+              photoSelectOptions.maxSelectNumber = 2
+              const photoViewPicker = new photoAccessHelper.PhotoViewPicker()
+              let photoSelectResult: photoAccessHelper.PhotoSelectResult = await photoViewPicker.select(photoSelectOptions)
+              uris = photoSelectResult.photoUris
+              if (uris[0]) {
+                this.handlePickerResult(this.uiContext.getHostContext()!, uris[0], new MediaDataHandlerMovingPhoto())
+              }
+            } catch (e) {
+              console.error(`pick file failed`)
+            }
+          })
+      }
+      .alignItems(VerticalAlign.Center)
+      .justifyContent(FlexAlign.Center)
+      .height('15%')
+
+      Row() {
+        Column() {
+          MovingPhotoView({
+            movingPhoto: this.src,
+            controller: this.controller
+          })
+            .width('100%')
+            .height('100%')
+            .muted(this.isMuted)
+            .autoPlay(true)
+            .repeatPlay(false)
+            .autoPlayPeriod(0, 600)
+            .objectFit(ImageFit.Cover)
+            .onComplete(() => {
+              console.info('Completed');
+            })
+            .onStart(() => {
+              console.info('onStart')
+            })
+            .onFinish(() => {
+              console.info('onFinish')
+            })
+            .onStop(() => {
+              console.info('onStop')
+            })
+            .onError(() => {
+              console.error('onError')
+            })
+        }
+      }
+      .height('70%')
+
+      Row() {
+        Button('start')
+          .onClick(() => {
+            this.controller.startPlayback()
+          })
+          .margin(5)
+        Button('stop')
+          .onClick(() => {
+            this.controller.stopPlayback()
+          })
+          .margin(5)
+        Button('mute')
+          .onClick(() => {
+            this.isMuted = !this.isMuted
+          })
+          .margin(5)
+      }
+      .alignItems(VerticalAlign.Center)
+      .justifyContent(FlexAlign.Center)
+      .height('15%')
+    }
+  }
+
+  async handlePickerResult(context: Context, uri: string, handler: photoAccessHelper.MediaAssetDataHandler<photoAccessHelper.MovingPhoto>): Promise<void> {
+    let uriPredicates: dataSharePredicates.DataSharePredicates = new dataSharePredicates.DataSharePredicates();
+    uriPredicates.equalTo('uri', uri)
+    let fetchOptions: photoAccessHelper.FetchOptions = {
+      fetchColumns: [],
+      predicates: uriPredicates
+    };
+    let phAccessHelper = photoAccessHelper.getPhotoAccessHelper(context)
+    let assetResult = await phAccessHelper.getAssets(fetchOptions)
+    let asset = await assetResult.getFirstObject()
+    let requestOptions: photoAccessHelper.RequestOptions = {
+      deliveryMode: photoAccessHelper.DeliveryMode.FAST_MODE,
+    }
+    try {
+      photoAccessHelper.MediaAssetManager.requestMovingPhoto(context, asset, requestOptions, handler)
+    } catch (err) {
+      console.error("request error: ", err)
+    }
+  }
+}
+
+class MediaDataHandlerMovingPhoto implements photoAccessHelper.MediaAssetDataHandler<photoAccessHelper.MovingPhoto> {
+  async onDataPrepared(movingPhoto: photoAccessHelper.MovingPhoto) {
+    AppStorage.setOrCreate('mv_data', movingPhoto)
+    emitter.emit({
+      eventId: PHOTO_SELECT_EVENT_ID,
+      priority: emitter.EventPriority.IMMEDIATE,
+    }, {
+    })
+  }
+}
+```
+![autoplay](figures/AutoPlay.gif)
+## Example 2: Using Moving Photos in Atomic Services
+
+```ts
+// xxx.ets
+// For API version 21 and earlier, use the following: import { photoAccessHelper, MovingPhotoView, MovingPhotoViewController, MovingPhotoViewAttribute } from '@kit.MediaLibraryKit';
+// For API version 22 and later, use the following:
+import { photoAccessHelper, MovingPhotoView, MovingPhotoViewController } from '@kit.MediaLibraryKit';
+
+let data: photoAccessHelper.MovingPhoto
+async function loading(context: Context) {
+  try {
+    // Ensure that the media assets corresponding to imageFileUri and videoFileUri exist in the application sandbox directory.
+    let imageFileUri = 'file://{bundleName}/data/storage/el2/base/haps/entry/files/xxx.jpg';
+    let videoFileUri = 'file://{bundleName}/data/storage/el2/base/haps/entry/files/xxx.mp4';
+    data = await photoAccessHelper.MediaAssetManager.loadMovingPhoto(context, imageFileUri, videoFileUri);
+    console.info('load moving photo successfully');
+  } catch (err) {
+    console.error(`load moving photo failed with error: ${err.code}, ${err.message}`);
+  }
+}
+@Entry
+@Component
+struct Index {
+  controller: MovingPhotoViewController = new MovingPhotoViewController()
+  private uiContext: UIContext = this.getUIContext()
+  @State ImageFit: ImageFit | undefined | null = ImageFit.Contain;
+  @State flag: boolean = true;
+  @State autoPlayFlag: boolean = true;
+  @State repeatPlayFlag: boolean = false;
+  @State autoPlayPeriodStart: number = 0;
+  @State autoPlayPeriodEnd: number = 500;
+  aboutToAppear(): void {
+    loading(this.uiContext.getHostContext()!)
+  }
+
+  build() {
+    NavDestination() {
+      Column() {
+        Stack({ alignContent: Alignment.BottomStart }) {
+          MovingPhotoView({
+            movingPhoto: data,
+            controller: this.controller
+          })
+            .width(300)
+            .height(400)
+            .muted(this.flag)
+            .objectFit(this.ImageFit)
+            .autoPlay(this.autoPlayFlag)
+            .autoPlayPeriod(this.autoPlayPeriodStart, this.autoPlayPeriodEnd)
+            .repeatPlay(this.repeatPlayFlag)
+            .onComplete(() => {
+              console.info('onComplete')
+            })
+            .onStart(() => {
+              console.info('onStart')
+            })
+            .onStop(() => {
+              console.info('onStop')
+            })
+            .onPause(() => {
+              console.info('onPause')
+            })
+            .onFinish(() => {
+              console.info('onFinish')
+            })
+            .onError(() => {
+              console.info('onError')
+            })
+        }
+
+        Row() {
+          Button('Play')
+            .onClick(() => {
+              this.controller.startPlayback()
+            })
+          Button('StopPlay')
+            .onClick(() => {
+              this.controller.stopPlayback()
+            })
+          Button('refreshMovingPhoto')
+            .onClick(() => {
+              this.controller.refreshMovingPhoto()
+            })
+          Button('mute').id('MovingPhotoView_true')
+            .onClick(() => {
+              this.flag = false
+            })
+        }
+      }
+    }
+  }
+}
+```
+![AutomaticEnergy](figures/AutomaticEnergy.gif)
+
+<!--RP1--><!--RP1End-->
