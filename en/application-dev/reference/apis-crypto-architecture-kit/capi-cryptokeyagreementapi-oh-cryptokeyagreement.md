@@ -1,0 +1,22 @@
+# OH_CryptoKeyAgreement
+
+<!--Kit: Crypto Architecture Kit-->
+<!--Subsystem: Security-->
+<!--Owner: @zxz--3-->
+<!--Designer: @lanming-->
+<!--Tester: @PAFT-->
+<!--Adviser: @zengyawen-->
+
+```c
+typedef struct OH_CryptoKeyAgreement OH_CryptoKeyAgreement
+```
+
+## Overview
+
+Defines a struct for key agreement.
+
+**Since**: 20
+
+**Related module**: [CryptoKeyAgreementApi](capi-cryptokeyagreementapi.md)
+
+**Header file**: [crypto_key_agreement.h](capi-crypto-key-agreement-h.md)

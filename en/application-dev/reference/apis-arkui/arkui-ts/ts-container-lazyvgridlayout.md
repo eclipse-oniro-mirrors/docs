@@ -1,0 +1,319 @@
+# LazyVGridLayout
+
+<!--Kit: ArkUI-->
+<!--Subsystem: ArkUI-->
+<!--Owner: @yylong; @rongShao-Z; @guozejun-->
+<!--Designer: @yylong-->
+<!--Tester: @huchuyun-->
+<!--Adviser: @Brilliantry_Rui-->
+
+Implements a grid layout that supports lazy loading.
+
+In versions earlier than API version 26.0.0, the parent component of the **LazyVGridLayout** component supports the [WaterFlow](ts-container-waterflow.md) and [FlowItem](ts-container-flowitem.md) components. You can also encapsulate the parent component using a custom component or [NodeContainer](ts-basic-components-nodecontainer.md) component and use it in **WaterFlow** or **FlowItem**.
+
+Since API version 26.0.0, the parent component of this component also supports [List](ts-container-list.md), [Scroll](ts-container-scroll.md), or [LazyColumnLayout](ts-container-lazycolumnlayout.md). Additionally, custom components or [NodeContainer](ts-basic-components-nodecontainer.md) components can be encapsulated and then used in **List**, **Scroll**, or **LazyColumnLayout**.
+
+> **NOTE**
+>
+> - This component is supported since API version 19. Updates will be marked with a superscript to indicate their earliest API version.
+> - This component's height adapts to content by default. Setting the height, height constraints, or aspect ratio causes display anomalies.
+> - The lazy loading conditions of this component in different parent components are as follows:
+>   1. In the **WaterFlow** component, lazy loading is supported only when it uses single-column mode or single-column segments in segmented layout and [FlexDirection](ts-appendix-enums.md#flexdirection) is set to **FlexDirection.Column**. Lazy loading is not supported if the **WaterFlow** component is in multi-column mode or the layout direction is **FlexDirection.Row** or **FlexDirection.RowReverse**. Using this component with **FlexDirection.ColumnReverse** in the **WaterFlow** component causes display anomalies.
+>   2. In the **List** component, the layout direction must be vertical (that is, the [listDirection](ts-container-list.md#listdirection) property is set to **Axis.Vertical**). Using this component in a non-vertical **List** component will cause an application crash. If any of the **lanes**, **chainAnimation**, and **scrollSnapAlign** properties is set for the **List** component, the lazy loading of this component will become invalid.
+>   3. In the **Scroll** component, the layout direction must be vertical (that is, the value of the [scrollable](ts-container-scroll.md#scrollable) property is **ScrollDirection.Vertical**). Using this component in a non-vertical **Scroll** component will cause an application crash.
+> - When lazy loading is enabled, the component only loads child components within the visible area of the parent component, with pre-loading of half-screen content above and below the viewport during frame idle periods.
+
+## APIs
+
+LazyVGridLayout()
+
+Creates a vertical lazy-loading grid layout container.
+
+**Atomic service API**: This API can be used in atomic services since API version 19.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+## Attributes
+
+In addition to the [universal attributes](ts-component-general-attributes.md), the following attributes are supported.
+
+### columnsTemplate
+
+columnsTemplate(value: string)
+
+Sets the number of columns, fixed column width, or minimum column width of the grid. If this attribute is not set, one column will be used.
+
+For example, **'1fr 1fr 2fr'** indicates three columns, with the first column taking up 1/4 of the parent component's full width, the second column 1/4, and the third column 2/4.
+
+**columnsTemplate('repeat(auto-fit, track-size)')**: The layout automatically calculates the number of columns and their actual widths while respecting the minimum column width specified by **track-size**.
+
+**columnsTemplate('repeat(auto-fill, track-size)')**: The layout automatically calculates the number of columns based on the fixed column width specified by **track-size**.
+
+**columnsTemplate('repeat(auto-stretch, track-size)')**: The layout uses **columnsGap** to define the minimum gap between columns and automatically calculates the number of columns and the actual gap size based on the fixed column width specified by **track-size**.
+
+**repeat**, **auto-fit**, **auto-fill**, and **auto-stretch** are keywords. **track-size** indicates the column width, in units of px, vp (default), %, or any valid numeric value. The value must be greater than or equal to a valid column width.<br>
+In auto-fit and auto-stretch modes, only a valid column width value is supported for **track-size**. Additionally, in auto-stretch mode, **track-size** only supports units such as px, vp, and valid numbers, but does not support percentage (%). The auto-fill mode supports one or more valid column widths, for example: columnsTemplate('repeat(auto-fill, 20)') or columnsTemplate('repeat(auto-fill, 20 80px)').
+
+If this attribute is set to **'0fr'**, the column width is 0, and child components are not displayed. If this attribute is set to an invalid value, the child components are displayed in a fixed column.
+
+**Atomic service API**: This API can be used in atomic services since API version 19.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                              |
+| ------ | ------ | ---- | ---------------------------------- |
+| value  | string | Yes  | Number of columns or minimum column width of the grid.|
+
+### columnsGap
+
+columnsGap(value: LengthMetrics): T
+
+Sets the gap between columns. Values less than 0 are treated as the default value.
+
+**Atomic service API**: This API can be used in atomic services since API version 19.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type                        | Mandatory| Description                        |
+| ------ | ---------------------------- | ---- | ---------------------------- |
+| value  |  [LengthMetrics](../js-apis-arkui-graphics.md#lengthmetrics12) | Yes  | Gap between columns.<br>Default value: **0vp**|
+
+**Return value**
+
+| Type| Description          |
+| --- | -------------- |
+| T | Current **LazyVGridLayout** component.|
+
+### rowsGap
+
+rowsGap(value: LengthMetrics): T
+
+Sets the gap between rows. Values less than 0 are treated as the default value.
+
+**Atomic service API**: This API can be used in atomic services since API version 19.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type                        | Mandatory| Description                        |
+| ------ | ---------------------------- | ---- | ---------------------------- |
+| value  | [LengthMetrics](../js-apis-arkui-graphics.md#lengthmetrics12) | Yes  | Gap between rows.<br>Default value: **0vp**|
+
+**Return value**
+
+| Type| Description          |
+| --- | -------------- |
+| T | Current **LazyVGridLayout** component.|
+
+## Events
+
+In addition to the [universal events](ts-component-general-events.md), the following events are supported.
+
+### onVisibleIndexesChange
+
+onVisibleIndexesChange(callback: OnVisibleIndexesChangeCallback | undefined)
+
+Sets a callback for **onVisibleIndexesChange**. This callback is triggered when the index of a child component in the visible area of **LazyVGridLayout** changes. It returns the start and end indexes of the child components in the visible area. This API uses an asynchronous callback to return the result.
+
+**Since**: 26.0.0
+
+**Atomic service API**: This API can be used in atomic services since API version 26.0.0.
+
+**Model restriction**: This API can be used only in the stage model.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                      |
+| ------ | ------ | ---- | -------------------------- |
+| callback  | [OnVisibleIndexesChangeCallback](#onvisibleindexeschangecallback)&nbsp;\|&nbsp;undefined | Yes | Callback for the **onVisibleIndexesChange** event. If the input parameter is **undefined**, the listening is canceled.|
+
+## OnVisibleIndexesChangeCallback
+
+OnVisibleIndexesChangeCallback = (start: number, end: number) => void
+
+Triggered when the index of a child component in the visible area of **LazyVGridLayout** changes.
+
+**Since**: 26.0.0
+
+**Atomic service API**: This API can be used in atomic services since API version 26.0.0.
+
+**Model restriction**: This API can be used only in the stage model.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type  | Mandatory| Description                                 |
+| ------ | ------ | ---- | ------------------------------------- |
+| start  | number | Yes | Start index of a child component in the current visible area. If there is no child component in the visible area or **LazyVGridLayout**, **-1** is returned.|
+| end  | number | Yes | End index of a child component in the current visible area. If there is no child component in the visible area or **LazyVGridLayout**, **-1** is returned.|
+
+## Example
+
+In this example, [WaterFlow](ts-container-waterflow.md) and [LazyVGridLayout](ts-container-lazyvgridlayout.md) are used to implement the lazy loading grid layout, and [onVisibleIndexesChange](#onvisibleindexeschange) is used to call back the index when the display area changes.
+
+**MyDataSource** implements the [IDataSource](ts-rendering-control-lazyforeach.md#idatasource) API for [LazyForEach](ts-rendering-control-lazyforeach.md), which provides child components for **LazyVGridLayout** through **LazyForEach**.
+
+The **onVisibleIndexesChange** event is added since API version 26.0.0.
+
+<!--code_no_check-->
+```ts
+import { LengthMetrics } from '@kit.ArkUI'
+import { MyDataSource } from './MyDataSource'
+
+@Entry
+@Component
+struct LazyVGridLayoutSample1 {
+  private arr1:MyDataSource<number> = new MyDataSource<number>();
+  private arr2:MyDataSource<number> = new MyDataSource<number>();
+  build() {
+    Column() {
+      WaterFlow() {
+        LazyVGridLayout() {
+          LazyForEach(this.arr1, (item:number)=>{
+            Text('item' + item.toString())
+              .height(64)
+              .width('100%')
+              .borderRadius(5)
+              .backgroundColor(Color.White)
+              .textAlign(TextAlign.Center)
+          })
+        }
+        .columnsTemplate('1fr')
+        .rowsGap(LengthMetrics.vp(10))
+        // The onVisibleIndexesChange event is added since API version 26.0.0.
+        .onVisibleIndexesChange((start: number, end: number) => {
+          console.info('visible indexes: start= ' + 'start,' + 'end= ' + 'end');
+      })
+
+        LazyVGridLayout() {
+          LazyForEach(this.arr2, (item:number)=>{
+            Text('item' + item.toString())
+              .height(128)
+              .width('100%')
+              .borderRadius(5)
+              .backgroundColor(Color.White)
+              .textAlign(TextAlign.Center)
+          })
+        }
+        .columnsTemplate('1fr 1fr')
+        .rowsGap(LengthMetrics.vp(10))
+        .columnsGap(LengthMetrics.vp(10))
+      }.padding(10)
+      .rowsGap(10)
+    }
+    .width('100%').height('100%')
+    .backgroundColor('#DCDCDC')
+  }
+
+  aboutToAppear(): void {
+    for (let i = 0; i < 6; i++) {
+      this.arr1.pushData(i);
+    }
+    for (let i = 0; i < 100; i++) {
+      this.arr2.pushData(i);
+    }
+  }
+}
+```
+
+<!--code_no_check-->
+```ts
+// MyDataSource.ets
+export class BasicDataSource<T> implements IDataSource {
+  private listeners: DataChangeListener[] = [];
+  protected dataArray: T[] = [];
+
+  public totalCount(): number {
+    return this.dataArray.length;
+  }
+
+  public getData(index: number): T {
+    return this.dataArray[index];
+  }
+
+  registerDataChangeListener(listener: DataChangeListener): void {
+    if (this.listeners.indexOf(listener) < 0) {
+      console.info('add listener');
+      this.listeners.push(listener);
+    }
+  }
+
+  unregisterDataChangeListener(listener: DataChangeListener): void {
+    const pos = this.listeners.indexOf(listener);
+    if (pos >= 0) {
+      console.info('remove listener');
+      this.listeners.splice(pos, 1);
+    }
+  }
+
+  notifyDataReload(): void {
+    this.listeners.forEach(listener => {
+      listener.onDataReloaded();
+    })
+  }
+
+  notifyDataAdd(index: number): void {
+    this.listeners.forEach(listener => {
+      listener.onDataAdd(index);
+    })
+  }
+
+  notifyDataChange(index: number): void {
+    this.listeners.forEach(listener => {
+      listener.onDataChange(index);
+    })
+  }
+
+  notifyDataDelete(index: number): void {
+    this.listeners.forEach(listener => {
+      listener.onDataDelete(index);
+    })
+  }
+
+  notifyDataMove(from: number, to: number): void {
+    this.listeners.forEach(listener => {
+      listener.onDataMove(from, to);
+    })
+  }
+
+  notifyDatasetChange(operations: DataOperation[]): void {
+    this.listeners.forEach(listener => {
+      listener.onDatasetChange(operations);
+    })
+  }
+}
+
+export class MyDataSource<T> extends BasicDataSource<T> {
+  public shiftData(): void {
+    this.dataArray.shift();
+    this.notifyDataDelete(0);
+  }
+  public unshiftData(data: T): void {
+    this.dataArray.unshift(data);
+    this.notifyDataAdd(0);
+  }
+  public pushData(data: T): void {
+    this.dataArray.push(data);
+    this.notifyDataAdd(this.dataArray.length - 1);
+  }
+  public popData(): void {
+    this.dataArray.pop();
+    this.notifyDataDelete(this.dataArray.length);
+  }
+  public clearData(): void {
+    this.dataArray = [];
+    this.notifyDataReload();
+  }
+}
+```
+
+![](figures/en-us_image_lazyvgridlayout1.gif)
+<!--no_check-->

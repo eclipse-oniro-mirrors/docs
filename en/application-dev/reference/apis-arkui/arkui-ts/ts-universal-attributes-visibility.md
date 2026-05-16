@@ -1,0 +1,69 @@
+# Visibility Control
+<!--Kit: ArkUI-->
+<!--Subsystem: ArkUI-->
+<!--Owner: @jiangtao92-->
+<!--Designer: @piggyguy-->
+<!--Tester: @songyanhong-->
+<!--Adviser: @Brilliantry_Rui-->
+
+The visibility attribute controls whether a component is visible.
+
+>  **NOTE**
+>
+> The initial APIs of this module are supported since API version 7. Updates will be marked with a superscript to indicate their earliest API version.
+
+## visibility
+
+visibility(value: Visibility): T
+
+Sets the visibility of the component. If **visibility** is not set, the component is displayed by default.
+
+**Widget capability**: Since API version 9, this feature is supported in ArkTS widgets.
+
+**Atomic service API**: This API can be used in atomic services since API version 11.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type                                         | Mandatory| Description                                                        |
+| ------ | --------------------------------------------- | ---- | ------------------------------------------------------------ |
+| value  | [Visibility](ts-appendix-enums.md#visibility) | Yes  | Whether the component is visible. When appropriate, consider using [conditional rendering](../../../ui/rendering-control/arkts-rendering-control-ifelse.md) as a substitute.|
+
+**Return value**
+
+| Type| Description|
+| -------- | -------- |
+| T | Current component.|
+
+
+## Example
+
+ This example demonstrates how to use the **visibility** configuration to achieve different visibility control effects.
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct VisibilityExample {
+  build() {
+    Column() {
+      Column() {
+        // The component is hidden and does not take up space in the layout.
+        Text('None').fontSize(9).width('90%').fontColor(0xCCCCCC)
+        Row().visibility(Visibility.None).width('90%').height(80).backgroundColor(0xAFEEEE)
+
+        // The component is hidden but takes up space in the layout.
+        Text('Hidden').fontSize(9).width('90%').fontColor(0xCCCCCC)
+        Row().visibility(Visibility.Hidden).width('90%').height(80).backgroundColor(0xAFEEEE)
+
+        // The component is visible, which is the default display mode.
+        Text('Visible').fontSize(9).width('90%').fontColor(0xCCCCCC)
+        Row().visibility(Visibility.Visible).width('90%').height(80).backgroundColor(0xAFEEEE)
+      }.width('90%').border({ width: 1 })
+    }.width('100%').margin({ top: 5 })
+  }
+}
+```
+
+![visibility.png](figures/visibility.png)

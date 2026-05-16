@@ -1,0 +1,87 @@
+# Application Development
+<!--Kit: Common-->
+<!--Subsystem: Common-->
+<!--Owner: @zhang_yixin13-->
+<!--Designer: @lingminghw-->
+<!--Tester: @RayShih-->
+<!--Adviser: @zhang_yixin13-->
+
+- [Application Development Overview](application-dev-guide.md)
+- About OpenHarmony
+  - [OpenHarmony Project](../OpenHarmony-Overview.md)
+  - [Glossary](../glossary.md)
+  - [Release Notes](../release-notes/Readme.md)
+- [Quick Start](quick-start/Readme-EN.md)
+- Development
+  - Application Framework<!--app-framework-->
+    - [Ability Kit](application-models/Readme-EN.md)
+    - [ArkData](database/Readme-EN.md)
+    - [ArkTS](arkts-utils/Readme-EN.md)
+    - [ArkUI](ui/Readme-EN.md)
+    - [ArkWeb](web/Readme-EN.md)
+    - [Background Tasks Kit](task-management/Readme-EN.md)
+    - [Core File Kit](file-management/Readme-EN.md)
+    - [Form Kit](form/Readme-EN.md)
+    - [IME Kit](inputmethod/Readme-EN.md)
+    - [IPC Kit](ipc/Readme-EN.md)
+    - [Localization Kit](internationalization/Readme-EN.md)
+  - System<!--system-->
+    - Security<!--system-security-->
+      - [Ability Access Control](security/AccessToken/Readme-EN.md)
+      - [Asset Store Kit](security/AssetStoreKit/Readme-EN.md)
+      - [Crypto Architecture Kit](security/CryptoArchitectureKit/Readme-EN.md)
+      - [Data Protection Kit](security/DataProtectionKit/Readme-EN.md)
+      - [Device Certificate Kit](security/DeviceCertificateKit/Readme-EN.md)
+      - [Universal Keystore Kit](security/UniversalKeystoreKit/Readme-EN.md)
+      - [User Authentication Kit](security/UserAuthenticationKit/Readme-EN.md)
+    - Network<!--system-network-->
+      - [Connectivity Kit](connectivity/Readme-EN.md)
+      - [Distributed Service Kit](distributedservice/Readme-EN.md)
+      - [Network Kit](network/Readme-EN.md)
+      - [Telephony Kit](telephony/Readme-EN.md)
+    - Basic Functions<!--system-basicfun-->
+      - [Basics Service Kit](basic-services/Readme-EN.md)
+      - [Function Flow Runtime Kit](ffrt/Readme-EN.md)
+      - [Input Kit](device/input/Readme-EN.md)
+      - [MDM Kit](mdm/Readme-EN.md)
+    - Hardware<!--system-hardware-->
+      - [Driver Development Kit](device/driver/Readme-EN.md)
+      - [Multimodal Awareness Kit](device/stationary/Readme-EN.md)
+      - [Sensor Service Kit](device/sensor/Readme-EN.md)
+    - Debugging Tools<!--system-debug-optimize-->
+       - [Performance Analysis Kit](dfx/Readme-EN.md)
+       - [Test Kit](application-test/Readme-EN.md)
+       - [Debugging Commands](tools/Readme-EN.md)
+  - Media<!--media-->
+    - [Audio Kit](media/audio/Readme-EN.md)
+    - [AVCodec Kit](media/avcodec/Readme-EN.md)
+    - [AVSession Kit](media/avsession/Readme-EN.md)
+    - [Camera Kit](media/camera/Readme-EN.md)
+    - [DRM Kit](media/drm/Readme-EN.md)
+    - [Image Kit](media/image/Readme-EN.md)
+    - [Media Kit](media/media/Readme-EN.md)
+    - [Media Library Kit](media/medialibrary/Readme-EN.md)
+  - graphics<!--graphics-->
+    - [ArkGraphics 2D](graphics/Readme-EN.md)
+    - [ArkGraphics 3D](graphics3d/Readme-EN.md)
+  - Applications and Services<!--gapp-service-->
+    - [Ads Kit](ads-service/Readme-EN.md)
+    - [Calendar Kit](calendarmanager/Readme-EN.md)
+    - [Contacts Kit](contacts/Readme-EN.md)
+    - [Location Kit](device/location/Readme-EN.md)
+    - [Notification Kit](notification/Readme-EN.md)
+  - AI<!--ai-->
+    - [MindSpore Lite Kit](ai/mindspore/Readme-EN.md)
+    - [Neural Network Runtime Kit](ai/nnrt/Readme-EN.md)
+  - [IDL Specifications and User Guide](IDL/idl-guidelines.md)
+  - [Native APIs](napi/Readme-EN.md)
+- Tools
+  - [DevEco Studio (OpenHarmony) User Guide](https://developer.huawei.com/consumer/en/doc/harmonyos-guides/ide-tools-overview)
+  - [Debugging Tools](tools/Readme-EN.md)
+- Hands-On Tutorials
+  - [Samples](https://gitee.com/openharmony/applications_app_samples/blob/master/README.md)
+  - [Codelabs](https://gitee.com/openharmony/codelabs/tree/master)
+- [API References](reference/Readme-EN.md)
+- [FAQs](faqs/Readme-EN.md)
+- Contribution
+  - [How to Contribute](../contribute/documentation-contribution.md)

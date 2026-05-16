@@ -1,0 +1,77 @@
+# Foreground Effect
+<!--Kit: ArkUI-->
+<!--Subsystem: ArkUI-->
+<!--Owner: @CCFFWW-->
+<!--Designer: @CCFFWW-->
+<!--Tester: @lxl007-->
+<!--Adviser: @Brilliantry_Rui-->
+
+You can set the foreground effect for a component.
+
+>  **NOTE**
+>
+>  The initial APIs of this module are supported since API version 12. Updates will be marked with a superscript to indicate their earliest API version.
+
+## foregroundEffect
+
+foregroundEffect(options: ForegroundEffectOptions): T
+
+Sets the foreground effect of the component.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+**Parameters**
+
+| Name| Type                                                        | Mandatory| Description                                                |
+| ------ | ------------------------------------------------------------ | ---- | ---------------------------------------------------- |
+| options | [ForegroundEffectOptions](#foregroundeffectoptions12) | Yes  | Foreground effect settings, including the blur radius.|
+
+**Return value**
+
+| Type  | Description                    |
+| ------ | ------------------------ |
+| T | Current component.|
+
+## ForegroundEffectOptions<sup>12+</sup>
+
+Describes the foreground effect.
+
+**Atomic service API**: This API can be used in atomic services since API version 12.
+
+**System capability**: SystemCapability.ArkUI.ArkUI.Full
+
+| Name       |   Type        |   Read-Only|   Optional|  Description                       |
+| ----         |  ----         |   ---- |   ---- | --------------------------  |
+| radius       | number        |   No  |   No  |   Blur radius. The value range is [0, +∞).<br> This parameter takes effect only within the component scope. When it is used with other APIs, the effect beyond the component scope does not apply.    |
+
+## Example
+
+This example demonstrates how to set the foreground effect using **foregroundEffect**.
+
+```ts
+// xxx.ets
+@Entry
+@Component
+struct Index {
+  build() {
+    Row() {
+      // Replace $r("app.media.icon") with the image resource file you use.
+      Image($r('app.media.icon'))
+          .width(100)
+          .height(100)
+          .foregroundEffect({ radius: 20 })
+    }
+    .width('100%')
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+  }
+}
+```
+
+Below is how the component looks with the foreground effect applied.
+
+**radius** indicates the blur radius. A larger value creates a more blurred effect.
+
+![foregroundColor_circle](figures/foregroundEffect.jpg)

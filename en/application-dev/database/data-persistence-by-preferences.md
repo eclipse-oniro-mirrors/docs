@@ -1,0 +1,341 @@
+# Persisting User Preferences (ArkTS)
+<!--Kit: ArkData-->
+<!--Subsystem: DistributedDataManager-->
+<!--Owner: @ding_dong_dong-->
+<!--Designer: @ding_dong_dong-->
+<!--Tester: @yippo; @logic42-->
+<!--Adviser: @ge-yafang-->
+
+
+## When to Use
+
+The **Preferences** module provides APIs for processing data in the form of key-value (KV) pairs, including querying, modifying, and persisting KV pairs. You can use **Preferences** to store lightweight KV data, such as personalized settings, including font size, dark mode, and so on.
+
+
+## Working Principles
+
+User applications call **Preference** through the ArkTS interface to read and write data files. You can load the persistence file data to a **Preferences** instance. Each file uniquely corresponds to an instance. The system stores each instance in the memory through a static container until the instance is removed from the memory or the file is deleted.
+
+The preference persistent file of an application is stored in the application sandbox. You can use **context** to obtain the file path. For details about how to obtain the sandbox path, see [Obtaining Application File Paths](../application-models/application-context-stage.md#obtaining-application-file-paths).
+
+**Figure 1** Preferences working mechanism 
+
+![preferences](figures/preferences.jpg)
+
+## Storage Types
+By default, user preferences are stored in XML format. Since API version 18, the GSKV format is provided.
+
+### XML
+Data is stored in the form of XML files, which allow high versatility and cross-platform operations. When XML is used, preference data operations are primarily performed in the memory. You can call [flush](../reference/apis-arkdata/js-apis-data-preferences.md#flush) to persist the data when necessary. This storage type is recommended for single-process, small data volume scenarios.
+
+### GSKV
+GSKV is available since API version 18, where data is stored in binary format within files. It supports concurrent read and write in multiple processes. When GSKV is used, preference data operations are flushed to the storage device in real time. This storage type is recommended for multi-process concurrency scenarios.
+
+## Constraints
+
+### Preferences Constraints
+
+- The key in a KV pair must be a string and cannot be empty or exceed 1024 bytes.
+
+- If the value is of the string type, use the UTF-8 encoding format. It can be empty. If not empty, it cannot exceed 16 MB.
+
+- After [removePreferencesFromCache](../reference/apis-arkdata/js-apis-data-preferences.md#preferencesremovepreferencesfromcache) or [deletePreferences](../reference/apis-arkdata/js-apis-data-preferences.md#preferencesdeletepreferences) is called, the subscription to data changes will be automatically canceled. If [getPreferences](../reference/apis-arkdata/js-apis-data-preferences.md#preferencesgetpreferences) is called again, you need to subscribe to data changes again.
+
+- Do not call **deletePreferences** concurrently with other APIs in multi-thread or multi-process mode. Otherwise, unexpected behavior may occur.
+
+- Data cannot be encrypted for storage. If data encryption is required, encrypt the data first, and then store the ciphertext in **preferences** as a Uint8Array.
+
+### XML Constraints
+
+- The XML type (default for preferences) cannot ensure process concurrency safety, posing risks of file corruption and data loss. It is not recommended for use in multi-process scenarios.
+
+- If the data to be stored contains a string that is not in UTF-8 format, store it in a Uint8Array. Otherwise, the persistent file may be damaged due to format errors.
+
+- The memory usage increases as more data is stored. The recommended data limit is 50 MB. For large datasets, using synchronous APIs to create a **Preferences** instance and persist data can be time-consuming. You are advised not to perform these operations in the main thread. Otherwise, application freeze issues may occur.
+
+### GSKV Constraints
+
+- GSKV does not support cross-platform operations. Before using it, call [isStorageTypeSupported](../reference/apis-arkdata/js-apis-data-preferences.md#preferencesisstoragetypesupported18) to check whether GSKV is supported.
+
+
+
+## Available APIs
+
+The following table lists the APIs related to user preference persistence. For more information about the APIs, see [User Preferences](../reference/apis-arkdata/js-apis-data-preferences.md).
+
+| API                                                    | Description                                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| getPreferencesSync(context: Context, options: Options): Preferences | Obtains a **Preferences** instance. This API returns the result synchronously. An asynchronous API is also provided.                   |
+| putSync(key: string, value: ValueType): void                 | Writes data to the **Preferences** instance. You can use **flush()** to persist the **Preferences** instance data. This API returns the result synchronously. An asynchronous API is also provided.|
+| hasSync(key: string): boolean                                | Checks whether the **Preferences** instance contains the KV pair with the given key. The value **true** means the instance contains the KV pair; the value **false** means the opposite. The key cannot be empty. This API returns the result synchronously. An asynchronous API is also provided.|
+| getSync(key: string, defValue: ValueType): ValueType         | Obtains the value of the specified key. If the value is null or not of the default value type, **defValue** is returned. This API returns the result synchronously. An asynchronous API is also provided.|
+| deleteSync(key: string): void                                | Deletes a KV pair from the **Preferences** instance. This API returns the result synchronously. An asynchronous API is also provided.|
+| flush(callback: AsyncCallback&lt;void&gt;): void             | Flushes the data of this **Preferences** instance to a file for data persistence.|
+| on(type: 'change', callback: Callback&lt;string&gt;): void   | Subscribes to data changes. A callback will be invoked after **flush()** is executed for the data changed.|
+| off(type: 'change', callback?: Callback&lt;string&gt;): void | Unsubscribes from data changes.                                          |
+| deletePreferences(context: Context, options: Options, callback: AsyncCallback&lt;void&gt;): void | Deletes a **Preferences** instance from the memory. If the **Preferences** instance has a persistent file, this API also deletes the persistent file.|
+| isStorageTypeSupported(type: StorageType): boolean           | Checks whether the specified storage type is supported. The value **true** means that the storage type is supported, and **false** means the opposite.|
+
+
+## How to Develop
+
+1. Import the **@kit.ArkData** module.
+
+   ```ts
+   import { preferences } from '@kit.ArkData';
+   ```
+
+2. (Optional) Set the storage type.
+
+   This step is optional. By default, preferences data is stored in XML format. Since API version 18, GSKV is supported.
+
+   Before using GSKV, call **isStorageTypeSupported()** to check whether the current platform supports it.
+
+   If **false** is returned, the platform does not support GSKV. In this case, use XML.
+
+   <!--@[isStorageTypeSupported](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)--> 
+   
+   ``` TypeScript
+   let isGskvSupported = preferences.isStorageTypeSupported(preferences.StorageType.GSKV);
+   Logger.info('Is gskv supported on this platform: ' + isGskvSupported);
+   ```
+
+3. Obtain a **Preferences** instance.
+
+   Call **getPreferencesSync()** to obtain a **Preferences** instance in the default XML format.
+
+   The context is defined as follows:
+   <!--@[DefineContext](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   
+   ``` TypeScript
+   const context = EntryAbility.getContext();
+   ```
+
+   Call **getPreferencesSync()** to obtain a **Preferences** instance in the default XML format.
+
+   <!--Del-->Stage model:<!--DelEnd-->
+   <!--@[GetPreferencesSync](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   ``` TypeScript
+   import { UIAbility } from '@kit.AbilityKit';
+   import { BusinessError } from '@kit.BasicServicesKit';
+   import { window } from '@kit.ArkUI';
+
+   let dataPreferences: preferences.Preferences | null = null;
+
+   class EntryAbility extends UIAbility {
+     onWindowStageCreate(windowStage: window.WindowStage) {
+       let options: preferences.Options = { name: 'myStore' };
+       dataPreferences = preferences.getPreferencesSync(context, options);
+     }
+   }
+   ```
+
+   <!--Del-->FA model:
+
+   ```ts
+   // Obtain the context.
+   import { featureAbility } from '@kit.AbilityKit';
+   import { BusinessError } from '@kit.BasicServicesKit';
+
+   let context = featureAbility.getContext();
+   let options: preferences.Options =  { name: 'myStore' };
+   let dataPreferences: preferences.Preferences = preferences.getPreferencesSync(context, options);
+   ```
+   <!--DelEnd-->
+
+   Call **getPreferencesSync()** to obtain a **Preferences** instance in GSKV format.
+
+   If you want to use GSKV and the platform supports it, you can obtain the **Preferences** instance as follows. However, the storage type cannot be changed once selected.
+   <!--Del-->Stage model:<!--DelEnd-->
+
+   <!--@[GetPreferencesSyncGSKV](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   ``` TypeScript
+   import { UIAbility } from '@kit.AbilityKit';
+   import { BusinessError } from '@kit.BasicServicesKit';
+   import { window } from '@kit.ArkUI';
+
+   let dataPreferences: preferences.Preferences | null = null;
+
+   class EntryAbility extends UIAbility {
+     onWindowStageCreate(windowStage: window.WindowStage) {
+       let options: preferences.Options = { name: 'myStore', storageType: preferences.StorageType.GSKV };
+       dataPreferences = preferences.getPreferencesSync(context, options);
+     }
+   }
+   ```
+
+   <!--Del-->FA model:
+
+   ```ts
+   // Obtain the context.
+   import { featureAbility } from '@kit.AbilityKit';
+   import { BusinessError } from '@kit.BasicServicesKit';
+
+   let context = featureAbility.getContext();
+   let options: preferences.Options =  { name: 'myStore', storageType: preferences.StorageType.GSKV };
+   let dataPreferences: preferences.Preferences = preferences.getPreferencesSync(context, options);
+   ```
+   <!--DelEnd-->
+
+
+4. Write data.
+
+   Call **putSync()** to write data to a **Preferences** instance.
+
+   For the data stored in the default format (XML), you can call **flush()** to persist the data written if required.
+
+   If GSKV is used, the data is persisted in a file on realtime basis after being written.
+
+   > **NOTE**
+   >
+   > If the key already exists, **putSync()** overwrites the value. You can use **hasSync()** to check whether the KV pair exists.
+
+   Example:
+   
+   <!--@[PutSync](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   
+   ``` TypeScript
+   if (dataPreferences.hasSync('startup')) {
+     Logger.info('The key startup is contained.');
+   } else {
+     Logger.info('The key startup does not contain.');
+     // Add a KV pair.
+     dataPreferences.putSync('startup', 'auto');
+     // In XML format, if a string contains non-UTF-8 characters, convert the string to Uint8Array format and store it. The length of the string cannot exceed 16 × 1024 × 1024 bytes.
+     let uInt8Array1 = new util.TextEncoder().encodeInto('~！@#￥%……&*（）——+？');
+     dataPreferences.putSync('uInt8', uInt8Array1);
+   }
+   ```
+
+5. Read data.
+
+   Call **getSync()** to obtain the value of the specified key. If the value is **null** or is not of the default value type, the default data is returned.
+
+   Example:
+
+   <!--@[GetSync](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   <!--@[GetSync](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   
+   ``` TypeScript
+   let val = dataPreferences.getSync('startup', 'default');
+   Logger.info('The startup value is ' + val);
+   let uInt8Array2 : preferences.ValueType = dataPreferences.getSync('uInt8', new Uint8Array(0));
+   // Convert the obtained Uint8Array data to a string.
+   let textDecoder = util.TextDecoder.create('utf-8');
+   val = textDecoder.decodeToString(uInt8Array2 as Uint8Array);
+   Logger.info('The uInt8 value is ' + val);
+   ```
+6. Delete data.
+
+   Call **deleteSync()** to delete a KV pair. Example:
+
+   <!--@[DeleteSync](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   
+   ``` TypeScript
+   dataPreferences.deleteSync('startup');
+   ```
+
+7. Persist data.
+
+   You can use **flush()** to persist the data held in a **Preferences** instance to a file. Example:
+
+   <!--@[Flush](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   
+   ``` TypeScript
+   dataPreferences.flush((err: BusinessError) => {
+     if (err) {
+       Logger.error(`Failed to flush. Code:${err.code}, message:${err.message}`);
+       return;
+     }
+     Logger.info('Succeeded in flushing.');
+   })
+   ```
+
+8. Subscribe to data changes.
+
+   Specify an observer as the callback to return the data changes for an application.
+
+   If the preferences data is stored in the default format (XML), the observer callback will be triggered only after the subscribed **key** value changes and **flush()** is executed.
+
+   Example:
+
+   <!--@[XMLOn](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+
+   ``` TypeScript
+   let observer = (key: string) => {
+     Logger.info('The key ' + key + ' changed.');
+   }
+   dataPreferences.on('change', observer);
+   // The data is changed from 'auto' to 'manual'.
+   dataPreferences.put('startup', 'manual', (err: BusinessError) => {
+     if (err) {
+       Logger.error(`Failed to put the value of 'startup'. Code:${err.code},message:${err.message}`);
+       return;
+     }
+     Logger.info('Succeeded in putting the value of startup.');
+     if (dataPreferences !== null) {
+       dataPreferences.flush((err: BusinessError) => {
+         if (err) {
+           Logger.error(`Failed to flush. Code:${err.code}, message:${err.message}`);
+           return;
+         }
+         Logger.info('Succeeded in flushing.');
+       })
+     }
+   })
+   ```
+
+   If the preferences data is stored in GSKV format, the observer callback will be triggered after the subscribed **key** value changes (without the need for calling **flush()**).
+
+   Example:
+   <!--@[GSKVOn](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   
+   ``` TypeScript
+   let observer = (key: string) => {
+     Logger.info('The key ' + key + ' changed.');
+   }
+   dataPreferences.on('change', observer);
+   // The data is changed from 'auto' to 'manual'.
+   dataPreferences.put('startup', 'manual', (err: BusinessError) => {
+     if (err) {
+       Logger.error(`Failed to put the value of 'startup'. Code:${err.code},message:${err.message}`);
+       return;
+     }
+     Logger.info('Succeeded in putting the value of startup.');
+   })
+   ```
+9. Delete a **Preferences** instance from the memory.
+
+   Call **deletePreferences()** to delete a **Preferences** instance and its data from the memory. If the instance has a persistent file, the persistent file, backup file, and damaged file will also be deleted.
+
+   > **NOTE**
+   >
+   > - The deleted **Preferences** instance cannot be used for data operations. Otherwise, data inconsistency will be caused.
+   >
+   > - The deleted data and files cannot be restored.
+   >
+   > - If GSKV is used, this API cannot be called concurrently with other APIs (including multiple processes). Otherwise, unexpected behavior may occur.
+
+   The context is defined as follows:
+   <!--@[DefineContext](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   
+   ``` TypeScript
+   const context = EntryAbility.getContext();
+   ```
+
+   Example:
+
+   <!--@[DeleteXMLPreferences](https://gitcode.com/openharmony/applications_app_samples/blob/master/code/DocsSample/ArkData/Preferences/PreferencesSamples/entry/src/main/ets/pages/PreferencesInterface.ets)-->
+   
+   ``` TypeScript
+   let options: preferences.Options = { name: 'myStore' };
+   preferences.deletePreferences(context, options, (err: BusinessError) => {
+     if (err) {
+       Logger.error(`Failed to delete preferences. Code:${err.code}, message:${err.message}`);
+       return;
+     }
+     Logger.info('Succeeded in deleting preferences.');
+   })
+   ```
+
+<!--RP1--><!--RP1End-->

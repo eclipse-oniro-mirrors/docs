@@ -1,0 +1,576 @@
+# @ohos.resourceschedule.workScheduler (Deferred Task Scheduling)
+
+<!--Kit: Background Tasks Kit-->
+<!--Subsystem: ResourceSchedule-->
+<!--Owner: @xufu7-->
+<!--Designer: @zhouben25-->
+<!--Tester: @leetestnady-->
+<!--Adviser: @Brilliantry_Rui-->
+
+The **workScheduler** module provides the APIs for registering, canceling, and querying deferred tasks. You can use the APIs to register tasks that do not have high requirements on real-time performance as deferred tasks. The system schedules and executes the deferred tasks at an appropriate time, subject to the storage space, power consumption, and more. For details, see [Deferred Task Scheduling](../../task-management/work-scheduler.md).
+
+>  **NOTE**
+>
+>  The initial APIs of this module are supported since API version 9. Newly added APIs will be marked with a superscript to indicate their earliest API version.
+>
+>  The APIs of this module can be used only in the stage model.
+
+## Modules to Import
+
+```ts
+import { workScheduler } from '@kit.BackgroundTasksKit';
+```
+
+## workScheduler.startWork
+
+startWork(work: WorkInfo): void
+
+Requests a deferred task. Upon successful request, the deferred task is added to the execution queue and will be executed by the system once the trigger conditions are met.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Parameters**
+| Name | Type                   | Mandatory  | Description            |
+| ---- | --------------------- | ---- | -------------- |
+| work | [WorkInfo](#workinfo) | Yes   | Deferred task information, such as the task ID and trigger condition.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: 1. Mandatory parameters are left unspecified; 2. Incorrect parameters types; 3. Parameter verification failed. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+| 9700004 | Check on workInfo failed. |
+| 9700005 | Calling startWork failed. |
+
+**Example**
+
+```ts
+  import { BusinessError } from '@kit.BasicServicesKit';
+  import { workScheduler } from '@kit.BackgroundTasksKit';
+  
+  let workInfo: workScheduler.WorkInfo = {
+      workId: 1,
+      batteryStatus:workScheduler.BatteryStatus.BATTERY_STATUS_LOW,
+      isRepeat: false,
+      isPersisted: true,
+      bundleName: "com.example.myapplication",
+      abilityName: "MyExtension",
+      parameters: {
+          mykey0: 1,
+          mykey1: "string value",
+          mykey2: true,
+          mykey3: 1.5
+      }
+  }
+  try{
+    workScheduler.startWork(workInfo);
+    console.info('workschedulerLog startWork success');
+  } catch (error) {
+    console.error(`workschedulerLog startwork failed. code is ${(error as BusinessError).code} message is ${(error as BusinessError).message}`);
+  }
+```
+
+## workScheduler.stopWork
+
+stopWork(work: WorkInfo, needCancel?: boolean): void
+
+Stops a deferred task.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Parameters**
+
+| Name       | Type                   | Mandatory  | Description        |
+| ---------- | --------------------- | ---- | ---------- |
+| work       | [WorkInfo](#workinfo) | Yes   | Deferred task to stop.|
+| needCancel | boolean               | No   | Whether to clear the task while stopping it.<br>The value **true** means to clear the task while stopping it, and **false** means to stop the task only. The default value is **false**.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: 1. Mandatory parameters are left unspecified; 2. Incorrect parameters types; 3. Parameter verification failed. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+| 9700004 | Check on workInfo failed. |
+
+**Example**
+
+```ts
+  import { BusinessError } from '@kit.BasicServicesKit';
+  import { workScheduler } from '@kit.BackgroundTasksKit';
+
+  let workInfo: workScheduler.WorkInfo = {
+      workId: 1,
+      batteryStatus:workScheduler.BatteryStatus.BATTERY_STATUS_LOW,
+      isRepeat: false,
+      isPersisted: true,
+      bundleName: "com.example.myapplication",
+      abilityName: "MyExtension",
+      parameters: {
+          mykey0: 1,
+          mykey1: "string value",
+          mykey2: true,
+          mykey3: 1.5
+      }
+     }
+  try{
+    workScheduler.stopWork(workInfo, false);
+    console.info('workschedulerLog stopWork success');
+  } catch (error) {
+    console.error(`workschedulerLog stopWork failed. code is ${(error as BusinessError).code} message is ${(error as BusinessError).message}`);
+  }
+```
+
+## workScheduler.getWorkStatus
+
+getWorkStatus(workId: number, callback : AsyncCallback\<WorkInfo>): void
+
+Obtains the information a deferred task. This API uses an asynchronous callback to return the result.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Parameters**
+
+| Name     | Type                                   | Mandatory  | Description                                      |
+| -------- | ------------------------------------- | ---- | ---------------------------------------- |
+| workId   | number                                | Yes   | ID of the deferred task.                                |
+| callback | AsyncCallback\<[WorkInfo](#workinfo)> | Yes   | Callback used to return the result. If **workId** is valid, the task information obtained from WorkSchedulerService is returned. Otherwise, an exception is thrown.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: Parameter verification failed. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+| 9700004 | Check on workInfo failed. |
+
+**Example**
+
+```ts
+  import { BusinessError } from '@kit.BasicServicesKit';
+  import { workScheduler } from '@kit.BackgroundTasksKit';
+
+  workScheduler.getWorkStatus(50, (error: BusinessError, res: workScheduler.WorkInfo) => {
+    if (error) {
+      console.error(`workschedulerLog getWorkStatus failed. code is ${error.code} message is ${error.message}`);
+    } else {
+      console.info(`workschedulerLog getWorkStatus success, ${JSON.stringify(res)}`);
+    }
+  });
+```
+
+## workScheduler.getWorkStatus
+
+getWorkStatus(workId: number): Promise\<WorkInfo>
+
+Obtains the information a deferred task. This API uses a promise to return the result.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Parameters**
+
+| Name   | Type    | Mandatory  | Description      |
+| ------ | ------ | ---- | -------- |
+| workId | number | Yes   | ID of the deferred task.|
+
+**Return value**
+
+| Type                             | Description                                      |
+| ------------------------------- | ---------------------------------------- |
+| Promise\<[WorkInfo](#workinfo)> | Promise used to return the result. If **workId** is valid, the task information obtained from WorkSchedulerService is returned. Otherwise, an exception is thrown.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: Parameter verification failed. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+| 9700004 | Check on workInfo failed. |
+
+**Example**
+
+```ts
+  import { BusinessError } from '@kit.BasicServicesKit';
+  import { workScheduler } from '@kit.BackgroundTasksKit';
+
+  workScheduler.getWorkStatus(50).then((res: workScheduler.WorkInfo) => {
+    console.info(`workschedulerLog getWorkStatus success, ${JSON.stringify(res)}`);
+  }).catch((error: BusinessError) => {
+    console.error(`workschedulerLog getWorkStatus failed. code is ${error.code} message is ${error.message}`);
+  })
+```
+
+## workScheduler.obtainAllWorks<sup>(deprecated)</sup>
+
+obtainAllWorks(callback : AsyncCallback\<void>) : Array\<WorkInfo>
+
+Obtains all the deferred tasks. This API uses an asynchronous callback to return the result.
+
+> **NOTE**
+>
+> This API is supported since API version 9 and deprecated since API version 10. You are advised to use [obtainAllWorks<sup>10+<sup>](#workschedulerobtainallworks10) instead.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Parameters**
+
+| Name     | Type                  | Mandatory  | Description                             |
+| -------- | -------------------- | ---- | ------------------------------- |
+| callback |  AsyncCallback\<void> | Yes   | Callback used to return the result. If all the deferred tasks are obtained, **err** is **undefined**. Otherwise, **err** is an error object.|
+
+**Return value**
+
+| Type                             | Description                                      |
+| ------------------------------- | ---------------------------------------- |
+| Array\<[WorkInfo](#workinfo)> | List of deferred tasks. If deferred tasks have been added to the execution queue, the list of all deferred tasks in the current application is returned. Otherwise, an empty list is returned.|
+  
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: 1. Mandatory parameters are left unspecified; 2. Incorrect parameters types. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+
+## workScheduler.obtainAllWorks<sup>10+</sup>
+
+obtainAllWorks(callback : AsyncCallback&lt;Array&lt;WorkInfo&gt;&gt;): void
+
+Obtains all the deferred tasks. This API uses an asynchronous callback to return the result.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Parameters**
+
+| Name     | Type                  | Mandatory  | Description                             |
+| -------- | -------------------- | ---- | ------------------------------- |
+| callback |  AsyncCallback&lt;Array&lt;WorkInfo&gt;&gt; | Yes   | Callback used to return the list of all deferred tasks in the current application. If the list fails to be obtained, an exception is thrown.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: 1. Mandatory parameters are left unspecified; 2. Incorrect parameters types. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+
+**Example**
+
+```ts
+  import { BusinessError } from '@kit.BasicServicesKit';
+  import { workScheduler } from '@kit.BackgroundTasksKit';
+
+  workScheduler.obtainAllWorks((error: BusinessError, res: Array<workScheduler.WorkInfo>) =>{
+    if (error) {
+      console.error(`workschedulerLog obtainAllWorks failed. code is ${error.code} message is ${error.message}`);
+    } else {
+      console.info(`workschedulerLog obtainAllWorks success, data is: ${JSON.stringify(res)}`);
+    }
+  });
+```
+
+## workScheduler.obtainAllWorks
+
+obtainAllWorks(): Promise\<Array\<WorkInfo>>
+
+Obtains all the deferred tasks. This API uses a promise to return the result.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Return value**
+
+| Type                                    | Description                            |
+| -------------------------------------- | ------------------------------ |
+| Promise<Array\<[WorkInfo](#workinfo)>> | Promise used to return all the deferred tasks.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: 1. Mandatory parameters are left unspecified; 2. Incorrect parameters types. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+
+**Example**
+
+```ts
+  import { BusinessError } from '@kit.BasicServicesKit';
+  import { workScheduler } from '@kit.BackgroundTasksKit';
+
+  workScheduler.obtainAllWorks().then((res: Array<workScheduler.WorkInfo>) => {
+    console.info(`workschedulerLog obtainAllWorks success, data is: ${JSON.stringify(res)}`);
+  }).catch((error: BusinessError) => {
+    console.error(`workschedulerLog obtainAllWorks failed. code is ${error.code} message is ${error.message}`);
+  })
+```
+
+## workScheduler.stopAndClearWorks
+
+stopAndClearWorks(): void
+
+Stops and clears all the deferred tasks.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: 1. Mandatory parameters are left unspecified; 2. Incorrect parameters types. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+
+**Example**
+
+```ts
+  import { BusinessError } from '@kit.BasicServicesKit';
+  import { workScheduler } from '@kit.BackgroundTasksKit';
+
+  try{
+    workScheduler.stopAndClearWorks();
+    console.info(`workschedulerLog stopAndClearWorks success`);
+  } catch (error) {
+    console.error(`workschedulerLog stopAndClearWorks failed. code is ${(error as BusinessError).code} message is ${(error as BusinessError).message}`);
+  }
+```
+
+## workScheduler.isLastWorkTimeOut<sup>(deprecated)</sup>
+
+isLastWorkTimeOut(workId: number, callback : AsyncCallback\<void>): boolean
+
+> This API is supported since API version 9 and deprecated since API version 10. You are advised to use [isLastWorkTimeOut<sup>10+<sup>](#workschedulerislastworktimeout10) instead.
+
+Checks whether the last execution of a task timed out. This API uses an asynchronous callback to return the result.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Parameters**
+
+| Name     | Type                  | Mandatory  | Description                                      |
+| -------- | -------------------- | ---- | ---------------------------------------- |
+| workId   | number               | Yes   | ID of the deferred task.                                |
+| callback | AsyncCallback\<void> | Yes   | Callback used to return the result.|
+
+**Return value**
+
+| Type                             | Description                                      |
+| ------------------------------- | ---------------------------------------- |
+|boolean| Whether the last execution of a deferred task timed out. If **workId** is valid, it returns whether the last execution of the task obtained from WorkSchedulerService timed out; otherwise, an exception is thrown. **true** indicates that the last execution of the deferred task corresponding to the **workId** timed out, while **false** indicates the opposite.|
+  
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: Parameter verification failed. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+| 9700004 | Check on workInfo failed. |
+
+## workScheduler.isLastWorkTimeOut<sup>10+</sup>
+
+isLastWorkTimeOut(workId: number, callback : AsyncCallback\<boolean>): void
+
+Checks whether the last execution of a task timed out. This API uses an asynchronous callback to return the result.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Parameters**
+
+| Name     | Type                  | Mandatory  | Description                                      |
+| -------- | -------------------- | ---- | ---------------------------------------- |
+| workId   | number               | Yes   | ID of the deferred task.                                |
+| callback | AsyncCallback\<boolean> | Yes   | Callback used to return the result.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: Parameter verification failed. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+| 9700004 | Check on workInfo failed. |
+
+**Example**
+
+```ts
+  import { BusinessError } from '@kit.BasicServicesKit';
+  import { workScheduler } from '@kit.BackgroundTasksKit';
+
+  workScheduler.isLastWorkTimeOut(500, (error: BusinessError, res: boolean) =>{
+    if (error) {
+      console.error(`workschedulerLog isLastWorkTimeOut failed. code is ${error.code} message is ${error.message}`);
+    } else {
+      console.info(`workschedulerLog isLastWorkTimeOut success, data is: ${res}`);
+    }
+  });
+```
+
+## workScheduler.isLastWorkTimeOut
+
+isLastWorkTimeOut(workId: number): Promise\<boolean>
+
+Checks whether the last execution of a task timed out. This API uses a promise to return the result.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+**Parameters**
+
+| Name   | Type    | Mandatory  | Description      |
+| ------ | ------ | ---- | -------- |
+| workId | number | Yes   | ID of the deferred task.|
+
+**Return value**
+
+| Type               | Description                                      |
+| ----------------- | ---------------------------------------- |
+| Promise\<boolean> | Promise used to return the result. The value **true** means that the last execution of the specified task times out, and **false** means the opposite.|
+
+**Error codes**
+
+For details about the error codes, see [Universal Error Codes](../errorcode-universal.md) and [workScheduler Error Codes](errorcode-workScheduler.md).
+
+| ID | Error Message            |
+| ---- | --------------------- |
+| 401 | Parameter error. Possible causes: Parameter verification failed. |
+| 9700001 | Memory operation failed. |
+| 9700002 | Failed to write data into parcel. Possible reasons: 1. Invalid parameters; 2. Failed to apply for memory. |
+| 9700003 | System service operation failed. |
+| 9700004 | Check on workInfo failed. |
+
+**Example**
+
+```ts
+  import { BusinessError } from '@kit.BasicServicesKit';
+  import { workScheduler } from '@kit.BackgroundTasksKit';
+
+  workScheduler.isLastWorkTimeOut(500)
+    .then((res: boolean) => {
+      console.info(`workschedulerLog isLastWorkTimeOut success, data is: ${res}`);
+    })
+    .catch((error: BusinessError) =>  {
+      console.error(`workschedulerLog isLastWorkTimeOut failed. code is ${error.code} message is ${error.message}`);
+    });
+```
+
+## WorkInfo
+
+Represents the deferred task information, which is used to set the trigger condition.
+
+>  **NOTE**
+>
+>  The following rules apply when setting WorkInfo parameters:
+>
+>  1. **workId**, **bundleName**, and **abilityName** are mandatory. **bundleName** must be set to the bundle name of the current application.
+>  2. The carried parameters can be of the number, string, or boolean type.
+>  3. At least one triggering condition must be set, including the network type, charging type, storage status, and battery status.
+>  4. For a cyclic task, the task execution interval must be at least 2 hours. When **repeatCycleTime** is set, you must set **isRepeat** or **repeatCount**.
+>  5. For optional parameters, if left default (not configured), it indicates that the triggering of the delayed task does not depend on the parameter's corresponding condition.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+| Name            | Type                               | Read-Only  | Optional  | Description              |
+| --------------- | --------------------------------- | ---- | ---- | ---------------- |
+| workId          | number                            | No   | No   |ID of the deferred task.         |
+| bundleName      | string                            | No   | No   |Bundle name of the application where the deferred task is located.          |
+| abilityName     | string                            | No   | No   |Ability name in the bundle.|
+| networkType     | [NetworkType](#networktype)       | No   | Yes   |Network type.            |
+| isCharging      | boolean                           | No   | Yes   |Whether the device needs to enter the charging state. The default value is **false**.<br>- **true**: The device needs to enter the charging state to trigger deferred task scheduling.<br>- **false**: The device does not need to enter the charging state to trigger deferred task scheduling.|
+| chargerType     | [ChargingType](#chargingtype)     | No   | Yes   |Charging type.            |
+| batteryLevel    | number                            | No   | Yes   |Battery level.<br>Value range: [0, 100]       |
+| batteryStatus   | [BatteryStatus](#batterystatus)   | No   | Yes   |Battery status.            |
+| storageRequest  | [StorageRequest](#storagerequest) | No   | Yes   |Storage status.            |
+| isRepeat        | boolean                           | No   | Yes   |Whether the task is repeated. The default value is **false**.<br>- **true**: The task is repeated.<br>- **false**: The task is not repeated.|
+| repeatCycleTime | number                            | No   | Yes   |Repeat interval, in milliseconds.            |
+| repeatCount     | number                            | No   | Yes   |Number of repeat times.            |
+| isPersisted     | boolean                           | No   | Yes   |Whether the registered deferred task can be saved in the system. The default value is **false**.<br>- **true**: The task can be saved. That is, the task can be restored after the system restarts.<br>- **false**: The task cannot be saved.|
+| isDeepIdle      | boolean                           | No   | Yes   |Whether the device needs to enter the idle state to trigger deferred task scheduling. The default value is **false**.<br>- **true**: The device needs to enter the idle state to trigger deferred task scheduling.<br>- **false**: The device does not need to enter the idle state to trigger deferred task scheduling.  |
+| idleWaitTime    | number                            | No   | Yes   |Idle wait time, in milliseconds.          |
+| parameters      | Record<string, number \| string \| boolean>  | No   | Yes   |Carried parameters.|
+| earliestStartTime<sup>22+</sup> | number | No   | Yes   |Interval between the initial execution time and the request time for a task, in milliseconds. The default value is **0**, and the value must be greater than or equal to 0.|
+
+## NetworkType
+
+Enumerates the network types that trigger deferred task callback.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+| Name                    | Value | Description                     |
+| ---------------------- | ---- | ----------------------- |
+| NETWORK_TYPE_ANY       | 0    | Any network type.    |
+| NETWORK_TYPE_MOBILE    | 1    | Mobile network.   |
+| NETWORK_TYPE_WIFI      | 2    | Wi-Fi network.  |
+| NETWORK_TYPE_BLUETOOTH | 3    | Bluetooth network.|
+| NETWORK_TYPE_WIFI_P2P  | 4    | Wi-Fi P2P network. |
+| NETWORK_TYPE_ETHERNET  | 5    | Ethernet.       |
+
+## ChargingType
+
+Enumerates the charging types that trigger deferred task callback.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+| Name                       | Value | Description                  |
+| ------------------------- | ---- | -------------------- |
+| CHARGING_PLUGGED_ANY      | 0    | Any charging type.|
+| CHARGING_PLUGGED_AC       | 1    | DC charging.   |
+| CHARGING_PLUGGED_USB      | 2    | USB charging.    |
+| CHARGING_PLUGGED_WIRELESS | 3    | Wireless charging.   |
+
+## BatteryStatus
+
+Enumerates the battery status that triggers the deferred task callback.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+| Name                        | Value | Description                        |
+| -------------------------- | ---- | -------------------------- |
+| BATTERY_STATUS_LOW         | 0    | A low battery alert is displayed.            |
+| BATTERY_STATUS_OKAY        | 1    | The battery level is restored from low to normal.      |
+| BATTERY_STATUS_LOW_OR_OKAY | 2    | The battery level is restored from low to normal, or a low battery alert is displayed.|
+
+## StorageRequest
+
+Enumerates the storage status that triggers the deferred task callback.
+
+**System capability**: SystemCapability.ResourceSchedule.WorkScheduler
+
+| Name                       | Value | Description                            |
+| ------------------------- | ---- | ------------------------------ |
+| STORAGE_LEVEL_LOW         | 0    | The storage space is insufficient.              |
+| STORAGE_LEVEL_OKAY        | 1    | The storage space is restored from insufficient to normal.        |
+| STORAGE_LEVEL_LOW_OR_OKAY | 2    | The storage space is insufficient, or the storage space is restored from insufficient to normal.|
